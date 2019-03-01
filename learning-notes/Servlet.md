@@ -26,4 +26,6 @@
   response.getWriter().println(str);
   ```
 
-##### Last-modified date: 2019.2.28, 10 p.m.
++ 发 HTTP 请求时如果 url 是 localhost，一定要加上 **`http://`** 。
+
+##### Last-modified date: 2019.3.1, 7 p.m.
