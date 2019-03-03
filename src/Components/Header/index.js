@@ -4,7 +4,12 @@ import { AppBar, Toolbar, Button, TextField, Typography, withStyles, ExpansionPa
 import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => ({
-    status: state.user.status,
+    identity: state.user.identity,
+})
+
+const mapDispatchToProps = dispatch => ({
+    onLogOut: () =>
+        dispatch({type:"LOG_OUT"})
 })
 
 const styles = theme => ({
@@ -18,14 +23,14 @@ const styles = theme => ({
 })
 
 class Header extends React.Component {
-    /*constructor(props) {
+    constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }*/
+        this.handleLogOut = this.handleLogOut.bind(this);
+    }
 
-    /*handleClick() {
-        this.props.onLanguageChange();
-    }*/
+    handleLogOut() {
+        this.props.onLogOut();
+    }
 
     render() {
         const { classes } = this.props;
@@ -40,27 +45,36 @@ class Header extends React.Component {
                         </Link>
                         <Typography>
                             You are
-                            {this.props.status === 0 && ' Visitor'}
-                            {this.props.status === 1 && ' Customer'}
-                            {this.props.status === 2 && ' Administrator'}
-                            {this.props.status}
+                            {this.props.identity === 0 && ' Visitor'}
+                            {this.props.identity === 1 && ' Customer'}
+                            {this.props.identity === 2 && ' Administrator'}
+                            {this.props.identity}
                         </Typography>
-                        <Link to="SignIn">
-                            <Button>
-                                Sign In
-                            </Button>
-                        </Link>
-                        <Link to="SignUp">
-                            <Button>
-                                Sign Up
-                            </Button>
-                        </Link>
+                        {this.props.identity === 0 ? (
+                            <div>
+                                <Link to="SignIn">
+                                    <Button>
+                                        Sign In
+                                    </Button>
+                                </Link>
+                                <Link to="SignUp">
+                                    <Button>
+                                        Sign Up
+                                    </Button>
+                                </Link>
+                            </div>) : (
+                                <Link to="/">
+                                    <Button onClick={this.handleLogOut}>
+                                        Log Out
+                                    </Button>
+                                </Link>
+                            )}
                     </Toolbar>
                 </AppBar>
-                {this.props.status !== 0 && (
+                {this.props.identity !== 0 && (
                     <AppBar position="static" className={classes.sub}>
                         <Toolbar>
-                            {this.props.status === 2 && (
+                            {this.props.identity === 2 && (
                                 <Link to="Manage">
                                     <Button>
                                         Manage
@@ -90,4 +104,4 @@ class Header extends React.Component {
         );
     }
 }
-export default connect(mapStateToProps)(withStyles(styles)(Header));
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Header));
