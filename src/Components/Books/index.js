@@ -1,12 +1,13 @@
 import React from 'react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar, Dialog } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Create from '@material-ui/icons/Create'
 import Delete from '@material-ui/icons/Delete'
 import PermIdentiy from '@material-ui/icons/PermIdentity';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-
+import AddToCart from './AddToCart';
+import Purchase from './Purchase'
 
 const styles = theme => ({
     padding: {
@@ -75,8 +76,11 @@ class Books extends React.Component {
         modelArray.fill(false, 0, 10);
         this.state = {
             isExpanded: modelArray,
+            open: false,
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handlePurchase = this.handlePurchase.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
     handleChange(index) {
         const isExpanded = this.state.isExpanded
@@ -84,8 +88,20 @@ class Books extends React.Component {
             isExpanded: isExpanded.fill(!isExpanded[index], index, index + 1),
         })
     }
+    handlePurchase() {
+        this.setState({
+            open: true,
+        })
+    }
+    handleClose() {
+        this.setState({
+            open: false,
+        })
+    }
     render() {
         const { classes } = this.props;
+        console.log(this.state.isExpanded[0])
+
         const index = 0;
         return (
             <React.Fragment>
@@ -104,41 +120,25 @@ class Books extends React.Component {
                             <Typography variant='h4'>
                                 <Toolbar>
                                     《title1》&nbsp; Bob
-                                        {this.props.identity !== 0 && (
+                                        {/*this.props.identity !== 0 &&*/ (
                                         <div className={classes.buttons}>
-                                            <Link to="#">
-                                                <Button
-                                                    className={classes.edit}
-                                                    //onClick={() => this.props.onClickEdit(post._id, index)}
-                                                    variant="outlined"
-                                                >
-                                                    <Create className={classes.buttonIcon} />
-                                                    Add to Cart
-                                                </Button>
-                                            </Link>
-                                            <Button
-                                                className={classes.edit}
-                                                //onClick={() => this.props.onClickDelete(post._id)}
-                                                variant="outlined"
-                                            >
-                                                <Delete className={classes.buttonIcon} />
-                                                Purchase
-                                            </Button>
+                                            <AddToCart />
+                                            <Purchase onClick={this.handlePurchase} />
                                         </div>
                                     )}
                                 </Toolbar>
                             </Typography> :
                             <Typography variant='h6'>
-                                《title1》&nbsp; Bob &nbsp; ISBN-1 &nbsp;  3 Left 
+                                《title1》&nbsp; Bob &nbsp; ISBN-1 &nbsp;  3 Left
                             </Typography>
 
                         }
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.content}>
                         <div className={classes.text}>
-                              &nbsp; ISBN-1 &nbsp;  3 Left 
+                            &nbsp; ISBN-1 &nbsp;  3 Left
                             <br />
-                          content
+                            content
                         </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -152,7 +152,18 @@ class Books extends React.Component {
                         content1
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-
+                
+                <Dialog open={this.state.open}>
+                    <Typography>
+                        Purchase it?
+                    </Typography>
+                    <Button onClick={this.handleClose}>
+                        Yes
+                    </Button>
+                    <Button onClick={this.handleClose}>
+                        No
+                    </Button>
+                </Dialog>
             </React.Fragment>
         );
     }

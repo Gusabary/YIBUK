@@ -36,12 +36,11 @@ const styles = theme => ({
         width: '22%',
         marginLeft: '39%',
     },
-    
+
 });
 
 const mapStateToProps = state => ({
     redirectTo: state.common.redirectTo,
-    isEnglish: state.common.isEnglish,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -56,13 +55,23 @@ class SignUp extends React.Component {
         super(props);
 
         this.state = {
-            email: '',
+            username: '',
             password: '',
+            repeatedPassword: '',
+            email: '',
         }
 
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleRepeatedPasswordChange = this.handleRepeatedPasswordChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleUsernameChange(event) {
+        this.setState({
+            username: event.target.value,
+        });
     }
 
     handleEmailChange(event) {
@@ -77,9 +86,19 @@ class SignUp extends React.Component {
         });
     }
 
+    handleRepeatedPasswordChange(event) {
+        this.setState({
+            repeatedPassword: event.target.value,
+        })
+    }
+
     handleSubmit(event) {
         event.preventDefault();
-        const { email, password } = this.state;
+        const { username, email, password, repeatedPassword } = this.state;
+        if (password !== repeatedPassword) {
+            alert('The two passwords are not the same!');
+            return;
+        }
         this.props.onSubmit(email, password);
     }
 
@@ -97,29 +116,44 @@ class SignUp extends React.Component {
                     <Toolbar>
                         <AccountCircle fontSize="large" className={classes.icon} />
                         <Typography variant="h4" className={classes.text} >
-                            {this.props.isEnglish ? 'Sign Up' : '用户注册'}
+                            Sign Up
                         </Typography>
                     </Toolbar>
                     <Link to="SignIn">
                         <Typography className={classes.link}>
-                            {this.props.isEnglish ? 'Have an account?' : '已经有一个账号？'}
+                            Have an account?
                         </Typography>
                     </Link>
                     <form onSubmit={this.handleSubmit}>
                         <TextField
-                            type="email"
-                            label={this.props.isEnglish ? 'Email Address' : '邮箱地址'}
+                            label='Username'
                             className={classes.textField}
-                            value={this.state.email}
-                            onChange={this.handleEmailChange}
+                            value={this.state.username}
+                            onChange={this.handleUsernameChange}
                             required
                         />
                         <TextField
                             type="password"
-                            label={this.props.isEnglish ? 'Password' : '密码'}
+                            label='Password'
                             className={classes.textField}
                             value={this.state.password}
                             onChange={this.handlePasswordChange}
+                            required
+                        />
+                        <TextField
+                            type="password"
+                            label='Repeat Password'
+                            className={classes.textField}
+                            value={this.state.repeatedPassword}
+                            onChange={this.handleRepeatedPasswordChange}
+                            required
+                        />
+                        <TextField
+                            type="email"
+                            label='Email Address'
+                            className={classes.textField}
+                            value={this.state.email}
+                            onChange={this.handleEmailChange}
                             required
                         />
                         <Button
@@ -128,7 +162,7 @@ class SignUp extends React.Component {
                             className={classes.button}
                         >
                             <Typography>
-                                {this.props.isEnglish ? 'Sign Up' : '注册'}
+                                Sign Up
                             </Typography>
                         </Button>
                     </form>
