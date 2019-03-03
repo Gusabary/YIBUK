@@ -16,10 +16,10 @@ const styles = theme => ({
         alignItems: 'center',
     },
     icon: {
-        marginLeft: -theme.spacing.unit*2.5, 
+        marginLeft: -theme.spacing.unit * 2.5,
     },
     text: {
-        marginLeft: theme.spacing.unit*2,
+        marginLeft: theme.spacing.unit * 2,
     },
     textField: {
         marginTop: theme.spacing.unit * 3,
@@ -35,12 +35,11 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     redirectTo: state.common.redirectTo,
-    isEnglish: state.common.isEnglish,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (email, password) =>
-        dispatch({ type: 'SIGN_IN', payload: agent.User.signIn(email, password) }),
+    onSubmit: (username, password) =>
+        dispatch({ type: 'SIGN_IN', payload: password }),
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
@@ -50,18 +49,18 @@ class SignIn extends React.Component {
         super(props);
 
         this.state = {
-            email: '',
+            username: '',
             password: '',
         }
 
-        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleEmailChange(event) {
+    handleUsernameChange(event) {
         this.setState({
-            email: event.target.value,
+            username: event.target.value,
         });
     }
 
@@ -73,8 +72,8 @@ class SignIn extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { email, password } = this.state;
-        this.props.onSubmit(email, password);
+        const { username, password } = this.state;
+        this.props.onSubmit(username, password);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -92,21 +91,20 @@ class SignIn extends React.Component {
                     <Toolbar>
                         <AccountCircle fontSize="large" className={classes.icon} />
                         <Typography variant="h4" className={classes.text} >
-                            {this.props.isEnglish ? 'Sign In' : '用户登录'}
+                            Sign In
                         </Typography>
                     </Toolbar>
                     <form onSubmit={this.handleSubmit}>
                         <TextField
-                            type="email"
-                            label={this.props.isEnglish ? 'Email Address' : '邮箱地址'}
+                            label='Username'
                             className={classes.textField}
-                            value={this.state.email}
-                            onChange={this.handleEmailChange}
+                            value={this.state.username}
+                            onChange={this.handleUsernameChange}
                             required
                         />
                         <TextField
                             type="password"
-                            label={this.props.isEnglish ? 'Password' : '密码'}
+                            label='Password'
                             className={classes.textField}
                             value={this.state.password}
                             onChange={this.handlePasswordChange}
@@ -119,7 +117,7 @@ class SignIn extends React.Component {
                             className={classes.button}
                         >
                             <Typography>
-                                {this.props.isEnglish ? 'Sign In' : '登录'}
+                                Sign In
                             </Typography>
                         </Button>
                     </form>
@@ -129,4 +127,4 @@ class SignIn extends React.Component {
     }
 }
 
-export default /*connect(mapStateToProps, mapDispatchToProps)*/(withStyles(styles)(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SignIn));
