@@ -5,8 +5,37 @@
   + `net stop mysql` 停止服务。
   + 重新设置密码：`set password="blabla"`
 
++ 启动 MySQL 的时候要以管理员身份运行 cmder 。
+
 + `Class.forName("com.mysql.jdbc.Driver");` 出错的解决方案：
 
   把 MySQL 的 jar 包拷到 WEB-INF 的 lib 文件夹下（该文件夹可能需要新建）。
 
-##### Last-modified date: 2019.3.4, 8 p.m.
++ `conn = DriverManager.getConnection(DB_URL,USER,PASS);` 出错的解决方案：
+
+  将 `mysql-connector-java` 的 jar 包替换为 8.0 版本以上的。[下载地址](https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.13) 
+
++ `stmt = conn.createStatement();` 出错的解决方案：
+
+  >我们只需要在访问数据库的 Url 后面加上以下的语句即可：
+  >
+  >```
+  >?serverTimezone=GMT%2B8
+  >```
+
+  即 
+
+  ```
+  static final String DB_URL = "jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8";
+  ```
+
+  （设置时区）
+
++ ```
+  sql = "SELECT id, name, phone FROM `hello-table`";
+  ```
+
+  注意关系表的名字要加上**反引号**。
+
+##### Last-modified date: 2019.3.5, 9 p.m.
+
