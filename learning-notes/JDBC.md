@@ -60,9 +60,7 @@
   rs.close();
   ```
 
-  注意用 ResultSet 时要有 `rs.next()` 。
-
-+ 
+  注意用 ResultSet 时要有 `rs.next()` 。因为查询结果可能会有多个元组而且读取 `rs` 中的值时也要用该 next 方法将光标移动到第一个元组上。
 
 ##### Last-modified date: 2019.3.6, 8 p.m.
 
