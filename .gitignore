@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# back-end environment
+/back-end/web/WEB-INF/lib
+/back-end/back-end.iml
+/back-end/.idea
+/back-end/out

@@ -37,5 +37,9 @@
 
   注意关系表的名字要加上**反引号**。
 
-##### Last-modified date: 2019.3.5, 9 p.m.
++ 将字符串型变量 `INSERT INTO` 进数据库内，要采用**外单引号内双引号**格式：
+
+  `"...VALUES ('"+username+"', '"+password+"', '"+email+"', '0', '1')";`
+
+##### Last-modified date: 2019.3.6, 3 p.m.
 
