@@ -41,5 +41,28 @@
 
   `"...VALUES ('"+username+"', '"+password+"', '"+email+"', '0', '1')";`
 
-##### Last-modified date: 2019.3.6, 3 p.m.
++ 访问数据库时的 JSON 格式为
+
+  `{"key1":value1,"key2":value2}`
+
+  用 superagent 和 Postman 发出去的格式不一样。
+
++ ```java
+  ResultSet rs = stmt.executeQuery(sql);
+  while(rs.next()) {
+      int userId = rs.getInt("userId");
+      int identity = rs.getInt("identity");
+      int validity = rs.getInt("validity");
+      out.println(userId);
+      out.println(identity);
+      out.println(validity);
+  }
+  rs.close();
+  ```
+
+  注意用 ResultSet 时要有 `rs.next()` 。
+
++ 
+
+##### Last-modified date: 2019.3.6, 8 p.m.
 

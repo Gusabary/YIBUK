@@ -27,24 +27,27 @@ public class SignUp extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection conn = null;
         Statement stmt = null;
+        String username="",password="",email="";
 
         response.setContentType("application/json;charset=UTF-8");
         BufferedReader br=request.getReader();
         String str,wholeStr="";
         while ((str=br.readLine())!=null){
             wholeStr+=str;
+            //response.getWriter().println(str);
+            //System.out.println(str);
         }
 
         //parse request
-        String username,password,email;
-        //int pos;
         int pos1=wholeStr.indexOf("\"password\"");
         username=wholeStr.substring(13,pos1-2);
         int pos2=wholeStr.indexOf("\"email\"");
         password=wholeStr.substring(pos1+12,pos2-2);
         int pos3=wholeStr.length();
         email=wholeStr.substring(pos2+9,pos3-2);
-
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println(email);
         PrintWriter out = response.getWriter();
 
         try{
@@ -57,14 +60,14 @@ public class SignUp extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
-            //sql = "SELECT id, name, phone FROM `hello-table`";
-            sql="INSERT INTO `user` (`username`, `password`, `email`, `identity`, `validity`) VALUES ('"+username+"', '"+password+"', '"+email+"', '0', '1')";
+            sql="INSERT INTO `user` (`username`, `password`, `email`, `identity`, `validity`) " +
+                    "VALUES ('"+username+"', '"+password+"', '"+email+"', '0', '1')";
             int rs = stmt.executeUpdate(sql);
-            out.println("ok");
-            out.println(rs);
-            out.println(username);
-            out.println(password);
-            out.println(email);
+
+            //out.println(username);
+            //out.println(password);
+            //out.println(email);
+            out.println("Sign up successfully!");
 
         } catch(SQLException se) {
             // 处理 JDBC 错误
@@ -89,8 +92,5 @@ public class SignUp extends HttpServlet {
                 se.printStackTrace();
             }
         }
-
-
-        //response.getWriter().println("{\"userId\":"+wholeStr+"}");
     }
 }
