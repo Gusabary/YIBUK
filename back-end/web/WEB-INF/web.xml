@@ -19,6 +19,14 @@
         <servlet-name>SignUp</servlet-name>
         <url-pattern>/api/user/signup</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Validity</servlet-name>
+        <servlet-class>Validity</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Validity</servlet-name>
+        <url-pattern>/api/manage/user</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>CORSFilter</filter-name>
