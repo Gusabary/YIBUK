@@ -35,6 +35,14 @@
         <servlet-name>Books</servlet-name>
         <url-pattern>/api/manage/book</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Cart</servlet-name>
+        <servlet-class>Cart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Cart</servlet-name>
+        <url-pattern>/api/cart</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>CORSFilter</filter-name>
