@@ -183,10 +183,7 @@ public class Cart extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
 
-        int bookId=0;
-        String bookName="",author="",coverPath="",ISBN="";
-        int storage=0;
-        float price=0;
+        int userId=0,bookId=0,consumeQuantity=0,quantity=0;
 
         response.setContentType("application/json;charset=UTF-8");
 
@@ -197,32 +194,14 @@ public class Cart extends HttpServlet {
         }
 
         //parse request
-        int pos0=wholeStr.indexOf("\"bookName\"");
-        bookId=Integer.parseInt(wholeStr.substring(10,pos0-1));
-        int pos1=wholeStr.indexOf("\"author\"");
-        bookName=wholeStr.substring(pos0+12,pos1-2);
-        int pos2=wholeStr.indexOf("\"coverPath\"");
-        author=wholeStr.substring(pos1+10,pos2-2);
-        int pos3=wholeStr.indexOf("\"ISBN\"");
-        coverPath=wholeStr.substring(pos2+13,pos3-2);
-        int pos4=wholeStr.indexOf("\"storage\"");
-        ISBN=wholeStr.substring(pos3+8,pos4-2);
-        int pos5=wholeStr.indexOf("\"price\"");
-        storage=Integer.parseInt(wholeStr.substring(pos4+10,pos5-1));
-        int pos6=wholeStr.length();
-        price=Float.parseFloat(wholeStr.substring(pos5+8,pos6-1));
-
-        //System.out.println(username);
-        //System.out.println(password);
+        int pos1=wholeStr.indexOf("\"bookId\"");
+        userId=Integer.parseInt(wholeStr.substring(10,pos1-1));
+        int pos2=wholeStr.indexOf("\"consumeQuantity\"");
+        bookId=Integer.parseInt(wholeStr.substring(pos1+9,pos2-1));
+        int pos3=wholeStr.length();
+        consumeQuantity=Integer.parseInt(wholeStr.substring(pos2+18,pos3-1));
 
         PrintWriter out = response.getWriter();
-        /*out.println(bookId);
-        out.println(bookName);
-        out.println(author);
-        out.println(coverPath);
-        out.println(ISBN);
-        out.println(storage);
-        out.println(price);*/
 
         try{
             // 注册 JDBC 驱动器
@@ -234,17 +213,45 @@ public class Cart extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
-            sql="UPDATE `book` SET `bookName`='"+bookName+"', " +
-                    "`author`='"+author+"', " +
-                    "`coverPath`='"+coverPath+"', " +
-                    "`ISBN`='"+ISBN+"', " +
-                    "`storage`='"+storage+"', " +
-                    "`price`='"+price+"'" +
-                    "WHERE `bookId`="+bookId;
+            sql="SELECT `storage` from `book`" +
+                    "WHERE `bookId`='"+bookId+"'";
+            ResultSet rs1=stmt.executeQuery(sql);
+            int storage=0;
+            if (rs1.next()) {
+                storage = rs1.getInt("storage");
+            }
 
-            int rs = stmt.executeUpdate(sql);
+            if (storage<consumeQuantity){
+                response.setStatus(403);
+                out.println("Storage is not enough!");
+                return;
+            }
+            out.println("Purchase successfully!");
+            sql="INSERT INTO `order` (`userId`, `bookId`, `quantity`,`time`) " +
+                    "VALUES ('"+userId+"', '"+bookId+"', '"+consumeQuantity+"',NOW())";
+            int rs2 = stmt.executeUpdate(sql);
 
-            out.println("Update book successfully!");
+            int targetStorage=storage-consumeQuantity;
+            sql="UPDATE `book` SET `storage`="+targetStorage+ " WHERE `bookId`="+bookId;
+            int rs3 = stmt.executeUpdate(sql);
+
+
+            sql="SELECT `quantity` from `cart`" +
+                    "WHERE `userId`="+userId+" AND `bookId`="+bookId;
+            ResultSet rs4=stmt.executeQuery(sql);
+            if (rs4.next()) {
+                quantity = rs4.getInt("quantity");
+            }
+
+            if (quantity==consumeQuantity) {
+                doDelete(request, response);
+                return;
+            }
+
+            int targetQuantity=quantity-consumeQuantity;
+            sql="UPDATE `cart` SET `quantity`="+targetQuantity +
+                    " WHERE `bookId`="+bookId;
+            int rs5 = stmt.executeUpdate(sql);
         } catch(SQLException se) {
             // 处理 JDBC 错误
             se.printStackTrace();
@@ -273,7 +280,7 @@ public class Cart extends HttpServlet {
         Connection conn = null;
         Statement stmt = null;
 
-        int bookId=0;
+        int userId=0,bookId=0;
 
         response.setContentType("application/json;charset=UTF-8");
 
@@ -284,8 +291,10 @@ public class Cart extends HttpServlet {
         }
 
         //parse request
-        int pos0=wholeStr.length();
-        bookId=Integer.parseInt(wholeStr.substring(10,pos0-1));
+        int pos1=wholeStr.indexOf("\"bookId\"");
+        userId=Integer.parseInt(wholeStr.substring(10,pos1-1));
+        int pos2=wholeStr.indexOf("\"consumeQuantity\"");
+        bookId=Integer.parseInt(wholeStr.substring(pos1+9,pos2-1));
 
         PrintWriter out = response.getWriter();
 
@@ -299,10 +308,9 @@ public class Cart extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
-            sql="DELETE FROM `book` WHERE `bookId`="+bookId;
+            sql="DELETE FROM `cart` WHERE `userId`="+userId+" AND `bookId`="+bookId;
             int rs = stmt.executeUpdate(sql);
 
-            out.println("Delete book successfully!");
         } catch(SQLException se) {
             // 处理 JDBC 错误
             se.printStackTrace();
