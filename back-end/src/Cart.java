@@ -62,7 +62,7 @@ public class Cart extends HttpServlet {
             stmt = conn.createStatement();
             String sql;
 
-            sql="SELECT `storage` from `book`" +
+            /*sql="SELECT `storage` from `book`" +
                     "WHERE `bookId`='"+bookId+"'";
             ResultSet rs1=stmt.executeQuery(sql);
             int storage=0;
@@ -74,16 +74,16 @@ public class Cart extends HttpServlet {
                 response.setStatus(403);
                 out.println("Storage is not enough!");
                 return;
-            }
+            }*/
             out.println("Add to cart successfully!");
 
             sql="INSERT INTO `cart` (`userId`, `bookId`, `quantity`) " +
                     "VALUES ("+userId+", "+bookId+", "+quantity+")";
             int rs2 = stmt.executeUpdate(sql);
 
-            int targetStorage=storage-quantity;
+            /*int targetStorage=storage-quantity;
             sql="UPDATE `book` SET `storage`="+targetStorage+ " WHERE `bookId`="+bookId;
-            int rs3 = stmt.executeUpdate(sql);
+            int rs3 = stmt.executeUpdate(sql);*/
 
         } catch(SQLException se) {
             // 处理 JDBC 错误
@@ -115,11 +115,7 @@ public class Cart extends HttpServlet {
 
         response.setContentType("application/json;charset=UTF-8");
 
-        BufferedReader br=request.getReader();
-        String str,wholeStr="";
-        while ((str=br.readLine())!=null){
-            wholeStr+=str;
-        }
+        int userId = Integer.parseInt(request.getParameter("userId"));
         PrintWriter out = response.getWriter();
 
         try{
@@ -132,52 +128,28 @@ public class Cart extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
-            sql="SELECT `bookId`, `bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price` from `book`";
+            sql="SELECT `bookId`, `quantity` from `cart` WHERE `userId`="+userId;
 
+            int bookId=0,quantity=0;
+            out.println("{\"cart\":[");
             ResultSet rs = stmt.executeQuery(sql);
-
-            int bookId=0;
-            String bookName="",author="",coverPath="",ISBN="";
-            int storage=0;
-            float price=0;
-            out.println("{\"books\":[");
             if (rs.next()){
                 bookId = rs.getInt("bookId");
-                bookName = rs.getString("bookName");
-                author=rs.getString("author");
-                coverPath = rs.getString("coverPath");
-                ISBN=rs.getString("ISBN");
-                storage=rs.getInt("storage");
-                price=rs.getFloat("price");
+                quantity = rs.getInt("quantity");
                 out.println(
                         "{" +
                                 "\"bookId\":"+bookId +
-                                ",\"bookName\":\""+bookName+
-                                "\",\"author\":\""+author+
-                                "\",\"coverPath\":\""+coverPath+
-                                "\",\"ISBN\":\""+ISBN+
-                                "\",\"storage\":"+storage+
-                                ",\"price\":"+price+
+                                ",\"quantity\":"+quantity+
                                 "}"
                 );
             }
             while(rs.next()) {
                 bookId = rs.getInt("bookId");
-                bookName = rs.getString("bookName");
-                author=rs.getString("author");
-                coverPath = rs.getString("coverPath");
-                ISBN=rs.getString("ISBN");
-                storage=rs.getInt("storage");
-                price=rs.getFloat("price");
+                quantity = rs.getInt("quantity");
                 out.println(
                         ",{" +
                                 "\"bookId\":"+bookId +
-                                ",\"bookName\":\""+bookName+
-                                "\",\"author\":\""+author+
-                                "\",\"coverPath\":\""+coverPath+
-                                "\",\"ISBN\":\""+ISBN+
-                                "\",\"storage\":"+storage+
-                                ",\"price\":"+price+
+                                ",\"quantity\":"+quantity+
                                 "}"
                 );
             }
