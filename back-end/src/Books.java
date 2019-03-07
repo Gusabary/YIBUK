@@ -323,10 +323,17 @@ public class Books extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
+            /*sql="UPDATE `book` SET `bookName`='"+bookName+"', " +
+                    "`author`='"+author+"', " +
+                    "`coverPath`='"+coverPath+"', " +
+                    "`ISBN`='"+ISBN+"', " +
+                    "`storage`='"+storage+"', " +
+                    "`price`='"+price+"'" +
+                    "WHERE `bookId`="+bookId;*/
             sql="DELETE FROM `book` WHERE `bookId`="+bookId;
             int rs = stmt.executeUpdate(sql);
 
-            out.println("Delete book successfully!");
+            out.println("Update book successfully!");
         } catch(SQLException se) {
             // 处理 JDBC 错误
             se.printStackTrace();

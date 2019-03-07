@@ -43,6 +43,14 @@
         <servlet-name>Cart</servlet-name>
         <url-pattern>/api/cart</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Order</servlet-name>
+        <servlet-class>Order</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Order</servlet-name>
+        <url-pattern>/api/order</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>CORSFilter</filter-name>
