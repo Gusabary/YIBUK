@@ -58,12 +58,12 @@ public class Books extends HttpServlet {
         //System.out.println(password);
 
         PrintWriter out = response.getWriter();
-        out.println(bookName);
+        /*out.println(bookName);
         out.println(author);
         out.println(coverPath);
         out.println(ISBN);
         out.println(storage);
-        out.println(price);
+        out.println(price);*/
 
         try{
             // 注册 JDBC 驱动器
@@ -240,13 +240,13 @@ public class Books extends HttpServlet {
         //System.out.println(password);
 
         PrintWriter out = response.getWriter();
-        out.println(bookId);
+        /*out.println(bookId);
         out.println(bookName);
         out.println(author);
         out.println(coverPath);
         out.println(ISBN);
         out.println(storage);
-        out.println(price);
+        out.println(price);*/
 
         try{
             // 注册 JDBC 驱动器
@@ -269,6 +269,64 @@ public class Books extends HttpServlet {
             int rs = stmt.executeUpdate(sql);
 
             out.println("Update book successfully!");
+        } catch(SQLException se) {
+            // 处理 JDBC 错误
+            se.printStackTrace();
+            out.println(se);
+            out.println("JDBCError");
+        } catch(Exception e) {
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+            out.println("ForNameError");
+        }finally{
+            // 最后是用于关闭资源的块
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+    }
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Connection conn = null;
+        Statement stmt = null;
+
+        int bookId=0;
+
+        response.setContentType("application/json;charset=UTF-8");
+
+        BufferedReader br=request.getReader();
+        String str,wholeStr="";
+        while ((str=br.readLine())!=null){
+            wholeStr+=str;
+        }
+
+        //parse request
+        int pos0=wholeStr.length();
+        bookId=Integer.parseInt(wholeStr.substring(10,pos0-1));
+
+        PrintWriter out = response.getWriter();
+
+        try{
+            // 注册 JDBC 驱动器
+            Class.forName("com.mysql.jdbc.Driver");
+
+            // 打开一个连接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            // 执行 SQL 查询
+            stmt = conn.createStatement();
+            String sql;
+            sql="DELETE FROM `book` WHERE `bookId`="+bookId;
+            int rs = stmt.executeUpdate(sql);
+
+            out.println("Delete book successfully!");
         } catch(SQLException se) {
             // 处理 JDBC 错误
             se.printStackTrace();
