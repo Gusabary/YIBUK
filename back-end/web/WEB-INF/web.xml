@@ -27,6 +27,14 @@
         <servlet-name>Validity</servlet-name>
         <url-pattern>/api/manage/user</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Books</servlet-name>
+        <servlet-class>Books</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Books</servlet-name>
+        <url-pattern>/api/manage/book</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>CORSFilter</filter-name>
