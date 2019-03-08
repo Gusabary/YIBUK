@@ -1,5 +1,7 @@
 const defaultState = {
-    identity: 0, //0 means 'visitor', 1 means 'customer', 2 means 'administrator'
+    userId: 0,
+    identity: 2, //2 means 'visitor', 0 means 'customer', 1 means 'administrator'
+    validity: 1,
 }
 
 const user = (state =defaultState, action) => {
@@ -7,7 +9,9 @@ const user = (state =defaultState, action) => {
         case 'SIGN_IN':
             return {
                 ...state,
-                identity: action.payload-'0',
+                userId: action.payload.userId,
+                identity: action.payload.identity,
+                validity: action.payload.validity,
             }
         case 'SIGN_UP':
         case 'LOG_OUT':

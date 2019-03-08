@@ -1,6 +1,5 @@
 const defaultState = {
     redirectTo: null,
-    isEnglish: true,
 }
 
 const common = (state = defaultState, action) => {
@@ -23,10 +22,6 @@ const common = (state = defaultState, action) => {
             return {
                 isLoading: true,
             }*/
-        case 'CHANGE_LANGUAGE':
-            return {
-                isEnglish: !state.isEnglish,
-            }
         default:
             return state
     }

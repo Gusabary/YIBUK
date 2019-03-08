@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Button, TextField, Typography, withStyles, ExpansionPa
 import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => ({
+    userId: state.user.userId,
     identity: state.user.identity,
 })
 
@@ -45,12 +46,12 @@ class Header extends React.Component {
                         </Link>
                         <Typography>
                             You are
-                            {this.props.identity === 0 && ' Visitor'}
-                            {this.props.identity === 1 && ' Customer'}
-                            {this.props.identity === 2 && ' Administrator'}
-                            {this.props.identity}
+                            {this.props.identity === 2 && ' Visitor'}
+                            {this.props.identity === 0 && ' Customer'}
+                            {this.props.identity === 1 && ' Administrator'}
+                            {this.props.userId}
                         </Typography>
-                        {this.props.identity === 0 ? (
+                        {this.props.userId === 0 ? (
                             <div>
                                 <Link to="SignIn">
                                     <Button>

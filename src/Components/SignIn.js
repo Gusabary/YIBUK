@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onSubmit: (username, password) =>
-        dispatch({ type: 'SIGN_IN', payload: password }),
+        dispatch({ type: 'SIGN_IN', payload: agent.User.signIn(username, password) }),
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
