@@ -30,8 +30,9 @@ const handleError = err => {
 };*/
 
 const User = {
-    signUp: (email, password) =>
-        requests.post('/api/user/signup', { email, password }),
+    signUp: (username, password, email) =>
+        requests.post(API_ROOT + '/api/user/signup', { username, password, email })
+            .then(res => res.body),
     signIn: (username, password) =>
         requests.post(API_ROOT + '/api/user/signin', { username, password })
             .then(res => res.body),

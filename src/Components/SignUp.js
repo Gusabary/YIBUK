@@ -44,8 +44,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (email, password) =>
-        dispatch({ type: 'SIGN_UP', payload: agent.User.signUp(email, password) }),
+    onSubmit: (username, password, email) =>
+        dispatch({ type: 'SIGN_UP', payload: agent.User.signUp(username, password,email) }),
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
@@ -73,33 +73,29 @@ class SignUp extends React.Component {
             username: event.target.value,
         });
     }
-
-    handleEmailChange(event) {
-        this.setState({
-            email: event.target.value,
-        });
-    }
-
     handlePasswordChange(event) {
         this.setState({
             password: event.target.value,
         });
     }
-
     handleRepeatedPasswordChange(event) {
         this.setState({
             repeatedPassword: event.target.value,
         })
     }
-
+    handleEmailChange(event) {
+        this.setState({
+            email: event.target.value,
+        });
+    }
     handleSubmit(event) {
         event.preventDefault();
-        const { username, email, password, repeatedPassword } = this.state;
+        const { username, password, repeatedPassword, email } = this.state;
         if (password !== repeatedPassword) {
             alert('The two passwords are not the same!');
             return;
         }
-        this.props.onSubmit(email, password);
+        this.props.onSubmit(username, password, email);
     }
 
     componentWillReceiveProps(nextProps) {

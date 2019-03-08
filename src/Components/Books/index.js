@@ -100,7 +100,7 @@ class Books extends React.Component {
     }
     render() {
         const { classes } = this.props;
-        console.log(this.state.isExpanded[0])
+        //console.log(this.state.isExpanded[0])
 
         const index = 0;
         return (

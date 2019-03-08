@@ -67,7 +67,7 @@ public class SignUp extends HttpServlet {
             //out.println(username);
             //out.println(password);
             //out.println(email);
-            out.println("Sign up successfully!");
+            out.println("{\"message\":\"Sign up successfully!\"}");
 
         } catch(SQLException se) {
             // 处理 JDBC 错误
