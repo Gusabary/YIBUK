@@ -1,13 +1,12 @@
 import React from 'react'
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar, Dialog } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import Create from '@material-ui/icons/Create'
-import Delete from '@material-ui/icons/Delete'
-import PermIdentiy from '@material-ui/icons/PermIdentity';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import AddToCart from './AddToCart';
 import Purchase from './Purchase'
+import { dispatch } from 'rxjs/internal/observable/pairs';
+import agent from '../../agent'
 
 const styles = theme => ({
     padding: {
@@ -64,8 +63,13 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     identity: state.user.identity,
+    books: state.books.books,
 })
 
+const mapDispatchToProps = dispatch => ({
+    onLoad: () =>
+        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
+})
 
 class Books extends React.Component {
     constructor(props) {
@@ -78,11 +82,11 @@ class Books extends React.Component {
             isExpanded: modelArray,
             open: false,
         }
-        this.handleChange = this.handleChange.bind(this);
+        this.handleExpanded = this.handleExpanded.bind(this);
         this.handlePurchase = this.handlePurchase.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
-    handleChange(index) {
+    handleExpanded(index) {
         const isExpanded = this.state.isExpanded
         this.setState({
             isExpanded: isExpanded.fill(!isExpanded[index], index, index + 1),
@@ -98,61 +102,55 @@ class Books extends React.Component {
             open: false,
         })
     }
+    componentWillMount() {
+        this.props.onLoad();
+    }
     render() {
         const { classes } = this.props;
         //console.log(this.state.isExpanded[0])
 
-        const index = 0;
+        //const index = 0;
         return (
             <React.Fragment>
                 <div className={classes.padding}></div>
+                {
+                    this.props.books.map((book, index) =>
+                        <ExpansionPanel
+                            className={classes.post}
+                            onChange={() => this.handleExpanded(index)}
+                            expanded={this.state.isExpanded[index]}
+                        >
+                            <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                className={this.state.isExpanded[index] && classes.title}
+                            >
+                                {this.state.isExpanded[index] ?
+                                    <Typography variant='h4'>
+                                        <Toolbar>
+                                            《{book.bookName}》&nbsp; {book.author}
+                                            {/*this.props.identity !== 0 &&*/ (
+                                                <div className={classes.buttons}>
+                                                    <AddToCart />
+                                                    <Purchase onClick={this.handlePurchase} />
+                                                </div>
+                                            )}
+                                        </Toolbar>
+                                    </Typography> :
+                                    <Typography variant='h6'>
+                                        《{book.bookName}》&nbsp; {book.author} &nbsp; {book.ISBN} &nbsp; {book.storage} Left
+                                    </Typography>
+                                }
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails className={classes.content}>
+                                <div className={classes.text}>
+                                    &nbsp; {book.ISBN} &nbsp; {book.storage} Left
+                                <br />
+                                    content
+                                </div>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>)
+                }
 
-                <ExpansionPanel
-                    className={classes.post}
-                    onChange={() => this.handleChange(index)}
-                    expanded={this.state.isExpanded[index]}
-                >
-                    <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        className={this.state.isExpanded[index] && classes.title}
-                    >
-                        {this.state.isExpanded[index] ?
-                            <Typography variant='h4'>
-                                <Toolbar>
-                                    《title1》&nbsp; Bob
-                                        {/*this.props.identity !== 0 &&*/ (
-                                        <div className={classes.buttons}>
-                                            <AddToCart />
-                                            <Purchase onClick={this.handlePurchase} />
-                                        </div>
-                                    )}
-                                </Toolbar>
-                            </Typography> :
-                            <Typography variant='h6'>
-                                《title1》&nbsp; Bob &nbsp; ISBN-1 &nbsp;  3 Left
-                            </Typography>
-
-                        }
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails className={classes.content}>
-                        <div className={classes.text}>
-                            &nbsp; ISBN-1 &nbsp;  3 Left
-                            <br />
-                            content
-                        </div>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
-
-
-                <ExpansionPanel className={classes.post} >
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
-                        《title1》&nbsp; Bob  &nbsp; ISBN-1 &nbsp;  3 Left
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        content1
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
-                
                 <Dialog open={this.state.open}>
                     <Typography>
                         Purchase it?
@@ -169,4 +167,4 @@ class Books extends React.Component {
     }
 }
 
-export default connect(mapStateToProps/*, mapDispatchToProps*/)(withStyles(styles)(Books));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Books));

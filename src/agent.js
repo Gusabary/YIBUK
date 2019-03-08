@@ -38,7 +38,7 @@ const User = {
             .then(res => res.body),
 }
 
-const Posts = {
+const Books = {
     create: (title, content, image, token) =>
         requests.post(API_ROOT + '/api/posts')
             .set('Authorization', 'Bearer ' + token)
@@ -47,7 +47,8 @@ const Posts = {
             .field('content', content)
             .then(responseBody),
 
-    show: () => requests.get('/api/posts'),
+    show: () => requests.get(API_ROOT +'/api/manage/book')
+        .then(res => res.body),
 
     update: (postId, title, content, image, token) =>
         requests.put(API_ROOT + '/api/posts/' + postId)
@@ -66,7 +67,7 @@ const Posts = {
 
 export default {
     User,
-    Posts,
+    Books,
 }
 
 //Source: BPM-lab, lxyl.

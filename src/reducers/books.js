@@ -1,16 +1,14 @@
 const defaultState = {
     maxPosts: 1,
-    posts: [],
-    isEditing: false,
-    isDeleting: false,
+    books: [],
 }
 
 const posts = (state = defaultState, action) => {
     switch (action.type) {
-        case 'LOAD_POSTS':
+        case 'LOAD_BOOKS':
+            console.log(1);
             return {
-                maxPosts: action.payload.maxPosts,
-                posts: action.payload.posts.reverse(),
+                books: action.payload.books,
             }
         case 'EDIT_START':
             return {
