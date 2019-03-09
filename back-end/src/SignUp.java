@@ -60,6 +60,16 @@ public class SignUp extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
+            sql="SELECT `username` from `user`";
+            ResultSet rs0=stmt.executeQuery(sql);
+            while (rs0.next()){
+                String existedUsername=rs0.getString("username");
+                if (username.equals(existedUsername)){
+                    response.setStatus(403);
+                    out.println("{\"message\":\"Username has existed!\"}");
+                    return;
+                }
+            }
             sql="INSERT INTO `user` (`username`, `password`, `email`, `identity`, `validity`) " +
                     "VALUES ('"+username+"', '"+password+"', '"+email+"', '0', '1')";
             int rs = stmt.executeUpdate(sql);
