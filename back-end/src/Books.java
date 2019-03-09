@@ -62,8 +62,10 @@ public class Books extends HttpServlet {
                         String filePath = uploadPath + File.separator + fileName;
                         File storeFile = new File(filePath);
                         // 在控制台输出文件的上传路径
-                        coverPath = filePath;
-                        //System.out.println(filePath);
+                        coverPath = filePath.replace('\\','|');
+                        System.out.println(filePath);
+                        System.out.println(coverPath);
+
                         // 保存文件到硬盘
                         item.write(storeFile);
                     }
@@ -84,13 +86,12 @@ public class Books extends HttpServlet {
             request.setAttribute("message",
                     "错误信息: " + ex.getMessage());
         }
-
-        /*System.out.println(bookName);
+        System.out.println(bookName);
         System.out.println(author);
         System.out.println(coverPath);
         System.out.println(ISBN);
         System.out.println(storage);
-        System.out.println(price);*/
+        System.out.println(price);
 
         Connection conn = null;
         Statement stmt = null;
@@ -134,11 +135,11 @@ public class Books extends HttpServlet {
             stmt = conn.createStatement();
             String sql;
             sql="INSERT INTO `book` (`bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price`) " +
-                    "VALUES ('"+bookName+"', '"+author+"', '"+coverPath+"', '"+ISBN+"', '"+storage+"', '"+price+"')";
+                    "VALUES ('"+bookName+"', '"+author+"', '"+coverPath+"', '"+ISBN+"', "+storage+", "+price+")";
 
             int rs = stmt.executeUpdate(sql);
 
-            out.println("Add book successfully!");
+            out.println("{\"message\":\"Add book successfully!\"}");
         } catch(SQLException se) {
             // 处理 JDBC 错误
             se.printStackTrace();
@@ -208,7 +209,7 @@ public class Books extends HttpServlet {
                                 "\"bookId\":"+bookId +
                                 ",\"bookName\":\""+bookName+
                                 "\",\"author\":\""+author+
-                                "\",\"coverPath\":\""+coverPath+
+                                "\",\"coverPath\":\""+coverPath.replace("|","\\\\")+
                                 "\",\"ISBN\":\""+ISBN+
                                 "\",\"storage\":"+storage+
                                 ",\"price\":"+price+
@@ -228,7 +229,7 @@ public class Books extends HttpServlet {
                                 "\"bookId\":"+bookId +
                                 ",\"bookName\":\""+bookName+
                                 "\",\"author\":\""+author+
-                                "\",\"coverPath\":\""+coverPath+
+                                "\",\"coverPath\":\""+coverPath.replace("|","\\\\")+
                                 "\",\"ISBN\":\""+ISBN+
                                 "\",\"storage\":"+storage+
                                 ",\"price\":"+price+
