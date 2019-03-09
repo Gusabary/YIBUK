@@ -39,12 +39,14 @@ const User = {
 }
 
 const Books = {
-    create: (title, content, image, token) =>
-        requests.post(API_ROOT + '/api/posts')
-            .set('Authorization', 'Bearer ' + token)
-            .attach('image', image, title)
-            .field('title', title)
-            .field('content', content)
+    create: (bookName, image) =>
+        requests.post(API_ROOT + '/api/manage/book')
+            .attach('image', image)
+            .field('bookName', bookName)
+            .field('author', 1)
+            .field('ISBN', 1)
+            .field('storage', 1)
+            .field('price', 1)
             .then(responseBody),
 
     show: () => requests.get(API_ROOT +'/api/manage/book')

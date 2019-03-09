@@ -6,7 +6,7 @@ const common = (state = defaultState, action) => {
     switch (action.type) {
         case 'SIGN_IN':
         case 'SIGN_UP':
-        case 'ADD_POST':
+        case 'ADD_BOOK':
         case 'EDIT_END':
             return {
                 ...state,

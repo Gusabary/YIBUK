@@ -7,6 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.*;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 @WebServlet("/HelloForm")
 public class Books extends HttpServlet {
@@ -25,16 +30,74 @@ public class Books extends HttpServlet {
 
     // 处理 POST 方法请求的方法
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Connection conn = null;
-        Statement stmt = null;
-
         String bookName="",author="",coverPath="",ISBN="";
         int storage=0;
         float price=0;
+        // 配置上传参数
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        // 设置临时存储目录
+        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        // 中文处理
+        upload.setHeaderEncoding("UTF-8");
+        // 构造临时路径来存储上传的文件
+        // 这个路径相对当前应用的目录
+        String uploadPath = request.getServletContext().getRealPath("./") + File.separator + "upload";
+        // 如果目录不存在则创建
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+        try {
+            // 解析请求的内容提取文件数据
+            @SuppressWarnings("unchecked")
+            List<FileItem> formItems = upload.parseRequest(request);
+            if (formItems != null && formItems.size() > 0) {
+                // 迭代表单数据
+                Map params = new HashMap();
+                for (FileItem item : formItems) {
+                    // 处理不在表单中的字段
+                    if (!item.isFormField()) {
+                        String fileName = new File(item.getName()).getName();
+                        String filePath = uploadPath + File.separator + fileName;
+                        File storeFile = new File(filePath);
+                        // 在控制台输出文件的上传路径
+                        coverPath = filePath;
+                        //System.out.println(filePath);
+                        // 保存文件到硬盘
+                        item.write(storeFile);
+                    }
+                    else{
+                        params.put(item.getFieldName(),item.getString("utf-8"));
+                        //System.out.print(item.getFieldName()+" ");
+                        //System.out.println(item.getString());
+                    }
+                    //System.out.println(item);
+                }
+                bookName = (String)params.get("bookName");
+                author = (String)params.get("author");
+                ISBN = (String)params.get("ISBN");
+                storage = Integer.parseInt((String)params.get("storage"));
+                price = Float.parseFloat((String)params.get("price"));
+            }
+        } catch (Exception ex) {
+            request.setAttribute("message",
+                    "错误信息: " + ex.getMessage());
+        }
+
+        /*System.out.println(bookName);
+        System.out.println(author);
+        System.out.println(coverPath);
+        System.out.println(ISBN);
+        System.out.println(storage);
+        System.out.println(price);*/
+
+        Connection conn = null;
+        Statement stmt = null;
 
         response.setContentType("application/json;charset=UTF-8");
 
-        BufferedReader br=request.getReader();
+        /*BufferedReader br=request.getReader();
         String str,wholeStr="";
         while ((str=br.readLine())!=null){
             wholeStr+=str;
@@ -52,18 +115,13 @@ public class Books extends HttpServlet {
         int pos5=wholeStr.indexOf("\"price\"");
         storage=Integer.parseInt(wholeStr.substring(pos4+10,pos5-1));
         int pos6=wholeStr.length();
-        price=Float.parseFloat(wholeStr.substring(pos5+8,pos6-1));
+        price=Float.parseFloat(wholeStr.substring(pos5+8,pos6-1));*/
 
         //System.out.println(username);
         //System.out.println(password);
 
         PrintWriter out = response.getWriter();
-        /*out.println(bookName);
-        out.println(author);
-        out.println(coverPath);
-        out.println(ISBN);
-        out.println(storage);
-        out.println(price);*/
+
 
         try{
             // 注册 JDBC 驱动器

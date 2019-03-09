@@ -28,4 +28,6 @@
 
 + 发 HTTP 请求时如果 url 是 localhost，一定要加上 **`http://`** 。
 
-##### Last-modified date: 2019.3.1, 7 p.m.
++ 处理 form-data 类型的请求时，需要导入 commons 的两个 jar 包。如果遇到 java.lang.NoClassDefFoundError 错误，可能的解决方案是将这两个 jar 包放到 WEB-INF/lib 目录下。
+
+##### Last-modified date: 2019.3.9, 1 p.m.

@@ -12,7 +12,7 @@ public class CORSFilter implements Filter {
     }
     public void  doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws java.io.IOException, ServletException {
         HttpServletResponse HttpResponse = (HttpServletResponse) response;
-        System.out.println(111);
+        //System.out.println(111);
         //String origin = (String) servletRequest.getRemoteHost()+":"+servletRequest.getRemotePort();
         HttpResponse.setHeader("Access-Control-Allow-Origin", "*");
         HttpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
