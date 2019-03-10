@@ -41,11 +41,11 @@ const User = {
 }
 
 const Books = {
-    create: (bookName, image) =>
+    create: (bookName,author, image) =>
         requests.post(API_ROOT + '/api/manage/book')
             .attach('image', image)
             .field('bookName', bookName)
-            .field('author', 1)
+            .field('author', author)
             .field('ISBN', 1)
             .field('storage', 1)
             .field('price', 1)

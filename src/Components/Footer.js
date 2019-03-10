@@ -17,7 +17,11 @@ const styles = theme => ({
     main: {
         backgroundColor: theme.palette.primary.main,
         //position: 'absolute',
-        marginTop: theme.spacing.unit*15, 
+        marginTop: theme.spacing.unit * 15,
+        //marginBottom: -theme.spacing.unit,
+        marginLeft: -theme.spacing.unit,
+        width: '101%',
+        //height: theme.spacing.unit,
     },
     sub: {
         backgroundColor: theme.palette.primary.light,

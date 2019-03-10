@@ -26,7 +26,7 @@ const styles = theme => ({
         marginBottom: -theme.spacing.unit,
     },
     buttons: {
-        marginTop: theme.spacing.unit*3,
+        marginTop: theme.spacing.unit * 3,
         marginLeft: theme.spacing.unit * 5,
         float: 'left',
     },
@@ -52,7 +52,7 @@ const styles = theme => ({
     text: {
         //width: '90%',
         marginLeft: theme.spacing.unit * 4,
-        marginTop: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 2,
         wordWrap: 'break-word',
         //overflow: 'auto',
         //float: 'right',
@@ -77,8 +77,8 @@ class Books extends React.Component {
         super(props);
         let modelArray = [];
         modelArray[0] = false;
-        modelArray[10] = false;
-        modelArray.fill(false, 0, 10);
+        modelArray[1000] = false;
+        modelArray.fill(false, 0, 1000);
         this.state = {
             isExpanded: modelArray,
             open: false,
@@ -132,7 +132,7 @@ class Books extends React.Component {
                                         </Typography>
                                     </ListItemText> :
                                     <Typography variant='h6'>
-                                        《{book.bookName}》&nbsp; {book.author} &nbsp; {book.ISBN} &nbsp; {book.storage} Left
+                                        《{book.bookName}》&nbsp; {book.author}
                                     </Typography>
                                 }
                             </ExpansionPanelSummary>

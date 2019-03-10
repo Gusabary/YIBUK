@@ -10,16 +10,21 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onLogOut: () =>
-        dispatch({type:"LOG_OUT"})
+        dispatch({ type: "LOG_OUT" })
 })
 
 const styles = theme => ({
     main: {
         backgroundColor: theme.palette.primary.main,
+        marginTop: -theme.spacing.unit,
+        marginLeft: -theme.spacing.unit,
+        width: '101%',
     },
     sub: {
         backgroundColor: theme.palette.primary.light,
-        height: theme.spacing.unit * 6
+        height: theme.spacing.unit * 6,
+        marginLeft: -theme.spacing.unit,
+        width: '101%',
     }
 })
 
@@ -105,4 +110,4 @@ class Header extends React.Component {
         );
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Header));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Header));

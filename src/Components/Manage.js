@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, withStyles, TextField, Button, Typography } from '@material-ui/core'
+import { Paper, withStyles, TextField, Button, Typography, Grid } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../agent';
 
@@ -20,7 +20,6 @@ const styles = theme => ({
     },
     image: {
         width: theme.spacing.unit * 30,
-        //height: theme.spacing.unit*10,
     },
     previewButton: {
         marginTop: theme.spacing.unit,
@@ -33,14 +32,11 @@ const styles = theme => ({
     },
     content: {
         width: '96%',
-        marginTop: theme.spacing.unit,
-        marginLeft: '2%',
     },
     preview: {
         width: '96%',
         marginTop: theme.spacing.unit,
         marginLeft: '2%',
-        //height: theme.spacing.unit * 37,
     },
     save: {
         marginTop: theme.spacing.unit,
@@ -48,6 +44,13 @@ const styles = theme => ({
         marginLeft: '2%',
         backgroundColor: theme.palette.primary.light,
     },
+    info: {
+        float: 'left',
+        marginLeft: '2%',
+    },
+    intro: {
+        marginLeft: '20%',
+    }
 });
 
 const mapStateToProps = state => ({
@@ -55,8 +58,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (bookName,image) => {
-            dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName,image) })
+    onSubmit: (bookName, author, image) => {
+        dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image) })
     },
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
@@ -68,19 +71,24 @@ class Manage extends React.Component {
         super(props);
         this.state = {
             bookName: '',
+            author: '',
             image: '',
+            ISBN: '',
+            storage: '',
+            price: '',
+            introduction: '',
         }
 
-        this.handlebookNameChange = this.handlebookNameChange.bind(this);
+        this.updateState = this.updateState.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handlebookNameChange(event) {
+    updateState = field => event => {
         this.setState({
-            bookName: event.target.value,
-        })
-    }
+            [field]: event.target.value
+        });
+    };
 
     handleImageChange(event) {
         this.setState({
@@ -90,8 +98,8 @@ class Manage extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { bookName, image } = this.state;
-        this.props.onSubmit(bookName,image);
+        const { bookName, author, image } = this.state;
+        this.props.onSubmit(bookName, author, image);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -107,36 +115,81 @@ class Manage extends React.Component {
             <React.Fragment>
                 <Paper className={classes.root}>
                     <form onSubmit={this.handleSubmit}>
-                        <TextField
-                            type="text"
-                            label='Book Name'
-                            className={classes.title}
-                            value={this.state.bookName}
-                            onChange={this.handlebookNameChange}
-                        />
-                        <br />
-                        <Button
-                            variant="contained"
-                            className={classes.imageButton}
-                            onClick={() => this.imagePicker.click()}
-                        >
-                            Pick Cover
-                        </Button>
-                        <input
-                            type="file"
-                            accept=".jpg,.jpeg,.png"
-                            ref={ref => this.imagePicker = ref}
-                            onChange={this.handleImageChange}
-                            className={classes.hidden}
-                        />
-                        <br />
-                        <Button
-                            variant="contained"
-                            className={classes.save}
-                            type="submit"
-                        >
-                            Add Book
-                        </Button>
+                        <div className={classes.info}>
+                            <TextField
+                                type="text"
+                                label='Book Title'
+                                className={classes.title}
+                                value={this.state.bookName}
+                                onChange={this.updateState('bookName')}
+                            />
+                            <br />
+                            <TextField
+                                type="text"
+                                label='Author'
+                                className={classes.title}
+                                value={this.state.author}
+                                onChange={this.updateState('author')}
+                            />
+                            <br />
+                            <Button
+                                variant="contained"
+                                className={classes.imageButton}
+                                onClick={() => this.imagePicker.click()}
+                            >
+                                Pick Cover
+                            </Button>
+                            <input
+                                type="file"
+                                accept=".jpg,.jpeg,.png"
+                                ref={ref => this.imagePicker = ref}
+                                onChange={this.handleImageChange}
+                                className={classes.hidden}
+                            />
+                            <br />
+                            <TextField
+                                type="text"
+                                label='ISBN'
+                                className={classes.title}
+                                value={this.state.ISBN}
+                                onChange={this.updateState('ISBN')}
+                            />
+                            <br />
+                            <TextField
+                                type="text"
+                                label='storage'
+                                className={classes.title}
+                                value={this.state.storage}
+                                onChange={this.updateState('storage')}
+                            />
+                            <br />
+                            <TextField
+                                type="text"
+                                label='price'
+                                className={classes.title}
+                                value={this.state.price}
+                                onChange={this.updateState('price')}
+                            />
+                            <br />
+                            <Button
+                                variant="contained"
+                                className={classes.save}
+                                type="submit"
+                            >
+                                Add Book
+                            </Button>
+                        </div>
+                        <div className={classes.intro}>
+                            <TextField
+                                type="text"
+                                label='Introduction'
+                                className={classes.content}
+                                value={this.state.introduction}
+                                onChange={this.updateState('introduction')}
+                                multiline
+                                rows="18"
+                            />
+                        </div>
                         <br />
                     </form>
                 </Paper>
