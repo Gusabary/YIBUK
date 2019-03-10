@@ -33,6 +33,7 @@ public class Books extends HttpServlet {
         String bookName="",author="",coverPath="",ISBN="";
         int storage=0;
         float price=0;
+        String introduction="";
         // 配置上传参数
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 设置临时存储目录
@@ -91,17 +92,18 @@ public class Books extends HttpServlet {
                 ISBN = (String)params.get("ISBN");
                 storage = Integer.parseInt((String)params.get("storage"));
                 price = Float.parseFloat((String)params.get("price"));
+                introduction = (String)params.get("introduction");
             }
         } catch (Exception ex) {
             request.setAttribute("message",
                     "错误信息: " + ex.getMessage());
         }
-        System.out.println(bookName);
+        /*System.out.println(bookName);
         System.out.println(author);
         System.out.println(coverPath);
         System.out.println(ISBN);
         System.out.println(storage);
-        System.out.println(price);
+        System.out.println(price);*/
 
         Connection conn = null;
         Statement stmt = null;
@@ -121,8 +123,8 @@ public class Books extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
-            sql="INSERT INTO `book` (`bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price`) " +
-                    "VALUES ('"+bookName+"', '"+author+"', '"+coverPath+"', '"+ISBN+"', "+storage+", "+price+")";
+            sql="INSERT INTO `book` (`bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price`,`introduction`) " +
+                    "VALUES ('"+bookName+"', '"+author+"', '"+coverPath+"', '"+ISBN+"', "+storage+", "+price+",'"+introduction+"')";
 
             int rs = stmt.executeUpdate(sql);
 
@@ -174,7 +176,7 @@ public class Books extends HttpServlet {
             // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
-            sql="SELECT `bookId`, `bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price` from `book`";
+            sql="SELECT `bookId`, `bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price`,`introduction` from `book`";
 
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -182,6 +184,7 @@ public class Books extends HttpServlet {
             String bookName="",author="",coverPath="",ISBN="";
             int storage=0;
             float price=0;
+            String introduction="";
             out.println("{\"books\":[");
             if (rs.next()){
                 bookId = rs.getInt("bookId");
@@ -191,6 +194,7 @@ public class Books extends HttpServlet {
                 ISBN=rs.getString("ISBN");
                 storage=rs.getInt("storage");
                 price=rs.getFloat("price");
+                introduction = rs.getString("introduction");
                 out.println(
                         "{" +
                                 "\"bookId\":"+bookId +
@@ -200,7 +204,8 @@ public class Books extends HttpServlet {
                                 "\",\"ISBN\":\""+ISBN+
                                 "\",\"storage\":"+storage+
                                 ",\"price\":"+price+
-                                "}"
+                                ",\"introduction\":\""+introduction+
+                                "\"}"
                 );
             }
             while(rs.next()) {
@@ -211,6 +216,7 @@ public class Books extends HttpServlet {
                 ISBN=rs.getString("ISBN");
                 storage=rs.getInt("storage");
                 price=rs.getFloat("price");
+                introduction = rs.getString("introduction");
                 out.println(
                         ",{" +
                                 "\"bookId\":"+bookId +
@@ -220,7 +226,8 @@ public class Books extends HttpServlet {
                                 "\",\"ISBN\":\""+ISBN+
                                 "\",\"storage\":"+storage+
                                 ",\"price\":"+price+
-                                "}"
+                                ",\"introduction\":\""+introduction+
+                                "\"}"
                 );
             }
             rs.close();

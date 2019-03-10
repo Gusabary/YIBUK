@@ -30,14 +30,15 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit * 5,
         float: 'left',
     },
+
     cover: {
         width: theme.spacing.unit * 45,
+        //width: '40%',
         height: theme.spacing.unit * 60,
         marginTop: theme.spacing.unit,
-    },
-    coverContainer: {
-        float: 'left',
-        width: '20%',
+        //float: 'left',
+        //position: 'absolute',
+
     },
     content: {
         //display: 'flex',
@@ -50,12 +51,15 @@ const styles = theme => ({
         borderBottomColor: theme.palette.primary.main,
     },
     text: {
-        //width: '90%',
+        width: '60%',
         marginLeft: theme.spacing.unit * 4,
         marginTop: theme.spacing.unit * 2,
+        marginRight: 0,
         wordWrap: 'break-word',
         //overflow: 'auto',
-        //float: 'right',
+        float: 'right',
+        //position: 'absolute',
+        //left: '30%',
     },
     icon: {
         marginLeft: theme.spacing.unit * 5,
@@ -137,13 +141,12 @@ class Books extends React.Component {
                                 }
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.content}>
-
                                 <img src={"images/" + book.coverPath} className={classes.cover} />
 
                                 <div className={classes.text}>
                                     <Typography variant='h4'>
                                         Book Info.
-                                    </Typography>
+                                        </Typography>
                                     <Divider />
                                     <BookInfoList book={book} />
                                     <div className={classes.buttons}>
@@ -151,7 +154,7 @@ class Books extends React.Component {
                                         <Purchase onClick={this.handlePurchase} />
                                     </div>
                                 </div>
-
+                                <br />
                             </ExpansionPanelDetails>
                         </ExpansionPanel>)
                 }

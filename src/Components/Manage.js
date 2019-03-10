@@ -58,8 +58,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (bookName, author, image) => {
-        dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image) })
+    onSubmit: (bookName, author, image, ISBN, storage, price, introduction) => {
+        dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image, ISBN, storage, price, introduction) })
     },
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
@@ -98,8 +98,8 @@ class Manage extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { bookName, author, image } = this.state;
-        this.props.onSubmit(bookName, author, image);
+        const { bookName, author, image, ISBN, storage, price, introduction } = this.state;
+        this.props.onSubmit(bookName, author, image, ISBN, storage, price, introduction);
     }
 
     componentWillReceiveProps(nextProps) {
