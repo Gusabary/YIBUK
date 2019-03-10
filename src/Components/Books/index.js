@@ -51,13 +51,13 @@ const styles = theme => ({
         borderBottomColor: theme.palette.primary.main,
     },
     text: {
-        width: '60%',
+        //width: '60%',
         marginLeft: theme.spacing.unit * 4,
         marginTop: theme.spacing.unit * 2,
         marginRight: 0,
         wordWrap: 'break-word',
         //overflow: 'auto',
-        float: 'right',
+        //float: 'right',
         //position: 'absolute',
         //left: '30%',
     },
@@ -141,17 +141,29 @@ class Books extends React.Component {
                                 }
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.content}>
-                                <img src={"images/" + book.coverPath} className={classes.cover} />
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                    <div style={{ display: "flex", flexDirection: "row", width: '130%', flex: 30 }}>
+                                        <img src={"images/" + book.coverPath} className={classes.cover} style={{ flex: 36 }} />
 
-                                <div className={classes.text}>
-                                    <Typography variant='h4'>
-                                        Book Info.
+                                        <div className={classes.text} style={{ flex: 64 }}>
+                                            <Typography variant='h4'>
+                                                Book Info.
                                         </Typography>
-                                    <Divider />
-                                    <BookInfoList book={book} />
-                                    <div className={classes.buttons}>
-                                        <AddToCart />
-                                        <Purchase onClick={this.handlePurchase} />
+                                            <Divider />
+                                            <BookInfoList book={book} />
+                                            <div className={classes.buttons}>
+                                                <AddToCart />
+                                                <Purchase onClick={this.handlePurchase} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style={{ flex: 1, marginTop: 30, width: '130%' }}>
+                                        <Typography variant='h4'>
+                                            Book Introduction
+                                    </Typography>
+                                        <Divider />
+                                        <br />
+                                        {book.introduction}
                                     </div>
                                 </div>
                                 <br />
