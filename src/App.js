@@ -4,6 +4,7 @@ import Home from './Components/Books/index'
 import SignIn from './Components/SignIn'
 import SignUp from './Components/SignUp'
 import Header from './Components/Header/index'
+import Footer from './Components/Footer'
 import Manage from './Components/Manage'
 import Statistics from './Components/Statistics'
 import Orders from './Components/Orders'
@@ -28,6 +29,7 @@ class App extends React.Component {
             <Route exact path="/Statistics" component={Statistics} />
             <Route exact path="/Orders" component={Orders} />
             <Route exact path="/Cart" component={Cart} />
+            <Footer />
           </div>
         </BrowserRouter>
       </React.Fragment>

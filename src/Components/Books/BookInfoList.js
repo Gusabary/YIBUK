@@ -1,5 +1,5 @@
 import React from 'react'
-import {  Typography, withStyles, Button, Toolbar } from '@material-ui/core'
+import { Typography, withStyles, Button, Toolbar } from '@material-ui/core'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -33,7 +33,7 @@ class Purchase extends React.Component {
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
-                                {"book name: " + book.bookName}
+                                {"Title: " + book.bookName}
                             </Typography>
                         </ListItemText>
                     </ListItem>
@@ -43,7 +43,7 @@ class Purchase extends React.Component {
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
-                                {"author: " + book.author}
+                                {"Author: " + book.author}
                             </Typography>
                         </ListItemText>
                     </ListItem>
@@ -63,7 +63,7 @@ class Purchase extends React.Component {
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
-                                {"storage: " + book.storage}
+                                {"Storage: " + book.storage}
                             </Typography>
                         </ListItemText>
                     </ListItem>
@@ -73,7 +73,7 @@ class Purchase extends React.Component {
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
-                                {"price: " + book.price}
+                                {"Price: " + book.price + '$'}
                             </Typography>
                         </ListItemText>
                     </ListItem>

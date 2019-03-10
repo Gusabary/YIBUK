@@ -51,7 +51,7 @@ const styles = theme => ({
     },
     text: {
         //width: '90%',
-        marginLeft: theme.spacing.unit * 3,
+        marginLeft: theme.spacing.unit * 4,
         marginTop: theme.spacing.unit,
         wordWrap: 'break-word',
         //overflow: 'auto',
