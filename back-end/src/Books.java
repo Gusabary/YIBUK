@@ -42,7 +42,15 @@ public class Books extends HttpServlet {
         upload.setHeaderEncoding("UTF-8");
         // 构造临时路径来存储上传的文件
         // 这个路径相对当前应用的目录
-        String uploadPath = request.getServletContext().getRealPath("./") + File.separator + "upload";
+        String rawUploadPath = request.getServletContext().getRealPath("./") +  "images";
+        String uploadPath=rawUploadPath.replace('\\','/');
+        //String uploadPath = "/images2";
+
+        /*System.out.println(request.getServletContext());
+        System.out.println(request.getServletContext().getRealPath("./"));
+        System.out.println(request.getServletContext().getRealPath("./") + File.separator);
+        System.out.println(request.getServletContext().getRealPath("./") + File.separator + "upload");*/
+
         // 如果目录不存在则创建
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -59,20 +67,22 @@ public class Books extends HttpServlet {
                     // 处理不在表单中的字段
                     if (!item.isFormField()) {
                         String fileName = new File(item.getName()).getName();
-                        String filePath = uploadPath + File.separator + fileName;
+                        String filePath = "F:/github/e-Book/public/images/" + fileName;
+
+                        //System.out.println(filePath);
                         File storeFile = new File(filePath);
                         // 在控制台输出文件的上传路径
-                        coverPath = filePath.replace('\\','|');
-                        System.out.println(filePath);
-                        System.out.println(coverPath);
+                        coverPath = fileName;
+                        //System.out.println(filePath);
+                        //System.out.println(coverPath);
 
                         // 保存文件到硬盘
                         item.write(storeFile);
                     }
                     else{
                         params.put(item.getFieldName(),item.getString("utf-8"));
-                        //System.out.print(item.getFieldName()+" ");
-                        //System.out.println(item.getString());
+                        System.out.print(item.getFieldName()+" ");
+                        System.out.println(item.getString());
                     }
                     //System.out.println(item);
                 }
@@ -97,29 +107,6 @@ public class Books extends HttpServlet {
         Statement stmt = null;
 
         response.setContentType("application/json;charset=UTF-8");
-
-        /*BufferedReader br=request.getReader();
-        String str,wholeStr="";
-        while ((str=br.readLine())!=null){
-            wholeStr+=str;
-        }
-
-        //parse request
-        int pos1=wholeStr.indexOf("\"author\"");
-        bookName=wholeStr.substring(13,pos1-2);
-        int pos2=wholeStr.indexOf("\"coverPath\"");
-        author=wholeStr.substring(pos1+10,pos2-2);
-        int pos3=wholeStr.indexOf("\"ISBN\"");
-        coverPath=wholeStr.substring(pos2+13,pos3-2);
-        int pos4=wholeStr.indexOf("\"storage\"");
-        ISBN=wholeStr.substring(pos3+8,pos4-2);
-        int pos5=wholeStr.indexOf("\"price\"");
-        storage=Integer.parseInt(wholeStr.substring(pos4+10,pos5-1));
-        int pos6=wholeStr.length();
-        price=Float.parseFloat(wholeStr.substring(pos5+8,pos6-1));*/
-
-        //System.out.println(username);
-        //System.out.println(password);
 
         PrintWriter out = response.getWriter();
 

@@ -147,7 +147,8 @@ class Books extends React.Component {
                                 <br />
                                     content
                                 </div>
-                                <img src={book.coverPath} />
+                                
+                                <img src={"images/"+book.coverPath} />
                             </ExpansionPanelDetails>
                         </ExpansionPanel>)
                 }
