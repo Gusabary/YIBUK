@@ -9,7 +9,9 @@ import { Link } from 'react-router-dom'
 const styles = theme => ({
     edit: {
         marginLeft: theme.spacing.unit * 2,
-        color: theme.palette.secondary.main,
+        backgroundColor: "#f4ff81",
+        // /color:"#64b5f6",
+        color:"#0277bd",
         border: 'solid',
         textDecoration: 'underline',
     },
@@ -26,7 +28,7 @@ class AddToCart extends React.Component {
             <Button
                 className={classes.edit}
                 //onClick={() => this.props.onClickEdit(post._id, index)}
-                variant="outlined"
+                variant="contained"
             >
                 <Create className={classes.buttonIcon} />
                 Add to Cart

@@ -1,12 +1,15 @@
 import React from 'react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar, Dialog } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar, Dialog, Divider } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import AddToCart from './AddToCart';
 import Purchase from './Purchase'
-import { dispatch } from 'rxjs/internal/observable/pairs';
+import ListItemText from '@material-ui/core/ListItemText';
+
 import agent from '../../agent'
+
+import BookInfoList from './BookInfoList'
 
 const styles = theme => ({
     padding: {
@@ -19,32 +22,27 @@ const styles = theme => ({
     title: {
         backgroundColor: theme.palette.primary.main,
     },
+    titleContent: {
+        marginBottom: -theme.spacing.unit,
+    },
     buttons: {
+        marginTop: theme.spacing.unit*3,
         marginLeft: theme.spacing.unit * 5,
+        float: 'left',
     },
-    edit: {
-        color: theme.palette.secondary.main,
-        border: 'solid',
-        textDecoration: 'underline',
-    },
-    delete: {
-        marginLeft: theme.spacing.unit * 2,
-        color: theme.palette.error.main,
-        border: 'solid',
-        textDecoration: 'underline',
-    },
-    buttonIcon: {
-        marginLeft: -theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-    },
-    image: {
-        width: '85%',
+    cover: {
+        width: theme.spacing.unit * 45,
+        height: theme.spacing.unit * 60,
         marginTop: theme.spacing.unit,
     },
+    coverContainer: {
+        float: 'left',
+        width: '20%',
+    },
     content: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'left',
+        //display: 'flex',
+        //flexDirection: 'column',
+        //alignItems: 'left',
         borderLeft: 'solid',
         borderBottom: 'solid',
         borderRight: 'solid',
@@ -52,9 +50,12 @@ const styles = theme => ({
         borderBottomColor: theme.palette.primary.main,
     },
     text: {
-        width: '100%',
-        marginRight: theme.spacing.unit,
+        //width: '90%',
+        marginLeft: theme.spacing.unit * 3,
+        marginTop: theme.spacing.unit,
         wordWrap: 'break-word',
+        //overflow: 'auto',
+        //float: 'right',
     },
     icon: {
         marginLeft: theme.spacing.unit * 5,
@@ -125,30 +126,32 @@ class Books extends React.Component {
                                 className={this.state.isExpanded[index] && classes.title}
                             >
                                 {this.state.isExpanded[index] ?
-                                    <Typography variant='h4'>
-                                        <Toolbar>
-                                            《{book.bookName}》&nbsp; {book.author}
-                                            {/*this.props.identity !== 0 &&*/ (
-                                                <div className={classes.buttons}>
-                                                    <AddToCart />
-                                                    <Purchase onClick={this.handlePurchase} />
-                                                </div>
-                                            )}
-                                        </Toolbar>
-                                    </Typography> :
+                                    <ListItemText secondary={book.author} className={classes.titleContent} >
+                                        <Typography variant='h4'>
+                                            {"《" + book.bookName + "》"}
+                                        </Typography>
+                                    </ListItemText> :
                                     <Typography variant='h6'>
                                         《{book.bookName}》&nbsp; {book.author} &nbsp; {book.ISBN} &nbsp; {book.storage} Left
                                     </Typography>
                                 }
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.content}>
+
+                                <img src={"images/" + book.coverPath} className={classes.cover} />
+
                                 <div className={classes.text}>
-                                    &nbsp; {book.ISBN} &nbsp; {book.storage} Left
-                                <br />
-                                    content
+                                    <Typography variant='h4'>
+                                        Book Info.
+                                    </Typography>
+                                    <Divider />
+                                    <BookInfoList book={book} />
+                                    <div className={classes.buttons}>
+                                        <AddToCart />
+                                        <Purchase onClick={this.handlePurchase} />
+                                    </div>
                                 </div>
-                                
-                                <img src={"images/"+book.coverPath} />
+
                             </ExpansionPanelDetails>
                         </ExpansionPanel>)
                 }
