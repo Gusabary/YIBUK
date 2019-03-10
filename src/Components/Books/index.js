@@ -16,7 +16,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 8,
     },
     post: {
-        width: '70%',
+        width: 1050,
         marginLeft: '15%',
     },
     title: {
@@ -142,7 +142,7 @@ class Books extends React.Component {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.content}>
                                 <div style={{ display: "flex", flexDirection: "column" }}>
-                                    <div style={{ display: "flex", flexDirection: "row", width: '130%', flex: 30 }}>
+                                    <div style={{ display: "flex", flexDirection: "row", width: 1000, flex: 30 }}>
                                         <img src={"images/" + book.coverPath} className={classes.cover} style={{ flex: 36 }} />
 
                                         <div className={classes.text} style={{ flex: 64 }}>
@@ -157,7 +157,7 @@ class Books extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div style={{ flex: 1, marginTop: 30, width: '130%' }}>
+                                    <div style={{ flex: 1, marginTop: 30, width: 1000 }}>
                                         <Typography variant='h4'>
                                             Book Introduction
                                     </Typography>
