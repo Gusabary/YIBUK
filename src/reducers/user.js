@@ -17,7 +17,8 @@ const user = (state =defaultState, action) => {
         case 'LOG_OUT':
             return {
                 ...state,
-                identity: 0,
+                userId: 0,
+                identity: 2,
             }
         default:
             return state;
