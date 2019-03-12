@@ -1,3 +1,6 @@
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.*;
 import java.sql.*;
 
@@ -27,10 +30,9 @@ public class Validity extends HttpServlet {
             wholeStr+=str;
         }
 
-        int pos1=wholeStr.indexOf("\"targetValidity\"");
-        int userId=Integer.parseInt(wholeStr.substring(10,pos1-1));
-        int pos2=wholeStr.length();
-        int targetValidity=Integer.parseInt(wholeStr.substring(pos1+17,pos2-1));
+        JSONObject req = new JSONObject();
+        int userId = req.getInteger("userId");
+        int targetValidity = req.getInteger("targetValidity");
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -45,6 +47,10 @@ public class Validity extends HttpServlet {
             String sql;
             sql="UPDATE `user` SET `validity`="+targetValidity+" WHERE `userId`="+userId;
             int rs = stmt.executeUpdate(sql);
+
+            JSONObject resp = new JSONObject();
+            resp.put("message", "Update validity successfully!");
+            out.println(resp);
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
@@ -78,40 +84,22 @@ public class Validity extends HttpServlet {
             String sql;
             sql="SELECT `userId`, `username`,`email`, `validity` from `user`";
 
-            int userId=0,validity=1;
-            String username="",email="";
-            out.println("{\"users\":[");
             ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()){
-                userId = rs.getInt("userId");
-                username = rs.getString("username");
-                email=rs.getString("email");
-                validity = rs.getInt("validity");
-                out.println(
-                        "{" +
-                            "\"userId\":"+userId +
-                            ",\"username\":\""+username+
-                            "\",\"email\":\""+email+
-                            "\",\"validity\":"+validity+
-                        "}"
-                );
-            }
+
+            JSONArray array = new JSONArray();
             while(rs.next()) {
-                userId = rs.getInt("userId");
-                username = rs.getString("username");
-                email=rs.getString("email");
-                validity = rs.getInt("validity");
-                out.println(
-                        ",{" +
-                                "\"userId\":"+userId +
-                                ",\"username\":\""+username+
-                                "\",\"email\":\""+email+
-                                "\",\"validity\":"+validity+
-                        "}"
-                );
-            }
+                JSONObject tmp = new JSONObject();
+                tmp.put("userId", rs.getInt("userId"));
+                tmp.put("username", rs.getString("username"));
+                tmp.put("email", rs.getString("email"));
+                tmp.put("validity", rs.getInt("validity"));
+                array.add(tmp);
+            };
             rs.close();
-            out.println("]}");
+
+            JSONObject resp = new JSONObject();
+            resp.put("users", array);
+            out.println(resp);
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
