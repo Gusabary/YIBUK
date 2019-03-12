@@ -1,3 +1,6 @@
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.*;
 import java.sql.*;
 
@@ -27,10 +30,14 @@ public class SignIn extends HttpServlet {
             wholeStr+=str;
         }
 
-        int pos1=wholeStr.indexOf("\"password\"");
+        JSONObject req = JSONObject.parseObject(wholeStr);
+        String username = req.getString("username");
+        String password = req.getString("password");
+
+        /*int pos1=wholeStr.indexOf("\"password\"");
         String username=wholeStr.substring(13,pos1-2);
         int pos2=wholeStr.length();
-        String password=wholeStr.substring(pos1+12,pos2-2);
+        String password=wholeStr.substring(pos1+12,pos2-2);*/
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
