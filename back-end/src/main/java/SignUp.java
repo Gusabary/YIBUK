@@ -1,3 +1,5 @@
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.*;
 import java.sql.*;
 
@@ -27,12 +29,10 @@ public class SignUp extends HttpServlet {
             wholeStr+=str;
         }
 
-        int pos1=wholeStr.indexOf("\"password\"");
-        String username=wholeStr.substring(13,pos1-2);
-        int pos2=wholeStr.indexOf("\"email\"");
-        String password=wholeStr.substring(pos1+12,pos2-2);
-        int pos3=wholeStr.length();
-        String email=wholeStr.substring(pos2+9,pos3-2);
+        JSONObject req = JSONObject.parseObject(wholeStr);
+        String username = req.getString("username");
+        String password = req.getString("password");
+        String email = req.getString("email");
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -51,7 +51,9 @@ public class SignUp extends HttpServlet {
                 String existedUsername=rs0.getString("username");
                 if (username.equals(existedUsername)){
                     response.setStatus(403);
-                    out.println("{\"message\":\"Username has existed!\"}");
+                    JSONObject err = new JSONObject();
+                    err.put("error", "Username has existed!");
+                    out.println(err);
                     return;
                 }
             }
@@ -59,7 +61,9 @@ public class SignUp extends HttpServlet {
                     "VALUES ('"+username+"', '"+password+"', '"+email+"', '0', '1')";
             int rs = stmt.executeUpdate(sql);
 
-            out.println("{\"message\":\"Sign up successfully!\"}");
+            JSONObject resp = new JSONObject();
+            resp.put("message", "Sign up successfully!");
+            out.println(resp);
 
         } catch(SQLException se) {
             se.printStackTrace();
