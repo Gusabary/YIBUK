@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
@@ -34,11 +35,6 @@ public class SignIn extends HttpServlet {
         String username = req.getString("username");
         String password = req.getString("password");
 
-        /*int pos1=wholeStr.indexOf("\"password\"");
-        String username=wholeStr.substring(13,pos1-2);
-        int pos2=wholeStr.length();
-        String password=wholeStr.substring(pos1+12,pos2-2);*/
-
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -53,30 +49,32 @@ public class SignIn extends HttpServlet {
             sql="SELECT `userId`, `identity`, `validity` from `user`" +
                     "WHERE `username`='"+username+"' AND `password`='"+password+"'";
 
-            int userId=0,identity=1,validity=1;
             ResultSet rs = stmt.executeQuery(sql);
+            JSONObject resp = new JSONObject();
             while(rs.next()) {
-                userId = rs.getInt("userId");
-                identity = rs.getInt("identity");
-                validity = rs.getInt("validity");
+                resp.put("userId", rs.getInt("userId"));
+                resp.put("identity", rs.getInt("identity"));
+                resp.put("validity", rs.getInt("validity"));
             }
             rs.close();
 
-            if (userId==0) {
+            if (resp.get("userId") == null) {
                 response.setStatus(500);
-                out.println("Error: wrong username or password!");
+                JSONObject err = new JSONObject();
+                err.put("error", "Wrong username or password!");
+                out.println(err);
+                return;
             }
-            if (validity==0){
+            if (resp.get("validity") == null) {
                 response.setStatus(403);
-                out.println("Error: you are forbidden!");
+                JSONObject err = new JSONObject();
+                err.put("error", "You are forbidden!");
+                out.println(err);
+                return;
             }
-            out.println(
-                    "{" +
-                    "\"userId\":"+userId +
-                    ",\"identity\":"+identity+
-                    ",\"validity\":"+validity+
-                    "}"
-            );
+
+            out.println(resp);
+
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {

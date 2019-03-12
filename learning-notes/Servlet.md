@@ -30,4 +30,10 @@
 
 + 处理 form-data 类型的请求时，需要导入 commons 的两个 jar 包。如果遇到 java.lang.NoClassDefFoundError 错误，可能的解决方案是将这两个 jar 包放到 WEB-INF/lib 目录下。
 
-##### Last-modified date: 2019.3.9, 1 p.m.
++ JSONArray 类的 add 方法接受两个参数 index，element。
+
+  index 是指在这个位置插入 element（index从 0 开始计）。
+
+  如果 Array 中已经有了 n 个元素，0,1,2,...,n-1，则 index 只能取 `<= n` 的值，因为 Array 中不能出现空档。
+
+##### Last-modified date: 2019.3.12, 10 p.m.
