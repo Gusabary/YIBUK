@@ -9,13 +9,22 @@ import Manage from './Components/Manage'
 import Statistics from './Components/Statistics'
 import Orders from './Components/Orders'
 import Cart from './Components/Cart'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+import agent from './agent'
 
 const mapStateToProps = state => ({
   userId: state.user.userId,
 });
 
+const mapDispatchToProps = dispatch => ({
+  onLoad: () =>
+    dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
+})
+
 class App extends React.Component {
+  componentWillMount() {
+    this.props.onLoad();
+  }
   render() {
     return (
       <React.Fragment>
@@ -37,4 +46,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);

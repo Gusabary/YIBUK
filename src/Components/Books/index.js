@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import AddToCart from './AddToCart';
 import Purchase from './Purchase'
 import ListItemText from '@material-ui/core/ListItemText';
-
 import agent from '../../agent'
 
 import BookInfoList from './BookInfoList'
@@ -33,17 +32,11 @@ const styles = theme => ({
 
     cover: {
         width: theme.spacing.unit * 45,
-        //width: '40%',
         height: theme.spacing.unit * 60,
         marginTop: theme.spacing.unit,
-        //float: 'left',
-        //position: 'absolute',
 
     },
     content: {
-        //display: 'flex',
-        //flexDirection: 'column',
-        //alignItems: 'left',
         borderLeft: 'solid',
         borderBottom: 'solid',
         borderRight: 'solid',
@@ -51,15 +44,10 @@ const styles = theme => ({
         borderBottomColor: theme.palette.primary.main,
     },
     text: {
-        //width: '60%',
         marginLeft: theme.spacing.unit * 4,
         marginTop: theme.spacing.unit * 2,
         marginRight: 0,
         wordWrap: 'break-word',
-        //overflow: 'auto',
-        //float: 'right',
-        //position: 'absolute',
-        //left: '30%',
     },
     icon: {
         marginLeft: theme.spacing.unit * 5,
@@ -72,8 +60,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: () =>
-        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
 })
 
 class Books extends React.Component {
@@ -107,14 +93,8 @@ class Books extends React.Component {
             open: false,
         })
     }
-    componentWillMount() {
-        this.props.onLoad();
-    }
     render() {
         const { classes } = this.props;
-        //console.log(this.state.isExpanded[0])
-
-        //const index = 0;
         return (
             <React.Fragment>
                 <div className={classes.padding}></div>

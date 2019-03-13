@@ -6,9 +6,14 @@ const defaultState = {
 const posts = (state = defaultState, action) => {
     switch (action.type) {
         case 'LOAD_BOOKS':
-            console.log(1);
             return {
+                ...state,
                 books: action.payload.books,
+            }
+        case 'ADD_BOOK':
+            return {
+                ...state,
+                books: state.books.concat(action.payload.newBook),
             }
         case 'EDIT_START':
             return {
