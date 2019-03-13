@@ -79,13 +79,28 @@ public class Books extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
-            sql="INSERT INTO `book` (`bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price`,`introduction`) " +
+            sql = "INSERT INTO `book` (`bookName`, `author`, `coverPath`, `ISBN`, `storage`, `price`,`introduction`) " +
                     "VALUES ('"+bookName+"', '"+author+"', '"+coverPath+"', '"+ISBN+"', "+storage+", "+price+",'"+introduction+"')";
-
             int rs = stmt.executeUpdate(sql);
 
+            sql = "SELECT `bookId` from `book` WHERE `ISBN` = '" + ISBN + "'";
+            ResultSet rs2 = stmt.executeQuery(sql);
+
+            JSONObject newBook = new JSONObject();
+            if (rs2.next()){
+                newBook.put("bookId", rs2.getInt("bookId"));
+                newBook.put("bookName", bookName);
+                newBook.put("author", author);
+                newBook.put("coverPath", coverPath);
+                newBook.put("ISBN", ISBN);
+                newBook.put("storage", storage);
+                newBook.put("price", price);
+                newBook.put("introduction", introduction);
+            }
             JSONObject resp = new JSONObject();
             resp.put("message", "Add book successfully!");
+            resp.put("newBook", newBook);
+
             out.println(resp);
         } catch(SQLException se) {
             se.printStackTrace();
