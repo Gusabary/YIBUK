@@ -1,7 +1,7 @@
 import React from 'react'
-import { Paper, withStyles, TextField, Button, Typography, Grid } from '@material-ui/core'
+import { Paper, withStyles, TextField, Button, Typography, Grid, Tabs, Tab } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../agent';
+import agent from '../../agent';
 
 const styles = theme => ({
     root: {
@@ -23,7 +23,6 @@ const styles = theme => ({
     },
     previewButton: {
         marginTop: theme.spacing.unit,
-        //position: 'absolute',
         marginLeft: '79%',
         backgroundColor: theme.palette.primary.light,
     },
@@ -66,7 +65,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-class Manage extends React.Component {
+class AddBook extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -104,9 +103,16 @@ class Manage extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.redirectTo) {
+            console.log(this.props.history)
             this.props.history.push(nextProps.redirectTo);
             this.props.onRedirect();
         }
+    }
+
+    handleTabValueChange(event, value) {
+        this.setState({
+            tabValue: value,
+        })
     }
 
     render() {
@@ -198,4 +204,4 @@ class Manage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Manage));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddBook));

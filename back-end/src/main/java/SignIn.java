@@ -65,7 +65,7 @@ public class SignIn extends HttpServlet {
                 out.println(err);
                 return;
             }
-            if (resp.get("validity") == null) {
+            if (resp.getInteger("validity") == 0) {
                 response.setStatus(403);
                 JSONObject err = new JSONObject();
                 err.put("error", "You are forbidden!");

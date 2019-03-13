@@ -148,7 +148,8 @@ class Books extends React.Component {
                                 </div>
                                 <br />
                             </ExpansionPanelDetails>
-                        </ExpansionPanel>)
+                        </ExpansionPanel>
+                    )
                 }
 
                 <Dialog open={this.state.open}>

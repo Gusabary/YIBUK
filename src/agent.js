@@ -37,11 +37,12 @@ const User = {
     signIn: (username, password) =>
         requests.post(API_ROOT + '/api/user/signin')
             .send({ username, password })
-            .then(res => res.body),
+            .then(res => res.body)
+            .catch(err => err.status),
 }
 
 const Books = {
-    create: (bookName, author, image,ISBN,storage,price,introduction) =>
+    create: (bookName, author, image, ISBN, storage, price, introduction) =>
         requests.post(API_ROOT + '/api/manage/book')
             .attach('image', image)
             .field('bookName', bookName)
@@ -49,10 +50,10 @@ const Books = {
             .field('ISBN', ISBN)
             .field('storage', storage)
             .field('price', price)
-            .field('introduction',introduction)
+            .field('introduction', introduction)
             .then(responseBody),
 
-    show: () => requests.get(API_ROOT +'/api/manage/book')
+    show: () => requests.get(API_ROOT + '/api/manage/book')
         .then(res => res.body),
 
     update: (postId, title, content, image, token) =>
@@ -70,9 +71,19 @@ const Books = {
             .then(responseBody),
 }
 
+const Customers = {
+    show: () => requests.get(API_ROOT + '/api/manage/user')
+        .then(res => res.body),
+    toggle: (userId, targetValidity) =>
+        requests.put(API_ROOT + '/api/manage/user')
+            .send({ userId, targetValidity })
+            .then(res => res.body)
+}
+
 export default {
     User,
     Books,
+    Customers,
 }
 
 //Source: BPM-lab, lxyl.

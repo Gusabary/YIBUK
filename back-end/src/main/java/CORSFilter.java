@@ -15,7 +15,7 @@ public class CORSFilter implements Filter {
         //System.out.println(111);
         //String origin = (String) servletRequest.getRemoteHost()+":"+servletRequest.getRemotePort();
         HttpResponse.setHeader("Access-Control-Allow-Origin", "*");
-        HttpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        HttpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE,PUT");
         HttpResponse.setHeader("Access-Control-Max-Age", "3600");
         HttpResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         HttpResponse.setHeader("Access-Control-Allow-Credentials","true");

@@ -29,14 +29,17 @@ public class Validity extends HttpServlet {
         while ((str=br.readLine())!=null){
             wholeStr+=str;
         }
+        //System.out.println(20);
+        JSONObject req = JSONObject.parseObject(wholeStr);
+        //System.out.println(200);
 
-        JSONObject req = new JSONObject();
         int userId = req.getInteger("userId");
+        //System.out.println(userId);
         int targetValidity = req.getInteger("targetValidity");
-
+        //System.out.println(targetValidity);
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-
+        //System.out.println(030);
         Connection conn = null;
         Statement stmt = null;
         try{

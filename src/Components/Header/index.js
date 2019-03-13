@@ -56,7 +56,7 @@ class Header extends React.Component {
                             {this.props.identity === 1 && ' Administrator'}
                             {this.props.userId}
                         </Typography>
-                        {this.props.userId === 0 ? (
+                        {this.props.identity === 2 ? (
                             <div>
                                 <Link to="SignIn">
                                     <Button>
@@ -77,10 +77,10 @@ class Header extends React.Component {
                             )}
                     </Toolbar>
                 </AppBar>
-                {this.props.identity !== 0 && (
+                {this.props.identity !== 2 && (
                     <AppBar position="static" className={classes.sub}>
                         <Toolbar>
-                            {this.props.identity === 2 && (
+                            {this.props.identity === 1 && (
                                 <Link to="Manage">
                                     <Button>
                                         Manage

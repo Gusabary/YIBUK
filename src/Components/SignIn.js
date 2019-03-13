@@ -38,8 +38,23 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (username, password) =>
-        dispatch({ type: 'SIGN_IN', payload: agent.User.signIn(username, password) }),
+    onSubmit: async (username, password) => {
+        const resBody = await agent.User.signIn(username, password);
+        if (resBody === 403) {
+            alert('You are forbidden!');
+            return;
+        }
+        if (resBody === 500) {
+            alert('Wrong username or password!');
+            return;
+        }
+
+        //HTTP request is successful now.
+        if (resBody.identity === 1) {
+            dispatch({ type: 'LOAD_CUSTOMERS', payload: agent.Customers.show() });
+        }
+        dispatch({ type: 'SIGN_IN', payload: resBody });
+    },
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
