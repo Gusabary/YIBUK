@@ -4,3 +4,5 @@
 
 + mapStateToProps 中的值的改变似乎不会影响组件的生命周期，即不会调用 componentWillReceiveProps 方法，也不会重新 render。该问题可以通过在 constructor 中赋初值，之后每次都改变 this.state 来解决。
 
+##### Last-modified date: 2019.3.13, 10 p.m.
+

@@ -9,7 +9,7 @@ import Manage from './Components/Manage/index'
 import Statistics from './Components/Statistics'
 import Orders from './Components/Orders'
 import Cart from './Components/Cart'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import agent from './agent'
 
 const mapStateToProps = state => ({
