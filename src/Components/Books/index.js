@@ -129,6 +129,7 @@ class Books extends React.Component {
         this.setState({
             purchaseOpen: false,
             addToCartOpen: false,
+            number: 1,
         })
     }
     render() {
