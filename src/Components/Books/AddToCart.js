@@ -27,7 +27,7 @@ class AddToCart extends React.Component {
         return (
             <Button
                 className={classes.edit}
-                //onClick={() => this.props.onClickEdit(post._id, index)}
+                onClick={() => this.props.onClick()}
                 variant="contained"
             >
                 <Create className={classes.buttonIcon} />

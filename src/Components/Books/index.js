@@ -78,10 +78,12 @@ class Books extends React.Component {
         modelArray.fill(false, 0, 1000);
         this.state = {
             isExpanded: modelArray,
-            open: false,
+            purchaseOpen: false,
+            addToCartOpen:false,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
         this.handlePurchase = this.handlePurchase.bind(this);
+        this.handleAddToCart = this.handleAddToCart.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
     handleExpanded(index) {
@@ -90,14 +92,21 @@ class Books extends React.Component {
             isExpanded: isExpanded.fill(!isExpanded[index], index, index + 1),
         })
     }
-    handlePurchase() {
+    handleAddToCart() {
         this.setState({
-            open: true,
+            addToCartOpen: true,
+        })
+    }
+    handlePurchase() {
+        console.log(!1);
+        this.setState({
+            purchaseOpen: true,
         })
     }
     handleClose() {
         this.setState({
-            open: false,
+            purchaseOpen: false,
+            addToCartOpen:false,
         })
     }
     render() {
@@ -139,7 +148,7 @@ class Books extends React.Component {
                                             <Divider />
                                             <BookInfoList book={book} />
                                             <div className={classes.buttons}>
-                                                <AddToCart />
+                                                <AddToCart onClick={this.handleAddToCart} />
                                                 <Purchase onClick={this.handlePurchase} />
                                             </div>
                                         </div>
@@ -159,7 +168,20 @@ class Books extends React.Component {
                     )
                 }
 
-                <Dialog open={this.state.open}>
+                <Dialog open={this.state.addToCartOpen}>
+                    <Typography>
+                        Add to cart?
+                    </Typography>
+                    <Button onClick={this.handleClose}>
+                        Yes
+                    </Button>
+                    <Button onClick={this.handleClose}>
+                        No
+                    </Button>
+                </Dialog>
+            
+
+                <Dialog open={this.state.purchaseOpen}>
                     <Typography>
                         Purchase it?
                     </Typography>
