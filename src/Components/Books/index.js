@@ -54,6 +54,13 @@ const styles = theme => ({
     },
 });
 
+const parse = content => {
+    const splitedContent = content.split('\n');
+    return splitedContent.map(para =>
+        <p>{para}</p>
+    )
+}
+
 const mapStateToProps = state => ({
     identity: state.user.identity,
     books: state.books.books,
@@ -143,7 +150,7 @@ class Books extends React.Component {
                                     </Typography>
                                         <Divider />
                                         <br />
-                                        {book.introduction}
+                                        {parse(book.introduction)}
                                     </div>
                                 </div>
                                 <br />
