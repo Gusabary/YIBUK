@@ -1,3 +1,6 @@
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.*;
 import java.sql.*;
 
@@ -27,55 +30,29 @@ public class Cart extends HttpServlet {
             wholeStr+=str;
         }
 
-        int pos1=wholeStr.indexOf("\"bookId\"");
-        int userId=Integer.parseInt(wholeStr.substring(10,pos1-1));
-        int pos2=wholeStr.indexOf("\"quantity\"");
-        int bookId=Integer.parseInt(wholeStr.substring(pos1+9,pos2-1));
-        int pos3=wholeStr.length();
-        int quantity=Integer.parseInt(wholeStr.substring(pos2+11,pos3-1));
+        JSONObject req = JSONObject.parseObject(wholeStr);
+        int userId = req.getInteger("userId");
+        int bookId = req.getInteger("bookId");
+        int quantity = req.getInteger("quantity");
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        out.println(userId);
-        out.println(bookId);
-        out.println(quantity);
-
         Connection conn = null;
         Statement stmt = null;
         try{
-            // 注册 JDBC 驱动器
             Class.forName("com.mysql.jdbc.Driver");
-
-            // 打开一个连接
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-            // 执行 SQL 查询
             stmt = conn.createStatement();
             String sql;
 
-            /*sql="SELECT `storage` from `book`" +
-                    "WHERE `bookId`='"+bookId+"'";
-            ResultSet rs1=stmt.executeQuery(sql);
-            int storage=0;
-            if (rs1.next()) {
-                storage = rs1.getInt("storage");
-            }
-
-            if (storage<quantity){
-                response.setStatus(403);
-                out.println("Storage is not enough!");
-                return;
-            }*/
-            out.println("Add to cart successfully!");
-
             sql="INSERT INTO `cart` (`userId`, `bookId`, `quantity`) " +
                     "VALUES ("+userId+", "+bookId+", "+quantity+")";
-            int rs2 = stmt.executeUpdate(sql);
+            int rs = stmt.executeUpdate(sql);
 
-            /*int targetStorage=storage-quantity;
-            sql="UPDATE `book` SET `storage`="+targetStorage+ " WHERE `bookId`="+bookId;
-            int rs3 = stmt.executeUpdate(sql);*/
+            JSONObject resp = new JSONObject();
+            resp.put("message","Add to cart successfully!");
+            out.println(resp);
 
         } catch(SQLException se) {
             se.printStackTrace();
@@ -111,31 +88,19 @@ public class Cart extends HttpServlet {
             String sql;
             sql="SELECT `bookId`, `quantity` from `cart` WHERE `userId`="+userId;
 
-            int bookId=0,quantity=0;
-            out.println("{\"cart\":[");
             ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()){
-                bookId = rs.getInt("bookId");
-                quantity = rs.getInt("quantity");
-                out.println(
-                        "{" +
-                                "\"bookId\":"+bookId +
-                                ",\"quantity\":"+quantity+
-                                "}"
-                );
-            }
+
+            JSONArray array = new JSONArray();
             while(rs.next()) {
-                bookId = rs.getInt("bookId");
-                quantity = rs.getInt("quantity");
-                out.println(
-                        ",{" +
-                                "\"bookId\":"+bookId +
-                                ",\"quantity\":"+quantity+
-                                "}"
-                );
+                JSONObject tmp = new JSONObject();
+                tmp.put("bookId",rs.getInt("bookId"));
+                tmp.put("quantity",rs.getInt("quantity"));
+                array.add(tmp);
             }
             rs.close();
-            out.println("]}");
+            JSONObject resp = new JSONObject();
+            resp.put("cart", array);
+            out.println(resp);
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
