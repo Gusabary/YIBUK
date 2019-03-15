@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar, Dialog, Divider } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar, Dialog, Divider, TextField } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onAddToCart: () =>
-        dispatch({type:"ADD_TO_CART"})
+        dispatch({ type: "ADD_TO_CART" })
 })
 
 class Books extends React.Component {
@@ -84,12 +84,14 @@ class Books extends React.Component {
             purchaseOpen: false,
             addToCartOpen: false,
             indexInDialog: 0,
+            number:1
         }
         this.handleExpanded = this.handleExpanded.bind(this);
         this.handlePurchase = this.handlePurchase.bind(this);
         this.handleAddToCart = this.handleAddToCart.bind(this);
         this.handleAddToCartOK = this.handleAddToCartOK.bind(this);
         //this.handlePurchaseOK = this.handlePurchaseOK.bind(this);
+        this.handleNumberChange = this.handleNumberChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
     handleExpanded(index) {
@@ -113,8 +115,14 @@ class Books extends React.Component {
 
     handleAddToCartOK(index) {
         //this.props.onAddToCart(this.props.userId, this.props.books[index].bookId);
-        agent.Cart.add(this.props.userId, this.props.books[index].bookId, 1);
+        agent.Cart.add(this.props.userId, this.props.books[index].bookId, this.state.number);
         this.handleClose();
+    }
+
+    handleNumberChange(event) {
+        this.setState({
+            number: event.target.value,
+        })
     }
 
     handleClose() {
@@ -192,7 +200,13 @@ class Books extends React.Component {
                             {'《' + this.props.books[this.state.indexInDialog].bookName + '》'}
                         </Typography>
                     }
-                    <Button onClick={()=>this.handleAddToCartOK(this.state.indexInDialog)}>
+                    <TextField
+                        type="text"
+                        label='number'
+                        value={this.state.number}
+                        onChange={this.handleNumberChange}
+                    />
+                    <Button onClick={() => this.handleAddToCartOK(this.state.indexInDialog)}>
                         Yes
                     </Button>
                     <Button onClick={this.handleClose}>
