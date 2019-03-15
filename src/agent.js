@@ -80,10 +80,18 @@ const Customers = {
             .then(res => res.body)
 }
 
+const Cart = {
+    add: (userId, bookId, quantity) =>
+        requests.post(API_ROOT + '/api/cart')
+            .send({ userId, bookId, quantity })
+            .then(res => res.body)
+}
+
 export default {
     User,
     Books,
     Customers,
+    Cart,
 }
 
 //Source: BPM-lab, lxyl.

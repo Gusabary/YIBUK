@@ -46,10 +46,26 @@ public class Cart extends HttpServlet {
             stmt = conn.createStatement();
             String sql;
 
-            sql="INSERT INTO `cart` (`userId`, `bookId`, `quantity`) " +
-                    "VALUES ("+userId+", "+bookId+", "+quantity+")";
-            int rs = stmt.executeUpdate(sql);
+            sql = "SELECT `quantity` from `cart` where `userId` = " + userId + " and `bookId` = " + bookId;
+            ResultSet rs0 = stmt.executeQuery(sql);
+            boolean hasExisted = false;
+            int existedQuantity = 0;
+            if (rs0.next()){
+                hasExisted = true;
+                existedQuantity = rs0.getInt("quantity");
+            }
+            int targetQuantity = quantity + existedQuantity;
 
+            if (hasExisted){
+                sql = "UPDATE `cart` set `quantity` = " + targetQuantity + " where" +
+                        "`userId` = " + userId + " and `bookId` = " + bookId;
+                int rs = stmt.executeUpdate(sql);
+            }
+            else {
+                sql = "INSERT INTO `cart` (`userId`, `bookId`, `quantity`) " +
+                        "VALUES (" + userId + ", " + bookId + ", " + quantity + ")";
+                int rs = stmt.executeUpdate(sql);
+            }
             JSONObject resp = new JSONObject();
             resp.put("message","Add to cart successfully!");
             out.println(resp);

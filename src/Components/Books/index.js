@@ -64,9 +64,12 @@ const parse = content => {
 const mapStateToProps = state => ({
     identity: state.user.identity,
     books: state.books.books,
+    userId: state.user.userId,
 })
 
 const mapDispatchToProps = dispatch => ({
+    onAddToCart: () =>
+        dispatch({type:"ADD_TO_CART"})
 })
 
 class Books extends React.Component {
@@ -79,11 +82,14 @@ class Books extends React.Component {
         this.state = {
             isExpanded: modelArray,
             purchaseOpen: false,
-            addToCartOpen:false,
+            addToCartOpen: false,
+            indexInDialog: 0,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
         this.handlePurchase = this.handlePurchase.bind(this);
         this.handleAddToCart = this.handleAddToCart.bind(this);
+        this.handleAddToCartOK = this.handleAddToCartOK.bind(this);
+        //this.handlePurchaseOK = this.handlePurchaseOK.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
     handleExpanded(index) {
@@ -92,25 +98,34 @@ class Books extends React.Component {
             isExpanded: isExpanded.fill(!isExpanded[index], index, index + 1),
         })
     }
-    handleAddToCart() {
+    handleAddToCart(index) {
         this.setState({
             addToCartOpen: true,
+            indexInDialog: index,
         })
     }
-    handlePurchase() {
-        console.log(!1);
+    handlePurchase(index) {
         this.setState({
             purchaseOpen: true,
+            indexInDialog: index,
         })
     }
+
+    handleAddToCartOK(index) {
+        //this.props.onAddToCart(this.props.userId, this.props.books[index].bookId);
+        agent.Cart.add(this.props.userId, this.props.books[index].bookId, 1);
+        this.handleClose();
+    }
+
     handleClose() {
         this.setState({
             purchaseOpen: false,
-            addToCartOpen:false,
+            addToCartOpen: false,
         })
     }
     render() {
         const { classes } = this.props;
+        //console.log((this.props.books))
         return (
             <React.Fragment>
                 <div className={classes.padding}></div>
@@ -148,8 +163,8 @@ class Books extends React.Component {
                                             <Divider />
                                             <BookInfoList book={book} />
                                             <div className={classes.buttons}>
-                                                <AddToCart onClick={this.handleAddToCart} />
-                                                <Purchase onClick={this.handlePurchase} />
+                                                <AddToCart onClick={() => this.handleAddToCart(index)} />
+                                                <Purchase onClick={() => this.handlePurchase(index)} />
                                             </div>
                                         </div>
                                     </div>
@@ -169,17 +184,22 @@ class Books extends React.Component {
                 }
 
                 <Dialog open={this.state.addToCartOpen}>
-                    <Typography>
+                    <Typography variant="h5">
                         Add to cart?
                     </Typography>
-                    <Button onClick={this.handleClose}>
+                    {this.props.books.length === 0 ||
+                        <Typography>
+                            {'《' + this.props.books[this.state.indexInDialog].bookName + '》'}
+                        </Typography>
+                    }
+                    <Button onClick={()=>this.handleAddToCartOK(this.state.indexInDialog)}>
                         Yes
                     </Button>
                     <Button onClick={this.handleClose}>
                         No
                     </Button>
                 </Dialog>
-            
+
 
                 <Dialog open={this.state.purchaseOpen}>
                     <Typography>
