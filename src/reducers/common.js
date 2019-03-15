@@ -1,5 +1,6 @@
 const defaultState = {
     redirectTo: null,
+    isEditing: false,
 }
 
 const common = (state = defaultState, action) => {
@@ -15,7 +16,13 @@ const common = (state = defaultState, action) => {
         case 'ADD_BOOK_CANCEL':
             return {
                 ...state,
-                redirectTo: '/Manage'
+                redirectTo: '/Manage',
+                isEditing: false,
+            }
+        case 'EDIT_START':
+            return {
+                ...state,
+                isEditing: true,
             }
         case 'REDIRECTED':
             return {

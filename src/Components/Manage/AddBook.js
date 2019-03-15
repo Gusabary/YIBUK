@@ -44,9 +44,9 @@ const styles = theme => ({
         backgroundColor: theme.palette.primary.light,
     },
     cancel: {
-        marginTop: -theme.spacing.unit,
+        marginTop: theme.spacing.unit,
         marginBottom: theme.spacing.unit * 3,
-        marginLeft: '2%',
+        marginLeft: theme.spacing.unit*2,
         backgroundColor: theme.palette.primary.light,
     },
     info: {
@@ -60,10 +60,13 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     redirectTo: state.common.redirectTo,
+    bookInEditing: state.books.bookInEditing,
+    books: state.books.books,
+    isEditing: state.common.isEditing,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (bookName, author, image, ISBN, storage, price, introduction) => 
+    onSubmit: (bookName, author, image, ISBN, storage, price, introduction) =>
         dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image, ISBN, storage, price, introduction) }),
     onCancel: () =>
         dispatch({ type: 'ADD_BOOK_CANCEL' }),
@@ -127,6 +130,20 @@ class AddBook extends React.Component {
         })
     }
 
+    componentWillMount() {
+        if (this.props.isEditing) {
+            this.setState({
+                bookName: this.props.books[this.props.bookInEditing].bookName,
+                author: this.props.books[this.props.bookInEditing].author,
+                //image: this.props.books[this.props.bookInEditing].image,
+                ISBN: this.props.books[this.props.bookInEditing].ISBN,
+                storage: this.props.books[this.props.bookInEditing].storage,
+                price: this.props.books[this.props.bookInEditing].price,
+                introduction: this.props.books[this.props.bookInEditing].introduction,
+            })
+        }
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -162,6 +179,7 @@ class AddBook extends React.Component {
                                 accept=".jpg,.jpeg,.png"
                                 ref={ref => this.imagePicker = ref}
                                 onChange={this.handleImageChange}
+                                //value={this.state.image}
                                 className={classes.hidden}
                             />
                             <br />
@@ -194,7 +212,7 @@ class AddBook extends React.Component {
                                 className={classes.save}
                                 type="submit"
                             >
-                                Add Book
+                                OK
                             </Button>
                             <Button
                                 variant="contained"
@@ -212,7 +230,7 @@ class AddBook extends React.Component {
                                 value={this.state.introduction}
                                 onChange={this.updateState('introduction')}
                                 multiline
-                                rows="21"
+                                rows="18"
                             />
                         </div>
                         <br />

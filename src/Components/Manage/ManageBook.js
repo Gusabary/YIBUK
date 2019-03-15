@@ -76,6 +76,9 @@ const mapDispatchToProps = dispatch => ({
     onDelete: (indexOfDeleted, bookIdOfDeleted) => {
         agent.Books.delete(bookIdOfDeleted);
         dispatch({ type: "DELETE_BOOKS", payload: { indexOfDeleted } });
+    },
+    onEdit: (index) => {
+        dispatch({ type: "EDIT_START", payload: { index } })
     }
 })
 
@@ -103,6 +106,7 @@ class ManageBook extends React.Component {
         this.handleDeleteOK = this.handleDeleteOK.bind(this);
         this.handleDeleteCancel = this.handleDeleteCancel.bind(this);
         this.handClickAdd = this.handleClickAdd.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     }
     handleExpanded(index) {
         const isExpanded = this.state.isExpanded
@@ -155,6 +159,10 @@ class ManageBook extends React.Component {
         this.setState({
             isAdding: true,
         })
+    }
+
+    handleEdit(index) {
+        this.props.onEdit(index);
     }
 
     render() {
@@ -238,9 +246,18 @@ class ManageBook extends React.Component {
                                         <div className={classes.text} style={{ flex: 64 }}>
                                             <Typography variant='h4'>
                                                 Book Info.
-                                        </Typography>
+                                            </Typography>
                                             <Divider />
                                             <BookInfoList book={book} />
+                                            <Link to="AddBook">
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={() => this.handleEdit(index)}
+                                                >
+                                                    Edit
+                                                </Button>
+                                            </Link>
                                         </div>
                                     </div>
                                     <div style={{ flex: 1, marginTop: 30, width: 1000 }}>

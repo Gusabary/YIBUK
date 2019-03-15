@@ -1,6 +1,7 @@
 const defaultState = {
     maxPosts: 1,
     books: [],
+    bookInEditing: 0,
 }
 
 const posts = (state = defaultState, action) => {
@@ -29,9 +30,7 @@ const posts = (state = defaultState, action) => {
         case 'EDIT_START':
             return {
                 ...state,
-                isEditing: true,
-                postId: action.payload.postId,
-                index: action.payload.index,
+                bookInEditing: action.payload.index,
             }
         case 'EDIT_END':
             return {
