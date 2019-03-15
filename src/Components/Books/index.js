@@ -147,7 +147,7 @@ class Books extends React.Component {
                                     <div style={{ flex: 1, marginTop: 30, width: 1000 }}>
                                         <Typography variant='h4'>
                                             Book Introduction
-                                    </Typography>
+                                        </Typography>
                                         <Divider />
                                         <br />
                                         {parse(book.introduction)}
