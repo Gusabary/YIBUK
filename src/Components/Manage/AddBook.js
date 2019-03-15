@@ -43,6 +43,12 @@ const styles = theme => ({
         marginLeft: '2%',
         backgroundColor: theme.palette.primary.light,
     },
+    cancel: {
+        marginTop: -theme.spacing.unit,
+        marginBottom: theme.spacing.unit * 3,
+        marginLeft: '2%',
+        backgroundColor: theme.palette.primary.light,
+    },
     info: {
         float: 'left',
         marginLeft: '2%',
@@ -57,9 +63,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (bookName, author, image, ISBN, storage, price, introduction) => {
-        dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image, ISBN, storage, price, introduction) })
-    },
+    onSubmit: (bookName, author, image, ISBN, storage, price, introduction) => 
+        dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image, ISBN, storage, price, introduction) }),
+    onCancel: () =>
+        dispatch({ type: 'ADD_BOOK_CANCEL' }),
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
@@ -81,6 +88,7 @@ class AddBook extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     updateState = field => event => {
@@ -99,6 +107,10 @@ class AddBook extends React.Component {
         event.preventDefault();
         const { bookName, author, image, ISBN, storage, price, introduction } = this.state;
         this.props.onSubmit(bookName, author, image, ISBN, storage, price, introduction);
+    }
+
+    handleCancel() {
+        this.props.onCancel();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -184,6 +196,13 @@ class AddBook extends React.Component {
                             >
                                 Add Book
                             </Button>
+                            <Button
+                                variant="contained"
+                                className={classes.cancel}
+                                onClick={this.handleCancel}
+                            >
+                                Cancel
+                            </Button>
                         </div>
                         <div className={classes.intro}>
                             <TextField
@@ -193,7 +212,7 @@ class AddBook extends React.Component {
                                 value={this.state.introduction}
                                 onChange={this.updateState('introduction')}
                                 multiline
-                                rows="18"
+                                rows="21"
                             />
                         </div>
                         <br />

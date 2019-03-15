@@ -267,7 +267,7 @@ public class Books extends HttpServlet {
 
         JSONObject req = JSONObject.parseObject(wholeStr);
         JSONArray bookIds = req.getJSONArray("books");
-        
+
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
 

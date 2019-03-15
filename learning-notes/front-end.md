@@ -6,5 +6,18 @@
 
 + `cannot resolve './blabla'` 有可能是文件名打错了，比如打成了 `blabla..js `。
 
-##### Last-modified date: 2019.3.15, 3 p.m.
++ ```react
+  let modelArray = [];
+  modelArray[0] = false;
+  modelArray[1000] = false;
+  modelArray.fill(false, 0, 1000);
+  this.state = {
+  	isExpanded: modelArray,
+  	isToDelete: modelArray,
+  }
+  ```
+
+  在 constructor 中这样初始化两个数组，会导致它们**指向同一个 modelArray**，即一个数组的变化会导致另一个数组也跟着变化。
+
+##### Last-modified date: 2019.3.15, 4 p.m.
 

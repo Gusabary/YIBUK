@@ -94,6 +94,7 @@ class ManageBook extends React.Component {
             isExpanded: modelArray,
             isToDelete: modelArray2,
             isDeleting: false,
+            isAdding: false,
             open: false,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
@@ -101,6 +102,7 @@ class ManageBook extends React.Component {
         this.handleClickDelete = this.handleClickDelete.bind(this);
         this.handleDeleteOK = this.handleDeleteOK.bind(this);
         this.handleDeleteCancel = this.handleDeleteCancel.bind(this);
+        this.handClickAdd = this.handleClickAdd.bind(this);
     }
     handleExpanded(index) {
         const isExpanded = this.state.isExpanded
@@ -149,6 +151,12 @@ class ManageBook extends React.Component {
         })
     }
 
+    handleClickAdd() {
+        this.setState({
+            isAdding: true,
+        })
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -163,6 +171,16 @@ class ManageBook extends React.Component {
                         Delete
                     </Button>
                 }
+                {this.state.isDeleting || (
+                    <Link to="AddBook">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                        >
+                            Add
+                        </Button>
+                    </Link>
+                )}
                 {this.state.isDeleting && (
                     <div>
                         <Button
