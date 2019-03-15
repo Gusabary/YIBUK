@@ -15,6 +15,17 @@ const posts = (state = defaultState, action) => {
                 ...state,
                 books: state.books.concat(action.payload.newBook),
             }
+        case 'DELETE_BOOKS': {
+            let tmp = state.books;
+            const indexOfDeleted = action.payload.indexOfDeleted.reverse();
+            indexOfDeleted.forEach(element => {
+                tmp.splice(element, 1);
+            });
+            return {
+                ...state,
+                books: tmp,
+            }
+        }
         case 'EDIT_START':
             return {
                 ...state,

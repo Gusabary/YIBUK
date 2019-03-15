@@ -65,9 +65,9 @@ const Books = {
             .field('content', content)
             .then(responseBody),
 
-    delete: (postId, token) =>
-        requests.del(API_ROOT + '/api/posts/' + postId)
-            .set('Authorization', 'Bearer ' + token)
+    delete: (bookIdOfDeleted) =>
+        requests.del(API_ROOT + '/api/manage/book')
+            .send({ books: bookIdOfDeleted })
             .then(responseBody),
 }
 

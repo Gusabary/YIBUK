@@ -1,14 +1,12 @@
 import React from 'react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Toolbar, Dialog, Divider } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Radio, Dialog, Divider, Checkbox } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import AddToCart from './AddToCart';
-import Purchase from './Purchase'
 import ListItemText from '@material-ui/core/ListItemText';
 import agent from '../../agent'
 
-import BookInfoList from './BookInfoList'
+import BookInfoList from '../Books/BookInfoList'
 
 const styles = theme => ({
     padding: {
@@ -18,7 +16,7 @@ const styles = theme => ({
         width: 1050,
         marginLeft: '15%',
     },
-    title: {
+    title1: {
         backgroundColor: theme.palette.primary.main,
     },
     titleContent: {
@@ -52,6 +50,14 @@ const styles = theme => ({
     icon: {
         marginLeft: theme.spacing.unit * 5,
     },
+    q1: {
+        position: "relative",
+        top: 5,
+    },
+    title2: {
+        marginTop: -10,
+        //marginBottom: -10,
+    }
 });
 
 const parse = content => {
@@ -67,22 +73,34 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    onDelete: (indexOfDeleted, bookIdOfDeleted) => {
+        agent.Books.delete(bookIdOfDeleted);
+        dispatch({ type: "DELETE_BOOKS", payload: { indexOfDeleted } });
+    }
 })
 
-class Books extends React.Component {
+class ManageBook extends React.Component {
     constructor(props) {
         super(props);
         let modelArray = [];
         modelArray[0] = false;
         modelArray[1000] = false;
         modelArray.fill(false, 0, 1000);
+        let modelArray2 = [];
+        modelArray2[0] = false;
+        modelArray2[1000] = false;
+        modelArray2.fill(false, 0, 1000);
         this.state = {
             isExpanded: modelArray,
+            isToDelete: modelArray2,
+            isDeleting: false,
             open: false,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
-        this.handlePurchase = this.handlePurchase.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleClickDelete = this.handleClickDelete.bind(this);
+        this.handleDeleteOK = this.handleDeleteOK.bind(this);
+        this.handleDeleteCancel = this.handleDeleteCancel.bind(this);
     }
     handleExpanded(index) {
         const isExpanded = this.state.isExpanded
@@ -90,20 +108,79 @@ class Books extends React.Component {
             isExpanded: isExpanded.fill(!isExpanded[index], index, index + 1),
         })
     }
-    handlePurchase() {
+
+    handleDelete(index) {
+        this.handleExpanded(index);
+        const isToDelete = this.state.isToDelete
         this.setState({
-            open: true,
+            isToDelete: isToDelete.fill(!isToDelete[index], index, index + 1),
         })
     }
-    handleClose() {
+
+    handleClickDelete() {
         this.setState({
-            open: false,
+            isDeleting: true,
         })
     }
+
+    handleDeleteOK() {
+        this.setState({
+            isDeleting: false,
+        });
+
+        let indexOfDeleted = [];
+        let bookIdOfDeleted = [];
+        this.state.isToDelete.forEach((element, index) => {
+            if (element) {
+                this.setState({
+                    isExpanded: this.state.isExpanded.fill(false, index, index + 1),
+                    isToDelete: this.state.isToDelete.fill(false, index, index + 1),
+                })
+                indexOfDeleted.push(index);
+                bookIdOfDeleted.push(this.props.books[index].bookId);
+            }
+        });
+        this.props.onDelete(indexOfDeleted, bookIdOfDeleted);
+    }
+
+    handleDeleteCancel() {
+        this.setState({
+            isDeleting: false,
+        })
+    }
+
     render() {
         const { classes } = this.props;
         return (
             <React.Fragment>
+                {this.state.isDeleting ?
+                    <h3>is deleting...</h3> :
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleClickDelete}
+                    >
+                        Delete
+                    </Button>
+                }
+                {this.state.isDeleting && (
+                    <div>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleDeleteOK}
+                        >
+                            OK
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleDeleteCancel}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                )}
                 <div className={classes.padding}></div>
                 {
                     this.props.books.map((book, index) =>
@@ -114,7 +191,7 @@ class Books extends React.Component {
                         >
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
-                                className={this.state.isExpanded[index] && classes.title}
+                                className={this.state.isExpanded[index] ? classes.title1 : (this.state.isDeleting && classes.title2)}
                             >
                                 {this.state.isExpanded[index] ?
                                     <ListItemText secondary={book.author} className={classes.titleContent} >
@@ -122,9 +199,17 @@ class Books extends React.Component {
                                             {"《" + book.bookName + "》"}
                                         </Typography>
                                     </ListItemText> :
-                                    <Typography variant='h6'>
-                                        {"《" + book.bookName + "》"}&nbsp; {book.author}
-                                    </Typography>
+                                    <ListItemText>
+                                        <Typography variant='h6' className={this.state.isDeleting && classes.q1}>
+                                            《{book.bookName}》&nbsp; {book.author}
+                                        </Typography>
+                                    </ListItemText>
+                                }
+                                {this.state.isDeleting &&
+                                    <Checkbox
+                                        checked={this.state.isToDelete[index]}
+                                        onChange={() => this.handleDelete(index)}
+                                    />
                                 }
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.content}>
@@ -138,10 +223,6 @@ class Books extends React.Component {
                                         </Typography>
                                             <Divider />
                                             <BookInfoList book={book} />
-                                            <div className={classes.buttons}>
-                                                <AddToCart />
-                                                <Purchase onClick={this.handlePurchase} />
-                                            </div>
                                         </div>
                                     </div>
                                     <div style={{ flex: 1, marginTop: 30, width: 1000 }}>
@@ -175,4 +256,4 @@ class Books extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Books));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ManageBook));

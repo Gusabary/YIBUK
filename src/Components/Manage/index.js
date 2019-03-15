@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import agent from '../../agent';
 import AddBook from './AddBook';
 import Validity from './Validity';
+import ManageBook from './ManageBook';
 
 const styles = theme => ({
 
@@ -42,7 +43,8 @@ class Manage extends React.Component {
                 </Tabs>
 
                 {this.state.tabValue == 0 ?
-                    <AddBook history={this.props.history} /> :
+                    //<AddBook history={this.props.history} /> :
+                    <ManageBook /> :
                     <Validity />
                 }
             </React.Fragment>

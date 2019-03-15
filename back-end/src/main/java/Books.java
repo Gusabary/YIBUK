@@ -265,9 +265,9 @@ public class Books extends HttpServlet {
             wholeStr+=str;
         }
 
-        JSONObject req = new JSONObject();
-        int bookId = req.getInteger("bookId");
-
+        JSONObject req = JSONObject.parseObject(wholeStr);
+        JSONArray bookIds = req.getJSONArray("books");
+        
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -279,9 +279,10 @@ public class Books extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
-            sql = "DELETE FROM `book` WHERE `bookId` = " + bookId;
-            int rs = stmt.executeUpdate(sql);
-
+            for (Object bookId: bookIds) {
+                sql = "DELETE FROM `book` WHERE `bookId` = " + bookId;
+                int rs = stmt.executeUpdate(sql);
+            }
             JSONObject resp = new JSONObject();
             resp.put("message", "Delete book successfully!");
             out.println(resp);
