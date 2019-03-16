@@ -84,6 +84,16 @@ const Cart = {
     add: (userId, bookId, quantity) =>
         requests.post(API_ROOT + '/api/cart')
             .send({ userId, bookId, quantity })
+            .then(res => res.body),
+    buy: (userId, bookIdOfBuy) =>
+        requests.put(API_ROOT + '/api/cart')
+            .send({
+                userId,
+                books: bookIdOfBuy.map(bookId => ({
+                    bookId,
+                    quantity: 1,
+                }))
+            })
             .then(res => res.body)
 }
 

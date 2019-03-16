@@ -69,12 +69,13 @@ const parse = content => {
 const mapStateToProps = state => ({
     identity: state.user.identity,
     books: state.books.books,
+    userId: state.user.userId,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onBuy: (indexOfBuy, bookIdOfBuy) => {
-        agent.Books.Buy(bookIdOfBuy);
-        dispatch({ type: "BUY_BOOKS", payload: { indexOfBuy } });
+    onBuy: (userId, bookIdOfBuy) => {
+        agent.Cart.buy(userId, bookIdOfBuy);
+        //dispatch({ type: "BUY_BOOKS", payload: { indexOfBuy } });
     },
     onEdit: (index) => {
         dispatch({ type: "EDIT_START", payload: { index } })
@@ -130,7 +131,6 @@ class Cart extends React.Component {
             isBuying: false,
         });
 
-        let indexOfBuy = [];
         let bookIdOfBuy = [];
         this.state.isToBuy.forEach((element, index) => {
             if (element) {
@@ -138,11 +138,10 @@ class Cart extends React.Component {
                     isExpanded: this.state.isExpanded.fill(false, index, index + 1),
                     isToBuy: this.state.isToBuy.fill(false, index, index + 1),
                 })
-                indexOfBuy.push(index);
                 bookIdOfBuy.push(this.props.books[index].bookId);
             }
         });
-        this.props.onBuy(indexOfBuy, bookIdOfBuy);
+        this.props.onBuy(this.props.userId, bookIdOfBuy);
     }
 
     handleBuyCancel() {
@@ -225,15 +224,7 @@ class Cart extends React.Component {
                                             </Typography>
                                             <Divider />
                                             <BookInfoList book={book} />
-                                            <Link to="AddBook">
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    onClick={() => this.handleEdit(index)}
-                                                >
-                                                    Edit
-                                                </Button>
-                                            </Link>
+
                                         </div>
                                     </div>
                                     <div style={{ flex: 1, marginTop: 30, width: 1000 }}>
