@@ -136,19 +136,16 @@ public class Cart extends HttpServlet {
         }
     }
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int quantity=0;
+        //int quantity=0;
         BufferedReader br=request.getReader();
         String str,wholeStr="";
         while ((str=br.readLine())!=null){
             wholeStr+=str;
         }
 
-        int pos1=wholeStr.indexOf("\"bookId\"");
-        int userId=Integer.parseInt(wholeStr.substring(10,pos1-1));
-        int pos2=wholeStr.indexOf("\"consumeQuantity\"");
-        int bookId=Integer.parseInt(wholeStr.substring(pos1+9,pos2-1));
-        int pos3=wholeStr.length();
-        int consumeQuantity=Integer.parseInt(wholeStr.substring(pos2+18,pos3-1));
+        JSONObject req = JSONObject.parseObject(wholeStr);
+        int userId = req.getInteger("userId");
+        JSONArray books = req.getJSONArray("books");
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -161,45 +158,45 @@ public class Cart extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
-            sql="SELECT `storage` from `book`" +
-                    "WHERE `bookId`='"+bookId+"'";
-            ResultSet rs1=stmt.executeQuery(sql);
-            int storage=0;
-            if (rs1.next()) {
-                storage = rs1.getInt("storage");
+            for (Object book : books){
+                JSONObject tmp = (JSONObject)book;
+                int bookId = tmp.getInteger("bookId");
+                int consumeQuantity = tmp.getInteger("quantity");
+
+                sql = "SELECT `storage` from `book` where `bookId` = " + bookId;
+                ResultSet rs0 = stmt.executeQuery(sql);
+                int storage = 0;
+                if (rs0.next()){
+                    storage = rs0.getInt("storage");
+                }
+
+                sql = "SELECT `quantity` from `cart` where `bookId` = " + bookId + " and `userId` = " + userId;
+                rs0 = stmt.executeQuery(sql);
+                int quantity = 0;
+                if (rs0.next()){
+                    quantity = rs0.getInt("quantity");
+                }
+
+                int targetStorage = storage - consumeQuantity;
+                sql = "UPDATE `book` SET `storage` = " + targetStorage + " WHERE `bookId` = " + bookId;
+                stmt.executeUpdate(sql);
+
+                int targetQuantity = quantity - consumeQuantity;
+                if (targetQuantity == 0)
+                    sql = "DELETE from `cart` where `bookId` = " + bookId + " and `userId` = " + userId;
+                else
+                    sql = "UPDATE `cart` SET `quantity` = " + targetQuantity +
+                            " where `bookId` = " + bookId + " and `userId` = " + userId;
+                stmt.executeUpdate(sql);
+
+                sql="INSERT INTO `order` (`userId`, `bookId`, `quantity`,`time`) " +
+                        "VALUES ('"+userId+"', '"+bookId+"', '"+consumeQuantity+"',NOW())";
+                stmt.executeUpdate(sql);
             }
+            JSONObject resp = new JSONObject();
+            resp.put("message", "Purchase successfully!");
+            out.println(resp);
 
-            if (storage<consumeQuantity){
-                response.setStatus(403);
-                out.println("Storage is not enough!");
-                return;
-            }
-            out.println("Purchase successfully!");
-            sql="INSERT INTO `order` (`userId`, `bookId`, `quantity`,`time`) " +
-                    "VALUES ('"+userId+"', '"+bookId+"', '"+consumeQuantity+"',NOW())";
-            int rs2 = stmt.executeUpdate(sql);
-
-            int targetStorage=storage-consumeQuantity;
-            sql="UPDATE `book` SET `storage`="+targetStorage+ " WHERE `bookId`="+bookId;
-            int rs3 = stmt.executeUpdate(sql);
-
-
-            sql="SELECT `quantity` from `cart`" +
-                    "WHERE `userId`="+userId+" AND `bookId`="+bookId;
-            ResultSet rs4=stmt.executeQuery(sql);
-            if (rs4.next()) {
-                quantity = rs4.getInt("quantity");
-            }
-
-            if (quantity==consumeQuantity) {
-                doDelete(request, response);
-                return;
-            }
-
-            int targetQuantity=quantity-consumeQuantity;
-            sql="UPDATE `cart` SET `quantity`="+targetQuantity +
-                    " WHERE `bookId`="+bookId;
-            int rs5 = stmt.executeUpdate(sql);
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
