@@ -14,9 +14,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+    onLoad: () =>
+        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
 })
-
-
 class Manage extends React.Component {
     constructor(props) {
         super(props);
@@ -31,6 +31,10 @@ class Manage extends React.Component {
         this.setState({
             tabValue: value,
         })
+    }
+
+    componentWillMount() {
+        this.props.onLoad();
     }
 
     render() {

@@ -17,15 +17,7 @@ const mapStateToProps = state => ({
   userId: state.user.userId,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onLoad: () =>
-    dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
-})
-
 class App extends React.Component {
-  componentWillMount() {
-    this.props.onLoad();
-  }
   render() {
     return (
       <React.Fragment>
@@ -48,4 +40,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

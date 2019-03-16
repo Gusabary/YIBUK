@@ -69,7 +69,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onAddToCart: () =>
-        dispatch({ type: "ADD_TO_CART" })
+        dispatch({ type: "ADD_TO_CART" }),
+    onLoad: () =>
+        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
 })
 
 class Books extends React.Component {
@@ -84,7 +86,7 @@ class Books extends React.Component {
             purchaseOpen: false,
             addToCartOpen: false,
             indexInDialog: 0,
-            number:1
+            number: 1
         }
         this.handleExpanded = this.handleExpanded.bind(this);
         this.handlePurchase = this.handlePurchase.bind(this);
@@ -132,6 +134,11 @@ class Books extends React.Component {
             number: 1,
         })
     }
+
+    componentWillMount() {
+        this.props.onLoad();
+    }
+
     render() {
         const { classes } = this.props;
         //console.log((this.props.books))

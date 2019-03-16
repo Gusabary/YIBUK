@@ -21,7 +21,7 @@ const styles = theme => ({
     },
 })
 
-class Purchase extends React.Component {
+class BookInfoList extends React.Component {
     render() {
         const { classes, book } = this.props;
         return (
@@ -83,4 +83,4 @@ class Purchase extends React.Component {
     }
 }
 
-export default (withStyles(styles)(Purchase));
+export default (withStyles(styles)(BookInfoList));

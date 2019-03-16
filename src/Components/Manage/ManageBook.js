@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import ListItemText from '@material-ui/core/ListItemText';
 import agent from '../../agent'
-
 import BookInfoList from '../Books/BookInfoList'
 
 const styles = theme => ({
