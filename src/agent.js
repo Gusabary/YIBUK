@@ -56,13 +56,16 @@ const Books = {
     show: () => requests.get(API_ROOT + '/api/manage/book')
         .then(res => res.body),
 
-    update: (postId, title, content, image, token) =>
-        requests.put(API_ROOT + '/api/posts/' + postId)
-            .set('Authorization', 'Bearer ' + token)
-            .attach('image', image, title)
-            .field('id', postId)
-            .field('title', title)
-            .field('content', content)
+    update: (bookId, bookName, author, image, ISBN, storage, price, introduction) =>
+        requests.put(API_ROOT + '/api/manage/book')
+            .attach('image', image)
+            .field('bookId', bookId)
+            .field('bookName', bookName)
+            .field('author', author)
+            .field('ISBN', ISBN)
+            .field('storage', storage)
+            .field('price', price)
+            .field('introduction', introduction)
             .then(responseBody),
 
     delete: (bookIdOfDeleted) =>

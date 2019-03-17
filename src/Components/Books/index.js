@@ -118,6 +118,7 @@ class Books extends React.Component {
     handleAddToCartOK(index) {
         //this.props.onAddToCart(this.props.userId, this.props.books[index].bookId);
         agent.Cart.add(this.props.userId, this.props.books[index].bookId, this.state.number);
+        //this.props.onLoad();
         this.handleClose();
     }
 
@@ -141,7 +142,6 @@ class Books extends React.Component {
 
     render() {
         const { classes } = this.props;
-        //console.log((this.props.books))
         return (
             <React.Fragment>
                 <div className={classes.padding}></div>

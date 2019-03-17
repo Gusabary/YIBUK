@@ -7,13 +7,14 @@ const common = (state = defaultState, action) => {
     switch (action.type) {
         case 'SIGN_IN':
         case 'SIGN_UP':
-        case 'EDIT_END':
             return {
                 ...state,
                 redirectTo: '/',
             }
         case 'ADD_BOOK':
         case 'ADD_BOOK_CANCEL':
+        case 'DELETE_BOOKS':
+        case 'EDIT_END':
             return {
                 ...state,
                 redirectTo: '/Manage',

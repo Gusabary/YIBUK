@@ -48,7 +48,7 @@ class Manage extends React.Component {
 
                 {this.state.tabValue == 0 ?
                     //<AddBook history={this.props.history} /> :
-                    <ManageBook /> :
+                    <ManageBook history={this.props.history} /> :
                     <Validity />
                 }
             </React.Fragment>

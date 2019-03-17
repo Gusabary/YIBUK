@@ -1,5 +1,4 @@
 const defaultState = {
-    maxPosts: 1,
     books: [],
     bookInEditing: 0,
 }
@@ -32,11 +31,16 @@ const posts = (state = defaultState, action) => {
                 ...state,
                 bookInEditing: action.payload.index,
             }
-        case 'EDIT_END':
+        case 'EDIT_END': {
+            const index = action.payload.index;
+            let tmp = state.books;
+            tmp[index] = action.payload.newBook;
             return {
                 ...state,
-                isEditing: false,
+                bookInEditing: 0,
+                books: tmp,
             }
+        }
         case 'DELETE_START':
             return {
                 ...state,

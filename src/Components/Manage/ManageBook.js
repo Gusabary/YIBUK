@@ -69,16 +69,19 @@ const parse = content => {
 const mapStateToProps = state => ({
     identity: state.user.identity,
     books: state.books.books,
+    redirectTo: state.common.redirectTo,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onDelete: (indexOfDeleted, bookIdOfDeleted) => {
+    onDelete: (indexOfDeleted,bookIdOfDeleted) => {
         agent.Books.delete(bookIdOfDeleted);
         dispatch({ type: "DELETE_BOOKS", payload: { indexOfDeleted } });
     },
     onEdit: (index) => {
         dispatch({ type: "EDIT_START", payload: { index } })
-    }
+    },
+    onRedirect: () =>
+        dispatch({ type: 'REDIRECTED' }),
 })
 
 class ManageBook extends React.Component {
@@ -145,7 +148,9 @@ class ManageBook extends React.Component {
                 bookIdOfDeleted.push(this.props.books[index].bookId);
             }
         });
-        this.props.onDelete(indexOfDeleted, bookIdOfDeleted);
+        this.props.onDelete(indexOfDeleted,bookIdOfDeleted);
+        //agent.Books.delete(bookIdOfDeleted);
+        //agent.Books.show();
     }
 
     handleDeleteCancel() {
@@ -162,6 +167,18 @@ class ManageBook extends React.Component {
 
     handleEdit(index) {
         this.props.onEdit(index);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.redirectTo) {
+            console.log(this.props.history)
+            this.props.history.push(nextProps.redirectTo);
+            this.props.onRedirect();
+        }
+    }
+
+    componentWillMount() {
+        console.log(1);
     }
 
     render() {

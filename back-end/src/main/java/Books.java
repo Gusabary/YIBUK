@@ -234,10 +234,22 @@ public class Books extends HttpServlet {
                     "`introduction` = '" + introduction + "'" +
                     "WHERE `bookId` = " + bookId;
 
-            int rs = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
+
+            JSONObject newBook = new JSONObject();
+            newBook.put("bookId", bookId);
+            newBook.put("bookName", bookName);
+            newBook.put("author", author);
+            newBook.put("coverPath", coverPath);
+            newBook.put("ISBN", ISBN);
+            newBook.put("storage", storage);
+            newBook.put("price", price);
+            newBook.put("introduction", introduction);
 
             JSONObject resp = new JSONObject();
-            resp.put("message","Update book successfully!");
+            resp.put("message", "Update book successfully!");
+            resp.put("newBook", newBook);
+
             out.println(resp);
         } catch(SQLException se) {
             se.printStackTrace();

@@ -46,7 +46,7 @@ const styles = theme => ({
     cancel: {
         marginTop: theme.spacing.unit,
         marginBottom: theme.spacing.unit * 3,
-        marginLeft: theme.spacing.unit*2,
+        marginLeft: theme.spacing.unit * 2,
         backgroundColor: theme.palette.primary.light,
     },
     info: {
@@ -66,8 +66,14 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (bookName, author, image, ISBN, storage, price, introduction) =>
+    onAddSubmit: (bookName, author, image, ISBN, storage, price, introduction) =>
         dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image, ISBN, storage, price, introduction) }),
+    onEditSubmit: (index, bookId, bookName, author, image, ISBN, storage, price, introduction) =>
+        dispatch({
+            type: 'EDIT_END',
+            payload: agent.Books.update(bookId, bookName, author, image, ISBN, storage, price, introduction),
+            index,
+        }),
     onCancel: () =>
         dispatch({ type: 'ADD_BOOK_CANCEL' }),
     onRedirect: () =>
@@ -109,7 +115,13 @@ class AddBook extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const { bookName, author, image, ISBN, storage, price, introduction } = this.state;
-        this.props.onSubmit(bookName, author, image, ISBN, storage, price, introduction);
+        if (this.props.isEditing) {
+            const bookId = this.props.books[this.props.bookInEditing].bookId;
+            this.props.onEditSubmit(this.props.bookInEditing, bookId, bookName, author, image, ISBN, storage, price, introduction)
+        }
+        else {
+            this.props.onAddSubmit(bookName, author, image, ISBN, storage, price, introduction);
+        }
     }
 
     handleCancel() {
@@ -118,16 +130,10 @@ class AddBook extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.redirectTo) {
-            console.log(this.props.history)
+            //console.log(this.props.history)
             this.props.history.push(nextProps.redirectTo);
             this.props.onRedirect();
         }
-    }
-
-    handleTabValueChange(event, value) {
-        this.setState({
-            tabValue: value,
-        })
     }
 
     componentWillMount() {
