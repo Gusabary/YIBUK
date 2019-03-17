@@ -5,6 +5,7 @@ import common from './reducers/common';
 import books from './reducers/books';
 import customers from './reducers/customers';
 import cart from './reducers/cart'
+import orders from './reducers/orders'
 
 const reducer = combineReducers({
     common,
@@ -12,6 +13,7 @@ const reducer = combineReducers({
     user,
     customers,
     cart,
+    orders,
 });
 
 const enhancer = applyMiddleware(promiseMiddleware)
