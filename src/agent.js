@@ -88,13 +88,13 @@ const Cart = {
         requests.post(API_ROOT + '/api/cart')
             .send({ userId, bookId, quantity })
             .then(res => res.body),
-    buy: (userId, bookIdOfBuy) =>
+    buy: (userId, bookIdOfBuy,number) =>
         requests.put(API_ROOT + '/api/cart')
             .send({
                 userId,
-                books: bookIdOfBuy.map(bookId => ({
+                books: bookIdOfBuy.map((bookId,index) => ({
                     bookId,
-                    quantity: 1,
+                    quantity: number[index],
                 }))
             })
             .then(res =>res.body),

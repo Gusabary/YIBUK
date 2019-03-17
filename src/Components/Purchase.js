@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Radio, Dialog, Divider, Checkbox } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Radio, Dialog, Divider, Checkbox, TextField } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
@@ -75,8 +75,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onBuy: async (userId, bookIdOfBuy) => {
-        await agent.Cart.buy(userId, bookIdOfBuy);
+    onBuy: async (userId, bookIdOfBuy, number) => {
+        await agent.Cart.buy(userId, bookIdOfBuy, number);
         dispatch({ type: 'LOAD_BOOKS_AFTER_BUY', payload: agent.Books.show() })
     },
     onRedirect: () =>
@@ -94,6 +94,10 @@ class Purchase extends React.Component {
         modelArray2[0] = false;
         modelArray2[1000] = false;
         modelArray2.fill(false, 0, 1000);
+        let modelArray3 = [];
+        modelArray3[0] = 0;
+        modelArray3[1000] = 0;
+        modelArray3.fill(0, 0, 1000);
 
         let bookIndexes = [];
         let k = 0;
@@ -106,15 +110,21 @@ class Purchase extends React.Component {
             }
         })
 
+        this.props.cart.forEach((element, index) => {
+            modelArray3[index] = element.quantity;
+        })
+
         this.state = {
             isExpanded: modelArray,
             isToBuy: modelArray2,
             open: false,
             bookIndexes: bookIndexes,
+            number: modelArray3,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
         this.handleBuy = this.handleBuy.bind(this);
         this.handleBuyOK = this.handleBuyOK.bind(this);
+        this.handleNumberChange = this.handleNumberChange.bind(this);
     }
 
     handleExpanded(index) {
@@ -143,7 +153,23 @@ class Purchase extends React.Component {
                 bookIdOfBuy.push(this.props.books[this.state.bookIndexes[index]].bookId);
             }
         });
-        this.props.onBuy(this.props.userId, bookIdOfBuy);
+        let isEnough = true;
+        bookIdOfBuy.forEach((bookId, index) => {
+            if (this.props.books[this.state.bookIndexes[index]].storage < this.state.number[index]) {
+                alert('Storage is not enough!');
+                isEnough = false;
+            }
+        })
+        if (isEnough)
+            this.props.onBuy(this.props.userId, bookIdOfBuy, this.state.number);
+    }
+
+    handleNumberChange = index => event => {
+        let tmp = this.state.number;
+        tmp[index] = event.target.value;
+        this.setState({
+            number: tmp,
+        })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -200,7 +226,13 @@ class Purchase extends React.Component {
                                         </Typography>
                                     </ListItemText>
                                 }
-
+                                {this.state.isToBuy[index] &&
+                                    <TextField
+                                        type='text'
+                                        value={this.state.number[index]}
+                                        onChange={this.handleNumberChange(index)}
+                                    />
+                                }
                                 <Checkbox
                                     checked={this.state.isToBuy[index]}
                                     onChange={() => this.handleBuy(index)}
