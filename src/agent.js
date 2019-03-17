@@ -88,18 +88,27 @@ const Cart = {
         requests.post(API_ROOT + '/api/cart')
             .send({ userId, bookId, quantity })
             .then(res => res.body),
-    buy: (userId, bookIdOfBuy,number) =>
+    buy: (userId, bookIdOfBuy, number) =>
         requests.put(API_ROOT + '/api/cart')
             .send({
                 userId,
-                books: bookIdOfBuy.map((bookId,index) => ({
+                books: bookIdOfBuy.map((bookId, index) => ({
                     bookId,
                     quantity: number[index],
                 }))
             })
-            .then(res =>res.body),
+            .then(res => res.body),
     show: (userId) =>
         requests.get(API_ROOT + '/api/cart')
+            .query({ userId })
+            .then(res => res.body)
+}
+
+const Orders = {
+    showAll: () => requests.get(API_ROOT + '/api/order')
+        .then(res => res.body),
+    showById: (userId) =>
+        requests.get(API_ROOT + '/api/order')
             .query({ userId })
             .then(res => res.body)
 }
@@ -109,6 +118,7 @@ export default {
     Books,
     Customers,
     Cart,
+    Orders,
 }
 
 //Source: BPM-lab, lxyl.

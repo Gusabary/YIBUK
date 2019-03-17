@@ -112,42 +112,29 @@ public class Order extends HttpServlet {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             stmt = conn.createStatement();
 
-            String sql;
-            sql="SELECT `orderId`,`userId`,`bookId`, `quantity` from `order`";
-
-            int orderId=0,userId=0,bookId=0,quantity=0;
-            out.println("{\"orders\":[");
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()){
-                orderId = rs.getInt("orderId");
-                userId = rs.getInt("userId");
-                bookId = rs.getInt("bookId");
-                quantity = rs.getInt("quantity");
-                out.println(
-                        "{" +
-                                "\"orderId\":"+orderId +
-                                ",\"userId\":"+userId +
-                                ",\"bookId\":"+bookId +
-                                ",\"quantity\":"+quantity+
-                                "}"
-                );
+            String sql = "";
+            if (request.getParameter("userId") == null)
+                sql = " SELECT * from `order`";
+            else{
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                sql = " SELECT * from `order` where `userId` = " + userId;
             }
+
+            ResultSet rs = stmt.executeQuery(sql);
+            JSONArray array = new JSONArray();
             while(rs.next()) {
-                orderId = rs.getInt("orderId");
-                userId = rs.getInt("userId");
-                bookId = rs.getInt("bookId");
-                quantity = rs.getInt("quantity");
-                out.println(
-                        ",{" +
-                                "\"orderId\":"+orderId +
-                                ",\"userId\":"+userId +
-                                ",\"bookId\":"+bookId +
-                                ",\"quantity\":"+quantity+
-                                "}"
-                );
+                JSONObject tmp = new JSONObject();
+                tmp.put("orderId", rs.getInt("orderId"));
+                tmp.put("userId", rs.getInt("userId"));
+                tmp.put("bookId", rs.getInt("bookId"));
+                tmp.put("quantity", rs.getInt("quantity"));
+                tmp.put("time", rs.getString("time"));
+                array.add(tmp);
             }
             rs.close();
-            out.println("]}");
+            JSONObject resp = new JSONObject();
+            resp.put("orders",array);
+            out.println(resp);
         } catch(SQLException se) {
             se.printStackTrace();
         } catch(Exception e) {
