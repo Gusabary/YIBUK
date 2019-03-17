@@ -4,8 +4,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import ListItemText from '@material-ui/core/ListItemText';
-import agent from '../../agent'
-import BookInfoList from '../Books/BookInfoList'
+import agent from '../agent'
+import BookInfoList from './Books/BookInfoList'
 
 const styles = theme => ({
     padding: {
@@ -69,22 +69,21 @@ const parse = content => {
 const mapStateToProps = state => ({
     identity: state.user.identity,
     books: state.books.books,
+    cart: state.cart.cart,
+    userId: state.user.userId,
     redirectTo: state.common.redirectTo,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onDelete: (indexOfDeleted,bookIdOfDeleted) => {
-        agent.Books.delete(bookIdOfDeleted);
-        dispatch({ type: "DELETE_BOOKS", payload: { indexOfDeleted } });
-    },
-    onEdit: (index) => {
-        dispatch({ type: "EDIT_START", payload: { index } })
+    onBuy: async (userId, bookIdOfBuy) => {
+        await agent.Cart.buy(userId, bookIdOfBuy);
+        dispatch({ type: 'LOAD_BOOKS_AFTER_BUY', payload: agent.Books.show() })
     },
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
 
-class ManageBook extends React.Component {
+class Purchase extends React.Component {
     constructor(props) {
         super(props);
         let modelArray = [];
@@ -95,21 +94,29 @@ class ManageBook extends React.Component {
         modelArray2[0] = false;
         modelArray2[1000] = false;
         modelArray2.fill(false, 0, 1000);
+
+        let bookIndexes = [];
+        let k = 0;
+        this.props.books.forEach((book, index) => {
+            if (k >= this.props.cart.length)
+                return;
+            if (book.bookId === this.props.cart[k].bookId) {
+                bookIndexes.push(index);
+                k++;
+            }
+        })
+
         this.state = {
             isExpanded: modelArray,
-            isToDelete: modelArray2,
-            isDeleting: false,
-            isAdding: false,
+            isToBuy: modelArray2,
             open: false,
+            bookIndexes: bookIndexes,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleClickDelete = this.handleClickDelete.bind(this);
-        this.handleDeleteOK = this.handleDeleteOK.bind(this);
-        this.handleDeleteCancel = this.handleDeleteCancel.bind(this);
-        this.handClickAdd = this.handleClickAdd.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);
+        this.handleBuy = this.handleBuy.bind(this);
+        this.handleBuyOK = this.handleBuyOK.bind(this);
     }
+
     handleExpanded(index) {
         const isExpanded = this.state.isExpanded
         this.setState({
@@ -117,115 +124,61 @@ class ManageBook extends React.Component {
         })
     }
 
-    handleDelete(index) {
+    handleBuy(index) {
         this.handleExpanded(index);
-        const isToDelete = this.state.isToDelete
+        const isToBuy = this.state.isToBuy
         this.setState({
-            isToDelete: isToDelete.fill(!isToDelete[index], index, index + 1),
+            isToBuy: isToBuy.fill(!isToBuy[index], index, index + 1),
         })
     }
 
-    handleClickDelete() {
-        this.setState({
-            isDeleting: true,
-        })
-    }
-
-    handleDeleteOK() {
-        this.setState({
-            isDeleting: false,
-        });
-
-        let indexOfDeleted = [];
-        let bookIdOfDeleted = [];
-        this.state.isToDelete.forEach((element, index) => {
+    handleBuyOK() {
+        let bookIdOfBuy = [];
+        this.state.isToBuy.forEach((element, index) => {
             if (element) {
                 this.setState({
                     isExpanded: this.state.isExpanded.fill(false, index, index + 1),
-                    isToDelete: this.state.isToDelete.fill(false, index, index + 1),
+                    isToBuy: this.state.isToBuy.fill(false, index, index + 1),
                 })
-                indexOfDeleted.push(index);
-                bookIdOfDeleted.push(this.props.books[index].bookId);
+                bookIdOfBuy.push(this.props.books[this.state.bookIndexes[index]].bookId);
             }
         });
-        this.props.onDelete(indexOfDeleted,bookIdOfDeleted);
-        //agent.Books.delete(bookIdOfDeleted);
-        //agent.Books.show();
-    }
-
-    handleDeleteCancel() {
-        this.setState({
-            isDeleting: false,
-        })
-    }
-
-    handleClickAdd() {
-        this.setState({
-            isAdding: true,
-        })
-    }
-
-    handleEdit(index) {
-        this.props.onEdit(index);
+        this.props.onBuy(this.props.userId, bookIdOfBuy);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.redirectTo) {
-            //console.log(this.props.history)
             this.props.history.push(nextProps.redirectTo);
             this.props.onRedirect();
         }
-    }
-
-    componentWillMount() {
-        console.log(1);
     }
 
     render() {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                {this.state.isDeleting ?
-                    <h3>is deleting...</h3> :
+
+                <div>
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={this.handleClickDelete}
+                        onClick={this.handleBuyOK}
                     >
-                        Delete
+                        OK
                     </Button>
-                }
-                {this.state.isDeleting || (
-                    <Link to="AddBook">
+                    <Link to="Cart">
                         <Button
                             variant="contained"
                             color="primary"
-                        >
-                            Add
-                        </Button>
-                    </Link>
-                )}
-                {this.state.isDeleting && (
-                    <div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleDeleteOK}
-                        >
-                            OK
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleDeleteCancel}
                         >
                             Cancel
                         </Button>
-                    </div>
-                )}
+                    </Link>
+                </div>
+
                 <div className={classes.padding}></div>
                 {
-                    this.props.books.map((book, index) =>
+                    this.state.bookIndexes.map((bookIndex, index) =>
                         <ExpansionPanel
                             className={classes.post}
                             onChange={() => this.handleExpanded(index)}
@@ -233,56 +186,48 @@ class ManageBook extends React.Component {
                         >
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
-                                className={this.state.isExpanded[index] ? classes.title1 : (this.state.isDeleting && classes.title2)}
+                                className={this.state.isExpanded[index] ? classes.title1 : classes.title2}
                             >
                                 {this.state.isExpanded[index] ?
-                                    <ListItemText secondary={book.author} className={classes.titleContent} >
+                                    <ListItemText secondary={this.props.books[bookIndex].author} className={classes.titleContent} >
                                         <Typography variant='h4'>
-                                            {"《" + book.bookName + "》"}
+                                            {"《" + this.props.books[bookIndex].bookName + "》"}
                                         </Typography>
                                     </ListItemText> :
                                     <ListItemText>
-                                        <Typography variant='h6' className={this.state.isDeleting && classes.q1}>
-                                            《{book.bookName}》&nbsp; {book.author}
+                                        <Typography variant='h6' className={classes.q1}>
+                                            《{this.props.books[bookIndex].bookName}》&nbsp; {this.props.books[bookIndex].author}
                                         </Typography>
                                     </ListItemText>
                                 }
-                                {this.state.isDeleting &&
-                                    <Checkbox
-                                        checked={this.state.isToDelete[index]}
-                                        onChange={() => this.handleDelete(index)}
-                                    />
-                                }
+
+                                <Checkbox
+                                    checked={this.state.isToBuy[index]}
+                                    onChange={() => this.handleBuy(index)}
+                                />
+
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.content}>
                                 <div style={{ display: "flex", flexDirection: "column" }}>
                                     <div style={{ display: "flex", flexDirection: "row", width: 1000, flex: 30 }}>
-                                        <img src={"images/" + book.coverPath} className={classes.cover} style={{ flex: 36 }} />
+                                        <img src={"images/" + this.props.books[bookIndex].coverPath} className={classes.cover} style={{ flex: 36 }} />
 
                                         <div className={classes.text} style={{ flex: 64 }}>
                                             <Typography variant='h4'>
                                                 Book Info.
                                             </Typography>
                                             <Divider />
-                                            <BookInfoList book={book} />
-                                            <Link to="AddBook">
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    onClick={() => this.handleEdit(index)}
-                                                >
-                                                    Edit
-                                                </Button>
-                                            </Link>
+                                            <BookInfoList book={this.props.books[bookIndex]} />
+
                                         </div>
                                     </div>
                                     <div style={{ flex: 1, marginTop: 30, width: 1000 }}>
                                         <Typography variant='h4'>
                                             Book Introduction
-                                    </Typography>
+                                        </Typography>
                                         <Divider />
                                         <br />
-                                        {parse(book.introduction)}
+                                        {parse(this.props.books[bookIndex].introduction)}
                                     </div>
                                 </div>
                                 <br />
@@ -307,4 +252,4 @@ class ManageBook extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ManageBook));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Purchase));

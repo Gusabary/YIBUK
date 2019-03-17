@@ -67,18 +67,15 @@ const parse = content => {
 }
 
 const mapStateToProps = state => ({
-    identity: state.user.identity,
     books: state.books.books,
+    cart: state.cart.cart,
+    isLoading: state.common.isLoading,
     userId: state.user.userId,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onBuy: (userId, bookIdOfBuy) => {
-        agent.Cart.buy(userId, bookIdOfBuy);
-        //dispatch({ type: "BUY_BOOKS", payload: { indexOfBuy } });
-    },
-    onEdit: (index) => {
-        dispatch({ type: "EDIT_START", payload: { index } })
+    onLoad: (userId) => {
+        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
     }
 })
 
@@ -89,22 +86,25 @@ class Cart extends React.Component {
         modelArray[0] = false;
         modelArray[1000] = false;
         modelArray.fill(false, 0, 1000);
-        let modelArray2 = [];
-        modelArray2[0] = false;
-        modelArray2[1000] = false;
-        modelArray2.fill(false, 0, 1000);
+        console.log(this.props.cart)
+        let bookIndexes = [];
+        let k = 0;
+        this.props.books.forEach((book, index) => {
+            if (k >= this.props.cart.length)
+                return;
+            if (book.bookId === this.props.cart[k].bookId) {
+                bookIndexes.push(index);
+                k++;
+            }
+        })
+        console.log(bookIndexes);
         this.state = {
             isExpanded: modelArray,
-            isToBuy: modelArray2,
-            isBuying: false,
-            open: false,
+            bookIndexes: bookIndexes,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
-        this.handleBuy = this.handleBuy.bind(this);
-        this.handleClickBuy = this.handleClickBuy.bind(this);
-        this.handleBuyOK = this.handleBuyOK.bind(this);
-        this.handleBuyCancel = this.handleBuyCancel.bind(this);
     }
+
     handleExpanded(index) {
         const isExpanded = this.state.isExpanded
         this.setState({
@@ -112,50 +112,20 @@ class Cart extends React.Component {
         })
     }
 
-    handleBuy(index) {
-        this.handleExpanded(index);
-        const isToBuy = this.state.isToBuy
-        this.setState({
-            isToBuy: isToBuy.fill(!isToBuy[index], index, index + 1),
-        })
-    }
-
-    handleClickBuy() {
-        this.setState({
-            isBuying: true,
-        })
-    }
-
-    handleBuyOK() {
-        this.setState({
-            isBuying: false,
-        });
-
-        let bookIdOfBuy = [];
-        this.state.isToBuy.forEach((element, index) => {
-            if (element) {
-                this.setState({
-                    isExpanded: this.state.isExpanded.fill(false, index, index + 1),
-                    isToBuy: this.state.isToBuy.fill(false, index, index + 1),
-                })
-                bookIdOfBuy.push(this.props.books[index].bookId);
-            }
-        });
-        this.props.onBuy(this.props.userId, bookIdOfBuy);
-    }
-
-    handleBuyCancel() {
-        this.setState({
-            isBuying: false,
-        })
+    componentWillMount() {
+        console.log(this.props.userId)
+        this.props.onLoad(this.props.userId);
     }
 
     render() {
         const { classes } = this.props;
+        /*if (this.props.isLoading)
+            return (
+                <div></div>
+            )*/
         return (
             <React.Fragment>
-                {this.state.isBuying ?
-                    <h3>is buying...</h3> :
+                <Link to="Purchase">
                     <Button
                         variant="contained"
                         color="primary"
@@ -163,28 +133,10 @@ class Cart extends React.Component {
                     >
                         Buy
                     </Button>
-                }
-                {this.state.isBuying && (
-                    <div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleBuyOK}
-                        >
-                            OK
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleBuyCancel}
-                        >
-                            Cancel
-                        </Button>
-                    </div>
-                )}
+                </Link>
                 <div className={classes.padding}></div>
                 {
-                    this.props.books.map((book, index) =>
+                    this.state.bookIndexes.map((bookIndex, index) =>
                         <ExpansionPanel
                             className={classes.post}
                             onChange={() => this.handleExpanded(index)}
@@ -192,39 +144,32 @@ class Cart extends React.Component {
                         >
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
-                                className={this.state.isExpanded[index] ? classes.title1 : (this.state.isBuying && classes.title2)}
+                                className={this.state.isExpanded[index] && classes.title1}
                             >
                                 {this.state.isExpanded[index] ?
-                                    <ListItemText secondary={book.author} className={classes.titleContent} >
+                                    <ListItemText secondary={this.props.books[bookIndex].author} className={classes.titleContent} >
                                         <Typography variant='h4'>
-                                            {"《" + book.bookName + "》"}
+                                            {"《" + this.props.books[bookIndex].bookName + "》"}
                                         </Typography>
                                     </ListItemText> :
                                     <ListItemText>
-                                        <Typography variant='h6' className={this.state.isBuying && classes.q1}>
-                                            《{book.bookName}》&nbsp; {book.author}
+                                        <Typography variant='h6'>
+                                            《{this.props.books[bookIndex].bookName}》&nbsp; {this.props.books[bookIndex].author}
                                         </Typography>
                                     </ListItemText>
-                                }
-                                {this.state.isBuying &&
-                                    <Checkbox
-                                        checked={this.state.isToBuy[index]}
-                                        onChange={() => this.handleBuy(index)}
-                                    />
                                 }
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails className={classes.content}>
                                 <div style={{ display: "flex", flexDirection: "column" }}>
                                     <div style={{ display: "flex", flexDirection: "row", width: 1000, flex: 30 }}>
-                                        <img src={"images/" + book.coverPath} className={classes.cover} style={{ flex: 36 }} />
+                                        <img src={"images/" + this.props.books[bookIndex].coverPath} className={classes.cover} style={{ flex: 36 }} />
 
                                         <div className={classes.text} style={{ flex: 64 }}>
                                             <Typography variant='h4'>
                                                 Book Info.
                                             </Typography>
                                             <Divider />
-                                            <BookInfoList book={book} />
-
+                                            <BookInfoList book={this.props.books[bookIndex]} />
                                         </div>
                                     </div>
                                     <div style={{ flex: 1, marginTop: 30, width: 1000 }}>
@@ -233,7 +178,7 @@ class Cart extends React.Component {
                                         </Typography>
                                         <Divider />
                                         <br />
-                                        {parse(book.introduction)}
+                                        {parse(this.props.books[bookIndex].introduction)}
                                     </div>
                                 </div>
                                 <br />
@@ -241,18 +186,6 @@ class Cart extends React.Component {
                         </ExpansionPanel>
                     )
                 }
-
-                <Dialog open={this.state.open}>
-                    <Typography>
-                        Purchase it?
-                    </Typography>
-                    <Button onClick={this.handleClose}>
-                        Yes
-                    </Button>
-                    <Button onClick={this.handleClose}>
-                        No
-                    </Button>
-                </Dialog>
             </React.Fragment>
         );
     }

@@ -2,7 +2,7 @@
 
   参考：https://blog.csdn.net/yingzizizizizizzz/article/details/78751305
 
-+ mapStateToProps 中的值的改变似乎不会影响组件的生命周期，即不会调用 componentWillReceiveProps 方法，也不会重新 render。该问题可以通过在 constructor 中赋初值，之后每次都改变 this.state 来解决。
++ mapStateToProps 中数组内部的值的改变似乎不会影响组件的生命周期，即不会调用 componentWillReceiveProps 方法，也不会重新 render。该问题可以通过在 constructor 中赋初值，之后每次都改变 this.state 来解决。
 
 + `cannot resolve './blabla'` 有可能是文件名打错了，比如打成了 `blabla..js `。
 
@@ -21,5 +21,5 @@
 
 + 在当前页面重定向回自身，不会调用组件的 componentWillMount 方法。
 
-##### Last-modified date: 2019.3.17, 10 a.m.
+##### Last-modified date: 2019.3.17, 3 p.m.
 

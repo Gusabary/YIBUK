@@ -68,8 +68,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onAddToCart: () =>
-        dispatch({ type: "ADD_TO_CART" }),
+    onAddToCart: async (userId, bookId, number) => {
+        await agent.Cart.add(userId, bookId, number);
+        dispatch({ type: "ADD_TO_CART", payload: agent.Cart.show(userId) })
+    },
     onLoad: () =>
         dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
 })
@@ -116,8 +118,8 @@ class Books extends React.Component {
     }
 
     handleAddToCartOK(index) {
-        //this.props.onAddToCart(this.props.userId, this.props.books[index].bookId);
-        agent.Cart.add(this.props.userId, this.props.books[index].bookId, this.state.number);
+        this.props.onAddToCart(this.props.userId, this.props.books[index].bookId, this.state.number);
+
         //this.props.onLoad();
         this.handleClose();
     }

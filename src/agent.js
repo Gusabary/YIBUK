@@ -97,6 +97,10 @@ const Cart = {
                     quantity: 1,
                 }))
             })
+            .then(res =>res.body),
+    show: (userId) =>
+        requests.get(API_ROOT + '/api/cart')
+            .query({ userId })
             .then(res => res.body)
 }
 

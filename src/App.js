@@ -10,6 +10,7 @@ import Statistics from './Components/Statistics'
 import Orders from './Components/Orders'
 import Cart from './Components/Cart'
 import AddBook from './Components/Manage/AddBook'
+import Purchase from './Components/Purchase'
 import { connect } from 'react-redux';
 import agent from './agent'
 
@@ -32,6 +33,7 @@ class App extends React.Component {
             <Route exact path="/Orders" component={Orders} />
             <Route exact path="/Cart" component={Cart} />
             <Route exact path="/AddBook" component={AddBook} />
+            <Route exact path="/Purchase" component={Purchase} />
             <Footer />
           </div>
         </BrowserRouter>

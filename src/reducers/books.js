@@ -6,6 +6,7 @@ const defaultState = {
 const posts = (state = defaultState, action) => {
     switch (action.type) {
         case 'LOAD_BOOKS':
+        case 'LOAD_BOOKS_AFTER_BUY':
             return {
                 ...state,
                 books: action.payload.books,
