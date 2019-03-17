@@ -23,7 +23,7 @@ public class Order extends HttpServlet {
         super();
     }
 
-    /*public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BufferedReader br=request.getReader();
         String str,wholeStr="";
         while ((str=br.readLine())!=null){
@@ -31,8 +31,9 @@ public class Order extends HttpServlet {
         }
 
         JSONObject req = JSONObject.parseObject(wholeStr);
-        String userId = req.getString("userId");
-        JSONArray books = req.getJSONArray("books");
+        int userId = Integer.parseInt(req.getString("userId"));
+        int bookId = Integer.parseInt(req.getString("bookId"));
+        int quantity = Integer.parseInt(req.getString("quantity"));
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -45,41 +46,23 @@ public class Order extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
-            for (Object book:books){
-                JSONObject tmp = (JSONObject)book;
+            sql = "INSERT into `order` (`userId`, `bookId`, `quantity`, `time`) " +
+                    "VALUES (" + userId + "," + bookId + "," + quantity + ", NOW())";
+            stmt.executeUpdate(sql);
 
-                int bookId = tmp.getInteger("bookId");
-                int quantity = tmp.getInteger("quantity");
-                sql = "INSERT INTO `order`";
-            }
-
-            sql="SELECT `userId`, `identity`, `validity` from `user`" +
-                    "WHERE `username`='"+username+"' AND `password`='"+password+"'";
-
+            sql = "SELECT `storage` from `book` where `bookId` = " + bookId;
             ResultSet rs = stmt.executeQuery(sql);
+            int storage = 0;
+            if (rs.next()){
+                storage = rs.getInt("storage");
+            }
+
+            int targetStorage = storage - quantity;
+            sql = "UPDATE `book` SET `storage` = " + targetStorage + " where `bookId` = " + bookId;
+            stmt.executeUpdate(sql);
+
             JSONObject resp = new JSONObject();
-            while(rs.next()) {
-                resp.put("userId", rs.getInt("userId"));
-                resp.put("identity", rs.getInt("identity"));
-                resp.put("validity", rs.getInt("validity"));
-            }
-            rs.close();
-
-            if (resp.get("userId") == null) {
-                response.setStatus(500);
-                JSONObject err = new JSONObject();
-                err.put("error", "Wrong username or password!");
-                out.println(err);
-                return;
-            }
-            if (resp.getInteger("validity") == 0) {
-                response.setStatus(403);
-                JSONObject err = new JSONObject();
-                err.put("error", "You are forbidden!");
-                out.println(err);
-                return;
-            }
-
+            resp.put("message","Purchase successfully!");
             out.println(resp);
 
         } catch(SQLException se) {
@@ -99,7 +82,7 @@ public class Order extends HttpServlet {
                 se.printStackTrace();
             }
         }
-    }*/
+    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");

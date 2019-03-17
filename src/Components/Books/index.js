@@ -94,7 +94,7 @@ class Books extends React.Component {
         this.handlePurchase = this.handlePurchase.bind(this);
         this.handleAddToCart = this.handleAddToCart.bind(this);
         this.handleAddToCartOK = this.handleAddToCartOK.bind(this);
-        //this.handlePurchaseOK = this.handlePurchaseOK.bind(this);
+        this.handlePurchaseOK = this.handlePurchaseOK.bind(this);
         this.handleNumberChange = this.handleNumberChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
@@ -121,6 +121,16 @@ class Books extends React.Component {
         this.props.onAddToCart(this.props.userId, this.props.books[index].bookId, this.state.number);
 
         //this.props.onLoad();
+        this.handleClose();
+    }
+
+    async handlePurchaseOK(index) {
+        if (this.props.books[index].storage < this.state.number) {
+            alert('Storage is not enough!');
+            return;
+        }
+        await agent.Orders.buy(this.props.userId, this.props.books[index].bookId, this.state.number);
+        this.props.onLoad();
         this.handleClose();
     }
 
@@ -226,10 +236,21 @@ class Books extends React.Component {
 
 
                 <Dialog open={this.state.purchaseOpen}>
-                    <Typography>
+                    <Typography variant="h5">
                         Purchase it?
                     </Typography>
-                    <Button onClick={this.handleClose}>
+                    {this.props.books.length === 0 ||
+                        <Typography>
+                            {'《' + this.props.books[this.state.indexInDialog].bookName + '》'}
+                        </Typography>
+                    }
+                    <TextField
+                        type="text"
+                        label='number'
+                        value={this.state.number}
+                        onChange={this.handleNumberChange}
+                    />
+                    <Button onClick={() => this.handlePurchaseOK(this.state.indexInDialog)}>
                         Yes
                     </Button>
                     <Button onClick={this.handleClose}>

@@ -110,6 +110,10 @@ const Orders = {
     showById: (userId) =>
         requests.get(API_ROOT + '/api/order')
             .query({ userId })
+            .then(res => res.body),
+    buy: (userId, bookId, quantity) =>
+        requests.post(API_ROOT + '/api/order')
+            .send({ userId, bookId, quantity })
             .then(res => res.body)
 }
 
