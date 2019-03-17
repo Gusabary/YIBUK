@@ -119,8 +119,6 @@ class Books extends React.Component {
 
     handleAddToCartOK(index) {
         this.props.onAddToCart(this.props.userId, this.props.books[index].bookId, this.state.number);
-
-        //this.props.onLoad();
         this.handleClose();
     }
 
