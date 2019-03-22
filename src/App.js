@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Home from './Components/Books/index'
+import Home from './Components/Mainview/index'
 import SignIn from './Components/SignIn'
 import SignUp from './Components/SignUp'
 import Header from './Components/Header/index'
@@ -8,9 +8,8 @@ import Footer from './Components/Footer'
 import Manage from './Components/Manage/index'
 import Statistics from './Components/Statistics'
 import Orders from './Components/Orders'
-import Cart from './Components/Cart'
+import Cart from './Components/Cart/index'
 import AddBook from './Components/Manage/AddBook'
-import Purchase from './Components/Purchase'
 import { connect } from 'react-redux';
 import agent from './agent'
 
@@ -33,7 +32,6 @@ class App extends React.Component {
             <Route exact path="/Orders" component={Orders} />
             <Route exact path="/Cart" component={Cart} />
             <Route exact path="/AddBook" component={AddBook} />
-            <Route exact path="/Purchase" component={Purchase} />
             <Footer />
           </div>
         </BrowserRouter>

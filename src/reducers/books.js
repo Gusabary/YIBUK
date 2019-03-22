@@ -1,6 +1,7 @@
 const defaultState = {
     books: [],
     bookInEditing: 0,
+    mode: 0,
 }
 
 const posts = (state = defaultState, action) => {
@@ -42,6 +43,21 @@ const posts = (state = defaultState, action) => {
                 books: tmp,
             }
         }
+        case 'LOAD_MODE_1':
+            return {
+                ...state,
+                mode: 1,
+            }
+        case 'LOAD_MODE_2':
+            return {
+                ...state,
+                mode: 2,
+            }
+        case 'LOAD_MODE_3':
+            return {
+                ...state,
+                mode: 3,
+            }
         case 'DELETE_START':
             return {
                 ...state,

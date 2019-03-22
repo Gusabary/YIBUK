@@ -14,8 +14,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: () =>
-        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
+    onLoad: () => {
+        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
+        dispatch({ type: 'LOAD_MODE_2' })
+    }
 })
 class Manage extends React.Component {
     constructor(props) {
@@ -47,7 +49,6 @@ class Manage extends React.Component {
                 </Tabs>
 
                 {this.state.tabValue == 0 ?
-                    //<AddBook history={this.props.history} /> :
                     <ManageBook history={this.props.history} /> :
                     <Validity />
                 }

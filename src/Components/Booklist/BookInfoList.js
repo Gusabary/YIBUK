@@ -1,24 +1,14 @@
 import React from 'react'
-import { Typography, withStyles, Button, Toolbar } from '@material-ui/core'
+import { Typography, withStyles } from '@material-ui/core'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
-import { Link } from 'react-router-dom'
 
 const styles = theme => ({
-    edit: {
-        marginLeft: theme.spacing.unit * 2,
-        color: theme.palette.secondary.main,
-        border: 'solid',
-        textDecoration: 'underline',
-    },
-    buttonIcon: {
-        marginLeft: -theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-    },
+
 })
 
 class BookInfoList extends React.Component {
