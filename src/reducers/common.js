@@ -1,7 +1,7 @@
 const defaultState = {
     redirectTo: null,
     isEditing: false,
-    isLoading: false,
+    mode: 0,
 }
 
 const common = (state = defaultState, action) => {
@@ -11,44 +11,33 @@ const common = (state = defaultState, action) => {
             return {
                 ...state,
                 redirectTo: '/',
-                isLoading: false,
             }
-        case 'ADD_BOOK':
-        case 'ADD_BOOK_CANCEL':
-        case 'DELETE_BOOKS':
-        case 'EDIT_END':
+        case 'MANAGE_OK':
+        case 'MANAGE_CANCEL':
             return {
                 ...state,
                 redirectTo: '/Manage',
                 isEditing: false,
-                isLoading: false,
-            }
-        case 'LOAD_BOOKS_AFTER_BUY':
-            return {
-                ...state,
-                redirectTo: '/Cart',
-                isLoading: false,
             }
         case 'EDIT_START':
             return {
                 ...state,
                 isEditing: true,
             }
-        case 'LOAD_BOOKS':
-            case 'LOAD_CART':
+        case 'LOAD_MODE':
             return {
                 ...state,
-                isLoading: false,
+                mode: action.payload,
             }
         case 'REDIRECTED':
             return {
                 ...state,
                 redirectTo: null,
             }
-        case 'ASYNC_START':
+        /*case 'ASYNC_START':
             return {
                 isLoading: true,
-            }
+            }*/
         default:
             return state
     }

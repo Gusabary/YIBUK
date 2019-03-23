@@ -1,6 +1,5 @@
 import React from 'react'
 import { ExpansionPanel, withStyles, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core'
-import { connect } from 'react-redux';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore' 
 import BookTitle from './BookTitle';
 import BookContent from './BookContent';
@@ -9,8 +8,6 @@ const styles = theme => ({
     post: {
         width: 1050,
         marginLeft: '15%',
-        //border: 'solid',
-        //borderColor: theme.palette.primary.main,
     },
     expandedTitle: {
         backgroundColor: theme.palette.primary.main,
@@ -23,13 +20,6 @@ const styles = theme => ({
         borderBottomColor: theme.palette.primary.main,
     },
 });
-
-const mapStateToProps = state => ({
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
 
 class Book extends React.Component {
     render() {
@@ -56,4 +46,4 @@ class Book extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Book));
+export default withStyles(styles)(Book);

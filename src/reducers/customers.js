@@ -12,7 +12,6 @@ const customers = (state = defaultState, action) => {
         case 'TOGGLE_VALIDITY': {
             let newCustomers = state.customers;
             newCustomers[action.payload.index].validity = action.payload.targetValidity;
-            console.log(newCustomers)
             return {
                 ...state,
                 customers: newCustomers,

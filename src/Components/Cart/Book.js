@@ -1,6 +1,5 @@
 import React from 'react'
 import { ExpansionPanel, withStyles, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core'
-import { connect } from 'react-redux';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import BookTitle from '../Booklist/BookTitle';
 import BookContent from '../Booklist/BookContent';
@@ -30,13 +29,6 @@ const styles = theme => ({
     },
 });
 
-const mapStateToProps = state => ({
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
-
 class Book extends React.Component {
     render() {
         const { classes, book, index, isExpanded, isToBuy } = this.props;
@@ -64,4 +56,4 @@ class Book extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Book));
+export default withStyles(styles)(Book);

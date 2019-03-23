@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, withStyles } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -7,13 +7,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 
-const styles = theme => ({
-
-})
-
 class BookInfoList extends React.Component {
     render() {
-        const { classes, book } = this.props;
+        const { book } = this.props;
         return (
             <React.Fragment>
                 <List>
@@ -73,4 +69,4 @@ class BookInfoList extends React.Component {
     }
 }
 
-export default (withStyles(styles)(BookInfoList));
+export default BookInfoList;

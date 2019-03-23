@@ -11,14 +11,9 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
-    identity: state.user.identity,
-    //books: state.books.books,
-    userId: state.user.userId,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: () =>
-        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
 })
 
 class BooklistManage extends React.Component {
@@ -39,10 +34,6 @@ class BooklistManage extends React.Component {
             isExpanded: isExpanded.fill(!isExpanded[index], index, index + 1),
         })
         this.props.handleDeleteToggle(index);
-    }
-
-    componentWillMount() {
-        this.props.onLoad();
     }
 
     render() {

@@ -11,14 +11,9 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
-    identity: state.user.identity,
-    //books: state.books.books,
-    userId: state.user.userId,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: () =>
-        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() }),
 })
 
 class BooklistCart extends React.Component {
@@ -40,11 +35,7 @@ class BooklistCart extends React.Component {
         })
         this.props.handleBuyToggle(index);
     }
-
-    componentWillMount() {
-        this.props.onLoad();
-    }
-
+    
     render() {
         const { classes, isToBuy } = this.props;
         if (this.props.books.length === 0)

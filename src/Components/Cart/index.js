@@ -1,12 +1,7 @@
 import React from 'react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Radio, Dialog, Divider, Checkbox } from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { Link } from 'react-router-dom'
+import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import ListItemText from '@material-ui/core/ListItemText';
 import agent from '../../agent'
-import BookInfoList from '../Booklist/BookInfoList'
-import Book from '../Booklist/Book'
 import Booklist from '../Booklist/index'
 import BooklistCart from './BooklistCart'
 import ControlPurchase from './ControlPurchase'
@@ -23,13 +18,12 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: (userId) => {
+    onLoadCart: (userId) => {
+        dispatch({ type: 'LOAD_MODE', payload: 3 });
         dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
-        dispatch({ type: 'LOAD_MODE_3' });
     },
-    onBuy: async (userId, bookIdOfBuy) => {
-        await agent.Cart.buy(userId, bookIdOfBuy);
-        dispatch({ type: 'LOAD_BOOKS_AFTER_BUY', payload: agent.Books.show() })
+    onLoadBooks: () => {
+        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
     },
 })
 
@@ -50,7 +44,7 @@ const updateCart = (books, cart) => {
 class Cart extends React.Component {
     constructor(props) {
         super(props);
-        this.props.onLoad(this.props.userId);
+        this.props.onLoadCart(this.props.userId);
         const booksInCart = updateCart(this.props.books, this.props.cart);
 
         let modelArray = [];
@@ -74,7 +68,7 @@ class Cart extends React.Component {
         })
     }
 
-    handleBuyOK() {
+    async handleBuyOK() {
         let bookIdOfBuy = [];
         this.state.isToBuy.forEach((element, index) => {
             if (element) {
@@ -92,12 +86,8 @@ class Cart extends React.Component {
             }
         })
         if (isEnough)*/
-        this.props.onBuy(this.props.userId, bookIdOfBuy);
-    }
-
-    //Does this hook really work?
-    componentWillMount() {
-        this.props.onLoad(this.props.userId);
+        await agent.Cart.buy(this.props.userId, bookIdOfBuy);
+        this.props.onLoadBooks();
     }
 
     componentWillReceiveProps(nextProps) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, withStyles, TextField, Button, Switch, ListItemIcon, ListItemSecondaryAction, ListItemText, ListItem, List } from '@material-ui/core'
+import { withStyles, Switch, ListItemSecondaryAction, ListItemText, ListItem, List } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent';
 
@@ -8,19 +8,14 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
-    redirectTo: state.common.redirectTo,
     customers: state.customers.customers,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onChange: (userId, index, targetValidity) => {
-        agent.Customers.toggle(userId, targetValidity);
+    onChange: (index, targetValidity) => {
         dispatch({ type: 'TOGGLE_VALIDITY', payload: { index, targetValidity } });
     },
-    onRedirect: () =>
-        dispatch({ type: 'REDIRECTED' }),
 })
-
 
 class Validity extends React.Component {
     constructor(props) {
@@ -38,7 +33,9 @@ class Validity extends React.Component {
         this.setState({
             customers: newCustomers,
         })
-        this.props.onChange(userId, index, targetValidity);
+
+        agent.Customers.toggle(userId, targetValidity);
+        this.props.onChange(index, targetValidity);
     }
 
     render() {

@@ -23,9 +23,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onAddToCart: async (userId, bookId, number) => {
-        await agent.Cart.add(userId, bookId, number);
-        dispatch({ type: "ADD_TO_CART", payload: agent.Cart.show(userId) })
+    onLoad: (userId) => {
+        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
     },
 })
 
@@ -41,8 +40,9 @@ class AddToCart extends React.Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
-    handleAddToCartOK() {
-        this.props.onAddToCart(this.props.userId, this.props.book.bookId, this.state.number);
+    async handleAddToCartOK() {
+        await agent.Cart.add(this.props.userId, this.props.book.bookId, this.state.number);
+        this.props.onLoad(this.props.userId);
         this.handleClose();
     }
 

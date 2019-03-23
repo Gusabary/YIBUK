@@ -50,9 +50,9 @@ const mapDispatchToProps = dispatch => ({
         }
 
         //HTTP request is successful now.
-        if (resBody.identity === 1) {
+        /*if (resBody.identity === 1) {
             dispatch({ type: 'LOAD_CUSTOMERS', payload: agent.Customers.show() });
-        }
+        }*/
         /*if (resBody.identity === 0)*/ {
             //dispatch({ type: 'LOAD_CART', payload: agent.Cart.show(resBody.userId) });
         }

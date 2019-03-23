@@ -14,11 +14,7 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
-    mode: state.books.mode,
-    userId: state.user.userId,
-})
-
-const mapDispatchToProps = dispatch => ({
+    mode: state.common.mode,
 })
 
 class BookContent extends React.Component {
@@ -47,4 +43,4 @@ class BookContent extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookContent));
+export default connect(mapStateToProps)(withStyles(styles)(BookContent));

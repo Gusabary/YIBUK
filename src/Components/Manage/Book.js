@@ -30,12 +30,6 @@ const styles = theme => ({
     },
 });
 
-const mapStateToProps = state => ({
-})
-
-const mapDispatchToProps = dispatch => ({
-})
-
 class Book extends React.Component {
     render() {
         const {  classes, book, index, isExpanded, isToDelete  } = this.props;
@@ -63,4 +57,4 @@ class Book extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Book));
+export default withStyles(styles)(Book);

@@ -1,6 +1,5 @@
 import React from 'react'
 import {  withStyles, Typography, Divider } from '@material-ui/core'
-import { connect } from 'react-redux';
 import BookInfoList from './BookInfoList'
 import ModeButtons from './ModeButtons/index'
 
@@ -25,13 +24,6 @@ const styles = theme => ({
         wordWrap: 'break-word',
     },
 });
-
-const mapStateToProps = state => ({
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
 
 class BookContent extends React.Component {
     render() {
@@ -66,4 +58,4 @@ class BookContent extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookContent));
+export default withStyles(styles)(BookContent);

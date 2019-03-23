@@ -44,9 +44,7 @@ class Purchase extends React.Component {
             return;
         }
         await agent.Orders.buy(this.props.userId, this.props.book.bookId, this.state.number);
-        
         this.props.onLoad();
-        //console.log(this.props.book.storage)
         this.handleClose();
     }
 

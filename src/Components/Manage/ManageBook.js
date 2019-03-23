@@ -1,11 +1,7 @@
 import React from 'react'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button, Radio, Dialog, Divider, Checkbox } from '@material-ui/core'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { Link } from 'react-router-dom'
+import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import ListItemText from '@material-ui/core/ListItemText';
 import agent from '../../agent'
-import BookInfoList from '../Booklist/BookInfoList'
 import Booklist from '../Booklist/index'
 import BooklistManage from './BooklistManage';
 import ControlManage from './ControlManage';
@@ -21,13 +17,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onDelete: async (bookIdOfDeleted) => {
-        console.log(bookIdOfDeleted)
-        await agent.Books.delete(bookIdOfDeleted);
+    onLoad: () => {
         dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
     },
-    onRedirect: () =>
-        dispatch({ type: 'REDIRECTED' }),
 })
 
 class ManageBook extends React.Component {
@@ -54,7 +46,7 @@ class ManageBook extends React.Component {
         })
     }
 
-    handleDeleteOK() {
+    async handleDeleteOK() {
         this.setState({
             isDeleting: false,
         });
@@ -68,14 +60,8 @@ class ManageBook extends React.Component {
                 bookIdOfDeleted.push(this.props.books[index].bookId);
             }
         });
-        this.props.onDelete(bookIdOfDeleted);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.redirectTo) {
-            this.props.history.push(nextProps.redirectTo);
-            this.props.onRedirect();
-        }
+        await agent.Books.delete(bookIdOfDeleted);
+        this.props.onLoad();
     }
 
     render() {

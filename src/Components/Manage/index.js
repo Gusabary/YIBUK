@@ -15,8 +15,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onLoad: () => {
+        dispatch({ type: 'LOAD_MODE', payload: 2 })
         dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
-        dispatch({ type: 'LOAD_MODE_2' })
+        dispatch({ type: 'LOAD_CUSTOMERS', payload: agent.Customers.show() });
     }
 })
 class Manage extends React.Component {

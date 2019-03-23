@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, withStyles, TextField, Button, Typography, Grid, Tabs, Tab } from '@material-ui/core'
+import { Paper, withStyles, TextField, Button } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent';
 
@@ -66,16 +66,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onAddSubmit: (bookName, author, image, ISBN, storage, price, introduction) =>
-        dispatch({ type: 'ADD_BOOK', payload: agent.Books.create(bookName, author, image, ISBN, storage, price, introduction) }),
-    onEditSubmit: (index, bookId, bookName, author, image, ISBN, storage, price, introduction) =>
-        dispatch({
-            type: 'EDIT_END',
-            payload: agent.Books.update(bookId, bookName, author, image, ISBN, storage, price, introduction),
-            index,
-        }),
+    onSave: () =>
+        dispatch({ type: 'MANAGE_OK' }),
     onCancel: () =>
-        dispatch({ type: 'ADD_BOOK_CANCEL' }),
+        dispatch({ type: 'MANAGE_CANCEL' }),
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
@@ -97,7 +91,6 @@ class AddBook extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
     }
 
     updateState = field => event => {
@@ -112,25 +105,22 @@ class AddBook extends React.Component {
         })
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
         const { bookName, author, image, ISBN, storage, price, introduction } = this.state;
         if (this.props.isEditing) {
             const bookId = this.props.books[this.props.bookInEditing].bookId;
-            this.props.onEditSubmit(this.props.bookInEditing, bookId, bookName, author, image, ISBN, storage, price, introduction)
+            await agent.Books.update(bookId, bookName, author, image, ISBN, storage, price, introduction)
+            this.props.onSave();
         }
         else {
-            this.props.onAddSubmit(bookName, author, image, ISBN, storage, price, introduction);
+            await agent.Books.create(bookName, author, image, ISBN, storage, price, introduction)
+            this.props.onSave();
         }
-    }
-
-    handleCancel() {
-        this.props.onCancel();
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.redirectTo) {
-            //console.log(this.props.history)
             this.props.history.push(nextProps.redirectTo);
             this.props.onRedirect();
         }
@@ -223,7 +213,7 @@ class AddBook extends React.Component {
                             <Button
                                 variant="contained"
                                 className={classes.cancel}
-                                onClick={this.handleCancel}
+                                onClick={this.props.onCancel}
                             >
                                 Cancel
                             </Button>

@@ -1,6 +1,5 @@
 import React from 'react'
 import {  withStyles, Typography } from '@material-ui/core'
-import { connect } from 'react-redux';
 import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
@@ -8,13 +7,6 @@ const styles = theme => ({
         marginBottom: -theme.spacing.unit,
     },
 });
-
-const mapStateToProps = state => ({
-})
-
-const mapDispatchToProps = dispatch => ({
-
-})
 
 class BookTitle extends React.Component {
     render() {
@@ -36,4 +28,4 @@ class BookTitle extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookTitle));
+export default withStyles(styles)(BookTitle);
