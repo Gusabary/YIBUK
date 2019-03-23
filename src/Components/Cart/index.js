@@ -45,7 +45,7 @@ class Cart extends React.Component {
     constructor(props) {
         super(props);
         this.props.onLoadCart(this.props.userId);
-        const booksInCart = updateCart(this.props.books, this.props.cart);
+        //const booksInCart = updateCart(this.props.books, this.props.cart);
 
         let modelArray = [];
         modelArray[0] = false;
@@ -53,7 +53,7 @@ class Cart extends React.Component {
         modelArray.fill(false, 0, 1000);
 
         this.state = {
-            booksInCart: booksInCart,
+            booksInCart: [],
             isBuying: false,
             isToBuy: modelArray,
         }
@@ -88,6 +88,13 @@ class Cart extends React.Component {
         if (isEnough)*/
         await agent.Cart.buy(this.props.userId, bookIdOfBuy);
         this.props.onLoadBooks();
+    }
+
+    componentWillMount() {
+        const booksInCart = updateCart(this.props.books, this.props.cart);
+        this.setState({
+            booksInCart: booksInCart,
+        })
     }
 
     componentWillReceiveProps(nextProps) {

@@ -35,7 +35,7 @@ class BooklistCart extends React.Component {
         })
         this.props.handleBuyToggle(index);
     }
-    
+
     render() {
         const { classes, isToBuy } = this.props;
         if (this.props.books.length === 0)
@@ -55,8 +55,6 @@ class BooklistCart extends React.Component {
                         handleExpanded={() => this.handleExpanded(index)}
                         isToBuy={isToBuy[index]}
                         handleBuyToggle={()=>this.props.handleBuyToggle(index)}
-                        index={index}
-                        history={this.props.history}
                     />
                 )}
             </React.Fragment>
