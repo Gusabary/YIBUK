@@ -5,6 +5,14 @@ import agent from '../../agent'
 import Book from './Book'
 import Sort from './Sort'
 
+const getBooksCopy = (books) => {
+    let booksCopy = [];
+    books.forEach((book) => {
+        booksCopy.push(book)
+    })
+    return booksCopy;
+}
+
 const styles = theme => ({
     padding: {
         marginTop: theme.spacing.unit * 5,
@@ -24,10 +32,11 @@ class Booklist extends React.Component {
         modelArray[0] = false;
         modelArray[1000] = false;
         modelArray.fill(false, 0, 1000);
-        console.log(this.props.books)
+        //console.log(this.props.books)
+
         this.state = {
             isExpanded: modelArray,
-            sortedBooks: [],
+            sortedBooks: this.props.books,
             sortBy: 0,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
@@ -41,7 +50,7 @@ class Booklist extends React.Component {
     }
 
     sort(sortBy) {
-        let sortedBooks = this.props.books;
+        let sortedBooks = getBooksCopy(this.props.books);
         const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
         const attr = bookAttr[sortBy];
         const len = this.props.books.length;
@@ -56,12 +65,14 @@ class Booklist extends React.Component {
             sortBy,
             sortedBooks
         })
+        console.log(this.props.books)
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            sortedBooks: nextProps.books
+            sortedBooks: nextProps.books,
         })
+        //console.log(this.state.sortedBooks)
     }
 
     render() {
