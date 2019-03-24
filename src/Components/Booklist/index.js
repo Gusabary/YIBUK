@@ -3,10 +3,11 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent'
 import Book from './Book'
+import Sort from './Sort'
 
 const styles = theme => ({
     padding: {
-        marginTop: theme.spacing.unit * 8,
+        marginTop: theme.spacing.unit * 5,
     },
 });
 
@@ -23,10 +24,14 @@ class Booklist extends React.Component {
         modelArray[0] = false;
         modelArray[1000] = false;
         modelArray.fill(false, 0, 1000);
+        console.log(this.props.books)
         this.state = {
             isExpanded: modelArray,
+            sortedBooks: [],
+            sortBy: 0,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
+        this.sort = this.sort.bind(this);
     }
     handleExpanded(index) {
         const isExpanded = this.state.isExpanded
@@ -35,19 +40,47 @@ class Booklist extends React.Component {
         })
     }
 
+    sort(sortBy) {
+        let sortedBooks = this.props.books;
+        const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
+        const attr = bookAttr[sortBy];
+        const len = this.props.books.length;
+        for (let i = 0; i < len - 1; i++)
+            for (let j = i + 1; j < len; j++)
+                if (sortedBooks[i][attr] > sortedBooks[j][attr]) {
+                    const tmp = sortedBooks[j]
+                    sortedBooks[j] = sortedBooks[i]
+                    sortedBooks[i] = tmp
+                }
+        this.setState({
+            sortBy,
+            sortedBooks
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            sortedBooks: nextProps.books
+        })
+    }
+
     render() {
         const { classes } = this.props;
         if (this.props.books.length === 0)
+            return (
+                <h1>
+                    Loading...
+                </h1>
+            )
         return (
-            <h1>
-                Loading...
-            </h1>
-        )
-        return (
-            
             <React.Fragment>
+                <Sort
+                    attr={this.state.sortBy}
+                    handleChange={(value) => this.sort(value)}
+                />
                 <div className={classes.padding}></div>
-                {this.props.books.map((book, index) =>
+
+                {this.state.sortedBooks.map((book, index) =>
                     <Book
                         book={book}
                         handleExpanded={() => this.handleExpanded(index)}

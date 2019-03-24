@@ -57,17 +57,6 @@ class BookTitle extends React.Component {
         //console.log(this.props.toBuy)
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(111)
-        console.log(this.state.quantity)
-        /*if (this.props.cart !== nextProps.cart) {
-            console.log(123);
-            this.state = {
-                quantity: this.props.cart[this.props.index].quantity,
-            }
-        }*/
-    }
-
     render() {
         const { classes, book, isExpanded, isToBuy, index } = this.props;
         return (
