@@ -88,19 +88,26 @@ const Cart = {
         requests.post(API_ROOT + '/api/cart')
             .send({ userId, bookId, quantity })
             .then(res => res.body),
-    buy: (userId, bookIdOfBuy,quantity) =>
+    buy: (userId, bookIdOfBuy, quantity) =>
         requests.put(API_ROOT + '/api/cart')
             .send({
                 userId,
                 books: bookIdOfBuy.map((bookId, index) => ({
                     bookId,
-                    quantity:quantity[index],
+                    quantity: quantity[index],
                 }))
             })
             .then(res => res.body),
     show: (userId) =>
         requests.get(API_ROOT + '/api/cart')
             .query({ userId })
+            .then(res => res.body),
+    delete: (userId, bookIdOfDelete) =>
+        requests.delete(API_ROOT + '/api/cart')
+            .send({
+                userId,
+                books: bookIdOfDelete
+            })
             .then(res => res.body)
 }
 

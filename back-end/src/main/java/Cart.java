@@ -182,8 +182,9 @@ public class Cart extends HttpServlet {
                 stmt.executeUpdate(sql);
 
                 int targetQuantity = quantity - consumeQuantity;
-                if (targetQuantity == 0)
-                    sql = "DELETE from `cart` where `bookId` = " + bookId + " and `userId` = " + userId;
+                if (targetQuantity <= 0)
+                    sql = "UPDATE `cart` SET `quantity` = 1" +
+                            " where `bookId` = " + bookId + " and `userId` = " + userId;
                 else
                     sql = "UPDATE `cart` SET `quantity` = " + targetQuantity +
                             " where `bookId` = " + bookId + " and `userId` = " + userId;
@@ -222,10 +223,9 @@ public class Cart extends HttpServlet {
             wholeStr+=str;
         }
 
-        int pos1=wholeStr.indexOf("\"bookId\"");
-        int userId=Integer.parseInt(wholeStr.substring(10,pos1-1));
-        int pos2=wholeStr.indexOf("\"consumeQuantity\"");
-        int bookId=Integer.parseInt(wholeStr.substring(pos1+9,pos2-1));
+        JSONObject req = JSONObject.parseObject(wholeStr);
+        int userId = req.getInteger("userId");
+        JSONArray books = req.getJSONArray("books");
 
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -238,8 +238,14 @@ public class Cart extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
-            sql="DELETE FROM `cart` WHERE `userId`="+userId+" AND `bookId`="+bookId;
-            int rs = stmt.executeUpdate(sql);
+            for (Object bookId : books) {
+                sql="DELETE FROM `cart` WHERE `userId` = " + userId + " AND `bookId` = " + bookId;
+                stmt.executeUpdate(sql);
+            }
+
+            JSONObject resp = new JSONObject();
+            resp.put("message", "Delete successfully!");
+            out.println(resp);
 
         } catch(SQLException se) {
             se.printStackTrace();

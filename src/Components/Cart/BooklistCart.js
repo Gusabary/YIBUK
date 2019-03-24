@@ -2,7 +2,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent'
-import Book from './Book'
+import BookToBuy from './Book'
+import BookToDelete from '../Manage/Book'
 
 const styles = theme => ({
     padding: {
@@ -33,31 +34,43 @@ class BooklistCart extends React.Component {
         this.setState({
             isExpanded: isExpanded.fill(!isExpanded[index], index, index + 1),
         })
-        this.props.handleBuyToggle(index);
+        this.props.handleToggle(index);
     }
 
     render() {
-        const { classes, isToBuy } = this.props;
+        const { classes, isToBuy, isToDelete, isBuying } = this.props;
         if (this.props.books.length === 0)
-        return (
-            <h1>
-                Loading...
+            return (
+                <h1>
+                    Loading...
             </h1>
-        )
-        
+            )
+
         return (
             <React.Fragment>
                 <div className={classes.padding}></div>
-                {this.props.books.map((book, index) =>
-                    <Book
-                        book={book}
-                        isExpanded={this.state.isExpanded[index]}
-                        handleExpanded={() => this.handleExpanded(index)}
-                        isToBuy={isToBuy[index]}
-                        handleBuyToggle={() => this.props.handleBuyToggle(index)}
-                        index={index}
-                    />
-                )}
+                {isBuying ?
+                    (this.props.books.map((book, index) =>
+                        <BookToBuy
+                            book={book}
+                            isExpanded={this.state.isExpanded[index]}
+                            handleExpanded={() => this.handleExpanded(index)}
+                            isToBuy={isToBuy[index]}
+                            handleBuyToggle={() => this.props.handleToggle(index)}
+                            index={index}
+                        />
+                    )) :
+                    (this.props.books.map((book, index) =>
+                        <BookToDelete
+                            book={book}
+                            isExpanded={this.state.isExpanded[index]}
+                            handleExpanded={() => this.handleExpanded(index)}
+                            isToDelete={isToDelete[index]}
+                            handleDeleteToggle={() => this.props.handleToggle(index)}
+                            index={index}
+                        />
+                    ))
+                }
             </React.Fragment>
         );
     }

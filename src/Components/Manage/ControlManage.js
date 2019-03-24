@@ -25,7 +25,7 @@ class ControlManage extends React.Component {
                             variant="contained"
                             color="primary"
                             onClick={this.props.handleClick}
-                        >
+                        > 
                             Delete
                         </Button>
                         <Link to="AddBook">

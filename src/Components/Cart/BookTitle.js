@@ -42,9 +42,9 @@ class BookTitle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isHover: false,
             quantity: this.props.cart[this.props.index].quantity,
         }
+        //console.log(12345689)
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -55,6 +55,17 @@ class BookTitle extends React.Component {
         this.props.handleBuyToggle()
         this.props.onQuantityChange(this.props.index, isAdding ? this.state.quantity + 1 : this.state.quantity - 1);
         //console.log(this.props.toBuy)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(111)
+        console.log(this.state.quantity)
+        /*if (this.props.cart !== nextProps.cart) {
+            console.log(123);
+            this.state = {
+                quantity: this.props.cart[this.props.index].quantity,
+            }
+        }*/
     }
 
     render() {
