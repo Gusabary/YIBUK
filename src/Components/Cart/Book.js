@@ -1,7 +1,7 @@
 import React from 'react'
 import { ExpansionPanel, withStyles, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import BookTitle from '../Booklist/BookTitle';
+import BookTitle from './BookTitle';
 import BookContent from '../Booklist/BookContent';
 
 const styles = theme => ({
@@ -45,7 +45,13 @@ class Book extends React.Component {
                             (isToBuy ? classes.EBtitle : classes.ENBtitle) :
                             (isToBuy && classes.NEBtitle)}
                     >
-                        <BookTitle book={book} isExpanded={isExpanded} />
+                        <BookTitle
+                            book={book}
+                            isExpanded={isExpanded}
+                            handleBuyToggle={this.props.handleBuyToggle}
+                            isToBuy={isToBuy}
+                            index={index}
+                        />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={isToBuy? classes.Bcontent: classes.NBcontent}>
                         <BookContent book={book} index={index} />

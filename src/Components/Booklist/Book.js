@@ -1,5 +1,6 @@
 import React from 'react'
-import { ExpansionPanel, withStyles, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core'
+import { ExpansionPanel, withStyles, ExpansionPanelSummary, ExpansionPanelDetails, IconButton } from '@material-ui/core'
+import Add from '@material-ui/icons/Add'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore' 
 import BookTitle from './BookTitle';
 import BookContent from './BookContent';
@@ -36,6 +37,7 @@ class Book extends React.Component {
                         className={isExpanded && classes.expandedTitle}
                     >
                         <BookTitle book={book} isExpanded={isExpanded} />
+                        
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.content}>
                         <BookContent book={book} index={index} />

@@ -15,16 +15,20 @@ const mapStateToProps = state => ({
     cart: state.cart.cart,
     isLoading: state.common.isLoading,
     userId: state.user.userId,
+    toBuy: state.cart.toBuy,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoadCart: (userId) => {
+    onLoadCart: (/*userId*/payload) => {
         dispatch({ type: 'LOAD_MODE', payload: 3 });
-        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
+        //dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
+        dispatch({ type: "LOAD_CART", payload: payload })
     },
     onLoadBooks: () => {
         dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
     },
+    /*onBuyToggle: (isToBuy, index, quantity) =>
+        dispatch({ type: "CHANGE_QUANTITY", payload: { index, quantity: isToBuy ? quantity : 0 } })*/
 })
 
 const updateCart = (books, cart) => {
@@ -44,7 +48,7 @@ const updateCart = (books, cart) => {
 class Cart extends React.Component {
     constructor(props) {
         super(props);
-        this.props.onLoadCart(this.props.userId);
+        //this.props.onLoadCart(this.props.userId);
         //const booksInCart = updateCart(this.props.books, this.props.cart);
 
         let modelArray = [];
@@ -69,28 +73,39 @@ class Cart extends React.Component {
     }
 
     async handleBuyOK() {
+        this.setState({
+            isBuying: false,
+        });
         let bookIdOfBuy = [];
+        let bookIndexOfBuy = [];
+        let quantity = [];
         this.state.isToBuy.forEach((element, index) => {
             if (element) {
                 this.setState({
                     isToBuy: this.state.isToBuy.fill(false, index, index + 1),
                 })
                 bookIdOfBuy.push(this.state.booksInCart[index].bookId);
+                bookIndexOfBuy.push(index);
+                quantity.push(this.props.toBuy[index])
             }
         });
-        /*let isEnough = true;
-        bookIdOfBuy.forEach((bookId, index) => {
-            if (this.state.booksInCart[index].storage < this.state.number[index]) {
+
+        let isEnough = true;
+        bookIndexOfBuy.forEach((bookIndex,index) => {
+            if (this.state.booksInCart[bookIndex].storage < quantity[index]) {
                 alert('Storage is not enough!');
                 isEnough = false;
             }
         })
-        if (isEnough)*/
-        await agent.Cart.buy(this.props.userId, bookIdOfBuy);
-        this.props.onLoadBooks();
+        if (isEnough) {
+            await agent.Cart.buy(this.props.userId, bookIdOfBuy,quantity);
+            this.props.onLoadBooks();
+        }
     }
 
-    componentWillMount() {
+    async componentWillMount() {
+        const payload = await agent.Cart.show(this.props.userId);
+        this.props.onLoadCart(payload);
         const booksInCart = updateCart(this.props.books, this.props.cart);
         this.setState({
             booksInCart: booksInCart,

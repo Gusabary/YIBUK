@@ -1,5 +1,5 @@
 import React from 'react'
-import {  withStyles, Typography } from '@material-ui/core'
+import { withStyles, Typography } from '@material-ui/core'
 import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = theme => ({
