@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import agent from '../../agent'
 import Book from './Book'
 import Sort from './Sort'
+import Filter from './Filter'
 
 const getBooksCopy = (books) => {
     let booksCopy = [];
@@ -11,6 +12,14 @@ const getBooksCopy = (books) => {
         booksCopy.push(book)
     })
     return booksCopy;
+}
+
+//Does content contains filterKey?
+const contain = (content, filterKey) => {
+    const strContent = content.toString();
+    if (strContent.indexOf(filterKey) !== -1)
+        return true;
+    return false;
 }
 
 const styles = theme => ({
@@ -32,15 +41,20 @@ class Booklist extends React.Component {
         modelArray[0] = false;
         modelArray[1000] = false;
         modelArray.fill(false, 0, 1000);
-        //console.log(this.props.books)
 
         this.state = {
             isExpanded: modelArray,
             sortedBooks: this.props.books,
+            filteredBooks: this.props.books,
             sortBy: 0,
+            filterBy: 0,
+            filterKey: '',
         }
         this.handleExpanded = this.handleExpanded.bind(this);
         this.sort = this.sort.bind(this);
+        this.filter = this.filter.bind(this);
+        this.handleFilterKeyChange = this.handleFilterKeyChange.bind(this);
+        this.handleFilterFieldChange = this.handleFilterFieldChange.bind(this);
     }
     handleExpanded(index) {
         const isExpanded = this.state.isExpanded
@@ -49,10 +63,8 @@ class Booklist extends React.Component {
         })
     }
 
-    sort(sortBy) {
-        if (sortBy === -1)
-            return;
-        let sortedBooks = getBooksCopy(this.props.books);
+    async sort(sortBy) {
+        let sortedBooks = getBooksCopy(this.state.sortedBooks)
         const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
         const attr = bookAttr[sortBy];
         const len = this.props.books.length;
@@ -63,18 +75,46 @@ class Booklist extends React.Component {
                     sortedBooks[j] = sortedBooks[i]
                     sortedBooks[i] = tmp
                 }
-        this.setState({
+        await this.setState({
             sortBy,
             sortedBooks
         })
-        //console.log(this.props.books)
+        this.filter()
+    }
+
+    //convert sortedBooks to filteredBooks
+    filter() {
+        let filteredBooks = [];
+        const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
+        this.state.sortedBooks.forEach((book) => {
+            if (contain(book[bookAttr[this.state.filterBy]], this.state.filterKey)) {
+                filteredBooks.push(book)
+            }
+        })
+        this.setState({
+            filteredBooks
+        })
+    }
+
+    async handleFilterKeyChange(event) {
+        await this.setState({
+            filterKey: event.target.value
+        })
+        this.filter();
+    }
+
+    async handleFilterFieldChange(filterBy) {
+        await this.setState({
+            filterBy
+        })
+        this.filter();
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             sortedBooks: nextProps.books,
+            filteredBooks: nextProps.books,
         })
-        //console.log(this.state.sortedBooks)
     }
 
     render() {
@@ -91,9 +131,16 @@ class Booklist extends React.Component {
                     attr={this.state.sortBy}
                     handleChange={(value) => this.sort(value)}
                 />
+                <Filter
+                    attr={this.state.filterBy}
+                    handleChange={(filterBy)=>this.handleFilterFieldChange(filterBy)}
+                    filterKey={this.state.filterKey}
+                    onChange={(event) => this.handleFilterKeyChange(event)}
+                />
+
                 <div className={classes.padding}></div>
 
-                {this.state.sortedBooks.map((book, index) =>
+                {this.state.filteredBooks.map((book, index) =>
                     <Book
                         book={book}
                         handleExpanded={() => this.handleExpanded(index)}
