@@ -50,6 +50,8 @@ class Booklist extends React.Component {
     }
 
     sort(sortBy) {
+        if (sortBy === -1)
+            return;
         let sortedBooks = getBooksCopy(this.props.books);
         const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
         const attr = bookAttr[sortBy];
@@ -65,7 +67,7 @@ class Booklist extends React.Component {
             sortBy,
             sortedBooks
         })
-        console.log(this.props.books)
+        //console.log(this.props.books)
     }
 
     componentWillReceiveProps(nextProps) {

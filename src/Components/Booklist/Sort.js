@@ -36,6 +36,7 @@ class Sort extends React.Component {
         this.setState({
             anchorEl: null,
         })
+        //console.log(attr)
         this.props.handleChange(attr)
     }
     render() {
@@ -57,7 +58,7 @@ class Sort extends React.Component {
                     id="simple-menu"
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
-                    onClose={this.handleClose}
+                    onClose={() => this.handleClose(-1)}
                 >
                     <MenuItem onClick={() => this.handleClose(0)}>{bookAttr[0]}</MenuItem>
                     <MenuItem onClick={() => this.handleClose(1)}>{bookAttr[1]}</MenuItem>
