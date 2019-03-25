@@ -44,8 +44,14 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: (username, password, email) =>
-        dispatch({ type: 'SIGN_UP', payload: agent.User.signUp(username, password,email) }),
+    onSubmit: async (username, password, email) => {
+        const resBody = await agent.User.signUp(username, password, email)
+        if (resBody === 403) {
+            alert('Username has existed!');
+            return;
+        }
+        dispatch({ type: 'SIGN_UP', payload: resBody })
+    },
     onRedirect: () =>
         dispatch({ type: 'REDIRECTED' }),
 })
