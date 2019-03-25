@@ -2,7 +2,6 @@ import React from 'react'
 import { Paper, withStyles, TextField, Button, Typography } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../agent';
-import { filter } from 'rsvp';
 
 const contain = (content, filterKey) => {
     const strContent = content.toString();
@@ -32,24 +31,34 @@ class Orders extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            filterKey: ['', '', '', ''],
+            filterKey: ['', '', ''],
             filteredOrders: this.props.orders,
+            startTime: null,
+            endTime: null,
         }
         this.handleChange = this.handleChange.bind(this);
         this.filter = this.filter.bind(this);
+        this.handleTimeChange = this.handleTimeChange.bind(this)
     }
 
     filter() {
-        const attr = ['userId', 'bookId', 'quantity', 'time']
+        const attr = ['userId', 'bookId', 'quantity']
         let tmp = [];
+        const startTime = Date.parse(this.state.startTime)
+        const endTime = Date.parse(this.state.endTime)
+        //console.log(startTime)
+        //console.log(endTime)
         this.props.orders.forEach(order => {
             let isShown = true;
-            for (let i = 0; i <= 3; i++) {
+            for (let i = 0; i <= 2; i++) {
                 if (!contain(order[attr[i]], this.state.filterKey[i])) {
                     isShown = false;
                     break;
                 }
             }
+            const orderTime = Date.parse(order.time)
+            if (startTime > orderTime || endTime < orderTime)
+                isShown = false;
             if (isShown)
                 tmp.push(order)
         });
@@ -64,6 +73,16 @@ class Orders extends React.Component {
         this.setState({
             filterKey: tmp
         })
+        //console.log(this.state.filterKey)
+        this.filter();
+    }
+
+    handleTimeChange = (field) => async event => {
+        await this.setState({
+            [field]: event.target.value
+        })
+        //console.log(this.state.startTime)
+        //console.log(this.state.endTime)
         this.filter();
     }
 
@@ -81,7 +100,7 @@ class Orders extends React.Component {
 
     render() {
         let filterBar = [];
-        for (let i = 0; i <= 3; i++) {
+        for (let i = 0; i <= 2; i++) {
             const filterInput =
                 (<td>
                     <TextField
@@ -97,6 +116,20 @@ class Orders extends React.Component {
                     <table>
                         <tr>
                             {filterBar}
+                            <td>
+                                from
+                                <TextField
+                                    type='datetime-local'
+                                    value={this.state.startTime}
+                                    onChange={this.handleTimeChange('startTime')}
+                                />
+                                to
+                                <TextField
+                                    type='datetime-local'
+                                    value={this.state.endTime}
+                                    onChange={this.handleTimeChange('endTime')}
+                                />
+                            </td>
                         </tr>
                         <tr>
                             <th onClick={() => alert('ha')}>UserId</th>
