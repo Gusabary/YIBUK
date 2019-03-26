@@ -34,12 +34,12 @@ const User = {
         requests.post(API_ROOT + '/api/user/signup')
             .send({ username, password, email })
             .then(res => res.body)
-            .catch(err => err.status),
+            .catch(err => err.response.body),
     signIn: (username, password) =>
         requests.post(API_ROOT + '/api/user/signin')
             .send({ username, password })
             .then(res => res.body)
-            .catch(err => err.status),
+            .catch(err => err.response.body),
 }
 
 const Books = {
@@ -132,5 +132,3 @@ export default {
     Cart,
     Orders,
 }
-
-//Source: BPM-lab, lxyl.

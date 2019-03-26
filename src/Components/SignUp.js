@@ -46,7 +46,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onSubmit: async (username, password, email) => {
         const resBody = await agent.User.signUp(username, password, email)
-        if (resBody === 403) {
+        if (resBody.error === 'Username has existed!') {
             alert('Username has existed!');
             return;
         }

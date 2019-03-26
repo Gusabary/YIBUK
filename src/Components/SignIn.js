@@ -40,11 +40,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onSubmit: async (username, password) => {
         const resBody = await agent.User.signIn(username, password);
-        if (resBody === 403) {
+        if (resBody.error === 'You are forbidden!') {
             alert('You are forbidden!');
             return;
         }
-        if (resBody === 500) {
+        if (resBody.error === 'Wrong username or password!') {
             alert('Wrong username or password!');
             return;
         }

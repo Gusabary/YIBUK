@@ -67,5 +67,7 @@
 
     其本质是 setState 可以接受两个参数：第一个参数一般是 state 对象，也可以是一个以 prevState 为参数，state 对象为返回值的函数；第二个参数可省，也可以是一个回调函数，该函数作用域内的 state 是更新过后的。
 
-##### Last-modified date: 2019.3.24, 9 p.m.
++ superagent 可以通过 `.catch(err => {})` 函数中的 `err.response.body` 获取到请求失败的返回主体。
+
+##### Last-modified date: 2019.3.26, 9 p.m.
 
