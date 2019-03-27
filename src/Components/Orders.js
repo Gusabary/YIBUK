@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, withStyles, TextField, Button, Typography } from '@material-ui/core'
+import { Paper, withStyles, TextField, Button, Typography, Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../agent';
 
@@ -102,50 +102,54 @@ class Orders extends React.Component {
         let filterBar = [];
         for (let i = 0; i <= 2; i++) {
             const filterInput =
-                (<td>
+                (<TableCell>
                     <TextField
                         value={this.state.filterKey[i]}
                         onChange={this.handleChange(i)}
                     />
-                </td>)
+                </TableCell>)
             filterBar.push(filterInput)
         }
         return (
             <React.Fragment>
                 <div>
-                    <table>
-                        <tr>
-                            {filterBar}
-                            <td>
-                                from
-                                <TextField
-                                    type='datetime-local'
-                                    value={this.state.startTime}
-                                    onChange={this.handleTimeChange('startTime')}
-                                />
-                                to
-                                <TextField
-                                    type='datetime-local'
-                                    value={this.state.endTime}
-                                    onChange={this.handleTimeChange('endTime')}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th onClick={() => alert('ha')}>UserId</th>
-                            <th>BookId</th>
-                            <th>Quantity</th>
-                            <th>Time</th>
-                        </tr>
-                        {this.state.filteredOrders.map((order, index) => (
-                            <tr>
-                                <td>{order.userId}</td>
-                                <td>{order.bookId}</td>
-                                <td>{order.quantity}</td>
-                                <td>{order.time}</td>
-                            </tr>)
-                        )}
-                    </table>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>UserId</TableCell>
+                                <TableCell>BookId</TableCell>
+                                <TableCell>Quantity</TableCell>
+                                <TableCell>Time</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                {filterBar}
+                                <TableCell>
+                                    from
+                                    <TextField
+                                        type='datetime-local'
+                                        value={this.state.startTime}
+                                        onChange={this.handleTimeChange('startTime')}
+                                    />
+                                    to
+                                    <TextField
+                                        type='datetime-local'
+                                        value={this.state.endTime}
+                                        onChange={this.handleTimeChange('endTime')}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            {this.state.filteredOrders.map((order, index) => (
+                                <TableRow>
+                                    <TableCell>{order.userId}</TableCell>
+                                    <TableCell>{order.bookId}</TableCell>
+                                    <TableCell>{order.quantity}</TableCell>
+                                    <TableCell>{order.time}</TableCell>
+                                </TableRow>)
+                            )}
+                        </TableBody>
+                    </Table>
                 </div>
             </React.Fragment>
         )

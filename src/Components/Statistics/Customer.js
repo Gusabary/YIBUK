@@ -95,8 +95,8 @@ class Customer extends React.Component {
                     <TableHead>
                         <TableRow>
                             <TableCell>Rank</TableCell>
-                            <TableCell>userId</TableCell>
-                            <TableCell>purchases</TableCell>
+                            <TableCell>UserId</TableCell>
+                            <TableCell>Purchases</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
