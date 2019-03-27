@@ -7,7 +7,7 @@ import Header from './Components/Header/index'
 import Footer from './Components/Footer'
 import Manage from './Components/Manage/index'
 import Statistics from './Components/Statistics/index'
-import Orders from './Components/Orders'
+import Orders from './Components/Orders/index'
 import Cart from './Components/Cart/index'
 import AddBook from './Components/Manage/AddBook'
 import { connect } from 'react-redux';

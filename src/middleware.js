@@ -11,7 +11,7 @@ const promiseMiddleware = store => next => action => {
         console.log(action.payload)
         action.payload.then(
             res => {
-                action.payload = res;  //Critical Step: concent action.payload from Promise to Object!
+                action.payload = res;  //Critical Step: convert action.payload from Promise to Object!
                 store.dispatch(action);
             }
         );
@@ -21,6 +21,4 @@ const promiseMiddleware = store => next => action => {
 };
 
 export default promiseMiddleware;
-
-//Source: BPM-lab, lxyl.
 

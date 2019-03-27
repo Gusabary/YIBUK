@@ -5,22 +5,7 @@ import agent from '../../agent'
 import Book from './Book'
 import Sort from './Sort'
 import Filter from './Filter'
-
-const getBooksCopy = (books) => {
-    let booksCopy = [];
-    books.forEach((book) => {
-        booksCopy.push(book)
-    })
-    return booksCopy;
-}
-
-//Does content contains filterKey?
-const contain = (content, filterKey) => {
-    const strContent = content.toString();
-    if (strContent.indexOf(filterKey) !== -1)
-        return true;
-    return false;
-}
+import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 
 const styles = theme => ({
     padding: {
@@ -37,13 +22,9 @@ const mapDispatchToProps = dispatch => ({
 class Booklist extends React.Component {
     constructor(props) {
         super(props);
-        let modelArray = [];
-        modelArray[0] = false;
-        modelArray[1000] = false;
-        modelArray.fill(false, 0, 1000);
 
         this.state = {
-            isExpanded: modelArray,
+            isExpanded: generateArray(1000, false),
             sortedBooks: this.props.books,
             filteredBooks: this.props.books,
             sortBy: 0,
@@ -51,8 +32,8 @@ class Booklist extends React.Component {
             filterKey: '',
         }
         this.handleExpanded = this.handleExpanded.bind(this);
-        this.sort = this.sort.bind(this);
-        this.filter = this.filter.bind(this);
+        this.handleSort = this.handleSort.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
         this.handleFilterKeyChange = this.handleFilterKeyChange.bind(this);
         this.handleFilterFieldChange = this.handleFilterFieldChange.bind(this);
     }
@@ -63,34 +44,21 @@ class Booklist extends React.Component {
         })
     }
 
-    async sort(sortBy) {
-        let sortedBooks = getBooksCopy(this.state.sortedBooks)
+    async handleSort(sortBy) {
+        let sortedBooks = getCopy(this.state.sortedBooks)
         const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
-        const attr = bookAttr[sortBy];
-        const len = this.props.books.length;
-        for (let i = 0; i < len - 1; i++)
-            for (let j = i + 1; j < len; j++)
-                if (sortedBooks[i][attr] > sortedBooks[j][attr]) {
-                    const tmp = sortedBooks[j]
-                    sortedBooks[j] = sortedBooks[i]
-                    sortedBooks[i] = tmp
-                }
+        sort(sortedBooks, bookAttr[sortBy]);
         await this.setState({
             sortBy,
             sortedBooks
         })
-        this.filter()
+        this.handleFilter()
     }
 
     //convert sortedBooks to filteredBooks
-    filter() {
-        let filteredBooks = [];
+    handleFilter() {
         const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
-        this.state.sortedBooks.forEach((book) => {
-            if (contain(book[bookAttr[this.state.filterBy]], this.state.filterKey)) {
-                filteredBooks.push(book)
-            }
-        })
+        const filteredBooks = filter(this.state.sortedBooks, [bookAttr[this.state.filterBy]], [this.state.filterKey])
         this.setState({
             filteredBooks
         })
@@ -100,14 +68,14 @@ class Booklist extends React.Component {
         await this.setState({
             filterKey: event.target.value
         })
-        this.filter();
+        this.handleFilter();
     }
 
     async handleFilterFieldChange(filterBy) {
         await this.setState({
             filterBy
         })
-        this.filter();
+        this.handleFilter();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -129,13 +97,13 @@ class Booklist extends React.Component {
             <React.Fragment>
                 <Sort
                     attr={this.state.sortBy}
-                    handleChange={(value) => this.sort(value)}
+                    handleChange={(value) => this.handleSort(value)}
                 />
                 <Filter
                     attr={this.state.filterBy}
-                    handleChange={(filterBy)=>this.handleFilterFieldChange(filterBy)}
+                    handleFilterFieldChange={(filterBy) => this.handleFilterFieldChange(filterBy)}
                     filterKey={this.state.filterKey}
-                    onChange={(event) => this.handleFilterKeyChange(event)}
+                    handleFilterKeyChange={(event) => this.handleFilterKeyChange(event)}
                 />
 
                 <div className={classes.padding}></div>

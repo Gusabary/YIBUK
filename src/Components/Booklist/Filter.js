@@ -41,9 +41,8 @@ class Sort extends React.Component {
         this.setState({
             anchorEl: null,
         })
-        //console.log(attr)
         if (attr !== -1)
-            this.props.handleChange(attr)
+            this.props.handleFilterFieldChange(attr)
     }
     render() {
         const { classes, attr } = this.props;
@@ -62,7 +61,7 @@ class Sort extends React.Component {
                     : &nbsp;
                     <TextField
                         value={this.props.filterKey}
-                        onChange={this.props.onChange}
+                        onChange={this.props.handleFilterKeyChange}
                     /> 
                 </Typography>
                 

@@ -1,14 +1,9 @@
 import React from 'react'
 import { Paper, withStyles, TextField, Button, Typography, Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../agent';
-
-const contain = (content, filterKey) => {
-    const strContent = content.toString();
-    if (strContent.indexOf(filterKey) !== -1)
-        return true;
-    return false;
-}
+import agent from '../../agent';
+import { generateArray, sort, getCopy, filter } from '../../auxiliary'
+import Filter from './Filter'
 
 const styles = theme => ({
     button: {
@@ -34,55 +29,39 @@ class Orders extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            filterKey: ['', '', '', ''],
+            filterKey: ['', '', '', '', { startTime: null, endTime: null }],
             filteredOrders: this.props.orders,
-            startTime: null,
-            endTime: null,
             filterOpen: false,
         }
         this.handleChange = this.handleChange.bind(this);
-        this.filter = this.filter.bind(this);
-        this.handleTimeChange = this.handleTimeChange.bind(this)
+        this.handleFilter = this.handleFilter.bind(this);
     }
 
-    filter() {
-        const attr = ['orderId', 'userId', 'bookId', 'quantity']
-        let tmp = [];
-        const startTime = Date.parse(this.state.startTime)
-        const endTime = Date.parse(this.state.endTime)
-        this.props.orders.forEach(order => {
-            let isShown = true;
-            for (let i = 0; i <= 3; i++) {
-                if (!contain(order[attr[i]], this.state.filterKey[i])) {
-                    isShown = false;
-                    break;
-                }
-            }
-            const orderTime = Date.parse(order.time)
-            if (startTime > orderTime || endTime < orderTime)
-                isShown = false;
-            if (isShown)
-                tmp.push(order)
-        });
+    handleFilter() {
+        const filterBy = ['orderId', 'userId', 'bookId', 'quantity', 'time']
+        const filteredOrders = filter(this.props.orders, filterBy, this.state.filterKey);
         this.setState({
-            filteredOrders: tmp,
+            filteredOrders,
         })
     }
 
-    handleChange = field => event => {
-        let tmp = this.state.filterKey
+    handleChange = field => async event => {
+        let tmp;
+        if (field === 'startTime' || field === 'endTime')
+            tmp = this.state.filterKey[4]
+        else
+            tmp = this.state.filterKey
         tmp[field] = event.target.value
-        this.setState({
-            filterKey: tmp
-        })
-        this.filter();
-    }
-
-    handleTimeChange = (field) => async event => {
+        let tmp2 = this.state.filterKey
+        if (field === 'startTime' || field === 'endTime') 
+            tmp2[4] = tmp;
+        else
+            tmp2 = tmp;
+            
         await this.setState({
-            [field]: event.target.value
+            filterKey: tmp2
         })
-        this.filter();
+        this.handleFilter();
     }
 
     componentWillMount() {
@@ -137,20 +116,24 @@ class Orders extends React.Component {
                                     {filterBar}
                                     <TableCell>
                                         from
-                                    <TextField
+                                        <TextField
                                             type='datetime-local'
-                                            value={this.state.startTime}
-                                            onChange={this.handleTimeChange('startTime')}
+                                            value={this.state.filterKey[4].startTime}
+                                            onChange={this.handleChange('startTime')}
                                             className={classes.text}
                                         />
                                         to
-                                    <TextField
+                                        <TextField
                                             type='datetime-local'
-                                            value={this.state.endTime}
-                                            onChange={this.handleTimeChange('endTime')}
+                                            value={this.state.filterKey[4].endTime}
+                                            onChange={this.handleChange('endTime')}
                                             className={classes.text}
                                         />
                                     </TableCell>
+                                    {/*<Filter
+                                        filterKey={this.state.filterKey}
+                                        onChange={(field) => this.handleChange(field)()}
+                                    />*/}
                                 </TableRow>
                             }
                             {this.state.filteredOrders.map((order, index) => {
