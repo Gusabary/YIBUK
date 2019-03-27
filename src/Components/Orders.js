@@ -11,7 +11,10 @@ const contain = (content, filterKey) => {
 }
 
 const styles = theme => ({
-
+    button: {
+        marginTop: theme.spacing.unit * 2,
+        backgroundColor: theme.palette.primary.light,
+    },
 });
 
 const mapStateToProps = state => ({
@@ -35,6 +38,7 @@ class Orders extends React.Component {
             filteredOrders: this.props.orders,
             startTime: null,
             endTime: null,
+            filterOpen: false,
         }
         this.handleChange = this.handleChange.bind(this);
         this.filter = this.filter.bind(this);
@@ -99,6 +103,7 @@ class Orders extends React.Component {
     }
 
     render() {
+        const { classes } = this.props;
         let filterBar = [];
         for (let i = 0; i <= 2; i++) {
             const filterInput =
@@ -106,6 +111,7 @@ class Orders extends React.Component {
                     <TextField
                         value={this.state.filterKey[i]}
                         onChange={this.handleChange(i)}
+                        className={classes.text}
                     />
                 </TableCell>)
             filterBar.push(filterInput)
@@ -113,6 +119,13 @@ class Orders extends React.Component {
         return (
             <React.Fragment>
                 <div>
+                    <Button
+                        variant='contained'
+                        onClick={() => this.setState({ filterOpen: !this.state.filterOpen })}
+                        className={classes.button}
+                    >
+                        Filter
+                    </Button>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -123,23 +136,27 @@ class Orders extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                                {filterBar}
-                                <TableCell>
-                                    from
+                            {this.state.filterOpen &&
+                                <TableRow>
+                                    {filterBar}
+                                    <TableCell>
+                                        from
                                     <TextField
-                                        type='datetime-local'
-                                        value={this.state.startTime}
-                                        onChange={this.handleTimeChange('startTime')}
-                                    />
-                                    to
+                                            type='datetime-local'
+                                            value={this.state.startTime}
+                                            onChange={this.handleTimeChange('startTime')}
+                                            className={classes.text}
+                                        />
+                                        to
                                     <TextField
-                                        type='datetime-local'
-                                        value={this.state.endTime}
-                                        onChange={this.handleTimeChange('endTime')}
-                                    />
-                                </TableCell>
-                            </TableRow>
+                                            type='datetime-local'
+                                            value={this.state.endTime}
+                                            onChange={this.handleTimeChange('endTime')}
+                                            className={classes.text}
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            }
                             {this.state.filteredOrders.map((order, index) => (
                                 <TableRow>
                                     <TableCell>{order.userId}</TableCell>
