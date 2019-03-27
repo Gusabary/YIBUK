@@ -69,5 +69,7 @@
 
 + superagent 可以通过 `.catch(err => {})` 函数中的 `err.response.body` 获取到请求失败的返回主体。
 
-##### Last-modified date: 2019.3.26, 9 p.m.
++ componentWillReceiveProps 方法中要获得更新后的 props，需要使用参数 nextProps 。 nextProps 的值被赋给 this.props 应该发生在进入 render 后的一瞬间。
+
+##### Last-modified date: 2019.3.27, 4 p.m.
 
