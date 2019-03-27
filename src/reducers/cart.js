@@ -20,7 +20,6 @@ const cart = (state = defaultState, action) => {
         case 'CHANGE_QUANTITY': {
             let tmp = state.toBuy;
             tmp[action.payload.index] = action.payload.quantity;
-            //console.log(tmp);
             return {
                 ...state,
                 toBuy: tmp,

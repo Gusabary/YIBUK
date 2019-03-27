@@ -5,6 +5,7 @@ import agent from '../../agent'
 import Booklist from '../Booklist/index'
 import BooklistCart from './BooklistCart'
 import ControlPurchase from './ControlPurchase'
+import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 
 const styles = theme => ({
 
@@ -51,22 +52,12 @@ class Cart extends React.Component {
         //this.props.onLoadCart(this.props.userId);
         //const booksInCart = updateCart(this.props.books, this.props.cart);
 
-        let modelArray = [];
-        modelArray[0] = false;
-        modelArray[1000] = false;
-        modelArray.fill(false, 0, 1000);
-
-        let modelArray2 = [];
-        modelArray2[0] = false;
-        modelArray2[1000] = false;
-        modelArray2.fill(false, 0, 1000);
-
         this.state = {
             booksInCart: [],
             isBuying: false,
             isDeleting: false,
-            isToBuy: modelArray,
-            isToDelete: modelArray2,
+            isToBuy: generateArray(1000,false),
+            isToDelete: generateArray(1000,false),
         }
         this.handleToggle = this.handleToggle.bind(this);
         this.handleOK = this.handleOK.bind(this);

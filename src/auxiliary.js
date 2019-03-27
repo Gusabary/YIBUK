@@ -64,4 +64,4 @@ const getCopy = (original) => {
     return copy;
 }
 
-export { generateArray, sort, getCopy,filter };
+export { generateArray, sort, getCopy, filter };

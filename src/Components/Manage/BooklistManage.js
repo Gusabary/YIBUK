@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent'
 import Book from './Book'
+import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 
 const styles = theme => ({
     padding: {
@@ -19,12 +20,8 @@ const mapDispatchToProps = dispatch => ({
 class BooklistManage extends React.Component {
     constructor(props) {
         super(props);
-        let modelArray = [];
-        modelArray[0] = false;
-        modelArray[1000] = false;
-        modelArray.fill(false, 0, 1000);
         this.state = {
-            isExpanded: modelArray,
+            isExpanded: generateArray(1000,false),
         }
         this.handleExpanded = this.handleExpanded.bind(this);
     }

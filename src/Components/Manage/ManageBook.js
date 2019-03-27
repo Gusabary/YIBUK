@@ -5,6 +5,7 @@ import agent from '../../agent'
 import Booklist from '../Booklist/index'
 import BooklistManage from './BooklistManage';
 import ControlManage from './ControlManage';
+import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 
 const styles = theme => ({
 
@@ -26,14 +27,9 @@ class ManageBook extends React.Component {
     constructor(props) {
         super(props);
 
-        let modelArray = [];
-        modelArray[0] = false;
-        modelArray[1000] = false;
-        modelArray.fill(false, 0, 1000);
-
         this.state = {
             isDeleting: false,
-            isToDelete: modelArray,
+            isToDelete: generateArray(1000,false),
         }
         this.handleDeleteToggle = this.handleDeleteToggle.bind(this);
         this.handleDeleteOK = this.handleDeleteOK.bind(this);

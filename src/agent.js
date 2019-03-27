@@ -2,33 +2,6 @@ const requests = require('superagent');
 
 const API_ROOT = 'http://localhost:8080';
 
-const responseBody = res => {
-    return res.body
-}
-const handleError = err => {
-    switch (err.status) {
-        case 401:
-            alert('Incorrect email or password!')
-            return;
-        case 500:
-            alert('Email has been signed up!')
-            return;
-        default:
-            alert('Something wrong occured!')
-    }
-}
-
-/*const requests = {
-    get: url =>
-        superagent.get(`${API_ROOT}${url}`).then(responseBody),
-    del: url =>
-        superagent.del(`${API_ROOT}${url}`).then(responseBody),
-    post: (url, body) =>
-        superagent.post(`${API_ROOT}${url}`).send(body).then(responseBody).catch(handleError),
-    put: (url, body) =>
-        superagent.put(`${API_ROOT}${url}`).send(body).then(responseBody)
-};*/
-
 const User = {
     signUp: (username, password, email) =>
         requests.post(API_ROOT + '/api/user/signup')
@@ -52,7 +25,7 @@ const Books = {
             .field('storage', storage)
             .field('price', price)
             .field('introduction', introduction)
-            .then(responseBody),
+            .then(res => res.body),
 
     show: () => requests.get(API_ROOT + '/api/manage/book')
         .then(res => res.body),
@@ -67,17 +40,18 @@ const Books = {
             .field('storage', storage)
             .field('price', price)
             .field('introduction', introduction)
-            .then(responseBody),
+            .then(res => res.body),
 
     delete: (bookIdOfDeleted) =>
         requests.del(API_ROOT + '/api/manage/book')
             .send({ books: bookIdOfDeleted })
-            .then(responseBody),
+            .then(res => res.body),
 }
 
 const Customers = {
     show: () => requests.get(API_ROOT + '/api/manage/user')
         .then(res => res.body),
+
     toggle: (userId, targetValidity) =>
         requests.put(API_ROOT + '/api/manage/user')
             .send({ userId, targetValidity })
@@ -89,6 +63,12 @@ const Cart = {
         requests.post(API_ROOT + '/api/cart')
             .send({ userId, bookId, quantity })
             .then(res => res.body),
+
+    show: (userId) =>
+        requests.get(API_ROOT + '/api/cart')
+            .query({ userId })
+            .then(res => res.body),
+
     buy: (userId, bookIdOfBuy, quantity) =>
         requests.put(API_ROOT + '/api/cart')
             .send({
@@ -99,10 +79,7 @@ const Cart = {
                 }))
             })
             .then(res => res.body),
-    show: (userId) =>
-        requests.get(API_ROOT + '/api/cart')
-            .query({ userId })
-            .then(res => res.body),
+
     delete: (userId, bookIdOfDelete) =>
         requests.delete(API_ROOT + '/api/cart')
             .send({
@@ -112,17 +89,19 @@ const Cart = {
             .then(res => res.body)
 }
 
-const Orders = {
+const Orders = {            
+    buy: (userId, bookId, quantity) =>
+        requests.post(API_ROOT + '/api/order')
+            .send({ userId, bookId, quantity })
+            .then(res => res.body),
+
     showAll: () => requests.get(API_ROOT + '/api/order')
         .then(res => res.body),
+
     showById: (userId) =>
         requests.get(API_ROOT + '/api/order')
             .query({ userId })
             .then(res => res.body),
-    buy: (userId, bookId, quantity) =>
-        requests.post(API_ROOT + '/api/order')
-            .send({ userId, bookId, quantity })
-            .then(res => res.body)
 }
 
 export default {

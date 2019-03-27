@@ -11,11 +11,6 @@ import Orders from './Components/Orders/index'
 import Cart from './Components/Cart/index'
 import AddBook from './Components/Manage/AddBook'
 import { connect } from 'react-redux';
-import agent from './agent'
-
-const mapStateToProps = state => ({
-  userId: state.user.userId,
-});
 
 class App extends React.Component {
   render() {
@@ -40,4 +35,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default App;
