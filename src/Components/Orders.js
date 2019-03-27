@@ -34,7 +34,7 @@ class Orders extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            filterKey: ['', '', ''],
+            filterKey: ['', '', '', ''],
             filteredOrders: this.props.orders,
             startTime: null,
             endTime: null,
@@ -46,15 +46,13 @@ class Orders extends React.Component {
     }
 
     filter() {
-        const attr = ['userId', 'bookId', 'quantity']
+        const attr = ['orderId', 'userId', 'bookId', 'quantity']
         let tmp = [];
         const startTime = Date.parse(this.state.startTime)
         const endTime = Date.parse(this.state.endTime)
-        //console.log(startTime)
-        //console.log(endTime)
         this.props.orders.forEach(order => {
             let isShown = true;
-            for (let i = 0; i <= 2; i++) {
+            for (let i = 0; i <= 3; i++) {
                 if (!contain(order[attr[i]], this.state.filterKey[i])) {
                     isShown = false;
                     break;
@@ -77,7 +75,6 @@ class Orders extends React.Component {
         this.setState({
             filterKey: tmp
         })
-        //console.log(this.state.filterKey)
         this.filter();
     }
 
@@ -85,15 +82,13 @@ class Orders extends React.Component {
         await this.setState({
             [field]: event.target.value
         })
-        //console.log(this.state.startTime)
-        //console.log(this.state.endTime)
         this.filter();
     }
 
     componentWillMount() {
-        //this.props.identity == 1 ?
-        this.props.onLoadAll() /*:
-            this.props.onLoadById(this.props.userId);*/
+        this.props.identity == 1 ?
+            this.props.onLoadAll() :
+            this.props.onLoadById(this.props.userId);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -105,7 +100,7 @@ class Orders extends React.Component {
     render() {
         const { classes } = this.props;
         let filterBar = [];
-        for (let i = 0; i <= 2; i++) {
+        for (let i = 0; i <= 3; i++) {
             const filterInput =
                 (<TableCell>
                     <TextField
@@ -129,6 +124,7 @@ class Orders extends React.Component {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell>OrderId</TableCell>
                                 <TableCell>UserId</TableCell>
                                 <TableCell>BookId</TableCell>
                                 <TableCell>Quantity</TableCell>
@@ -157,14 +153,20 @@ class Orders extends React.Component {
                                     </TableCell>
                                 </TableRow>
                             }
-                            {this.state.filteredOrders.map((order, index) => (
-                                <TableRow>
-                                    <TableCell>{order.userId}</TableCell>
-                                    <TableCell>{order.bookId}</TableCell>
-                                    <TableCell>{order.quantity}</TableCell>
-                                    <TableCell>{order.time}</TableCell>
-                                </TableRow>)
-                            )}
+                            {this.state.filteredOrders.map((order, index) => {
+                                let isInOneOrder = false;
+                                if (index > 0 && order.orderId === this.state.filteredOrders[index - 1].orderId)
+                                    isInOneOrder = true;
+                                return (
+                                    <TableRow>
+                                        <TableCell>{isInOneOrder ? '-' : order.orderId}</TableCell>
+                                        <TableCell>{order.userId}</TableCell>
+                                        <TableCell>{order.bookId}</TableCell>
+                                        <TableCell>{order.quantity}</TableCell>
+                                        <TableCell>{order.time}</TableCell>
+                                    </TableRow>
+                                )
+                            })}
                         </TableBody>
                     </Table>
                 </div>

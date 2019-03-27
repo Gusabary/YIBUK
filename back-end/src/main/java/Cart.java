@@ -3,6 +3,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.sql.*;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -158,6 +159,8 @@ public class Cart extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
+            Date now = new Date();
+            String now_s = String.valueOf(now.getTime());
             for (Object book : books){
                 JSONObject tmp = (JSONObject)book;
                 int bookId = tmp.getInteger("bookId");
@@ -190,8 +193,14 @@ public class Cart extends HttpServlet {
                             " where `bookId` = " + bookId + " and `userId` = " + userId;
                 stmt.executeUpdate(sql);
 
-                sql="INSERT INTO `order` (`userId`, `bookId`, `quantity`,`time`) " +
-                        "VALUES ('"+userId+"', '"+bookId+"', '"+consumeQuantity+"',NOW())";
+
+                String userId_s = String.valueOf(userId);
+                String padding = "";
+                for (int i = 1; i <= 5 - userId_s.length(); i++)
+                    padding += '0';
+                String orderId = now_s + padding + userId_s;
+                sql="INSERT INTO `order` (`orderId`, `userId`, `bookId`, `quantity`,`time`) " +
+                        "VALUES ('"+orderId+"',"+userId+", "+bookId+", "+consumeQuantity+",NOW())";
                 stmt.executeUpdate(sql);
             }
             JSONObject resp = new JSONObject();

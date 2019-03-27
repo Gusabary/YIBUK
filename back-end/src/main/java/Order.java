@@ -3,6 +3,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.io.*;
 import java.sql.*;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -45,9 +46,15 @@ public class Order extends HttpServlet {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             stmt = conn.createStatement();
 
+            Date now = new Date();
+            String userId_s = String.valueOf(userId);
+            String padding = "";
+            for (int i = 1; i <= 5 - userId_s.length(); i++)
+                padding += '0';
+            String orderId = String.valueOf(now.getTime()) + padding + userId_s;
             String sql;
-            sql = "INSERT into `order` (`userId`, `bookId`, `quantity`, `time`) " +
-                    "VALUES (" + userId + "," + bookId + "," + quantity + ", NOW())";
+            sql = "INSERT into `order` (`orderId`, `userId`, `bookId`, `quantity`, `time`) " +
+                    "VALUES ( " + orderId + ", " + userId + "," + bookId + "," + quantity + ", NOW())";
             stmt.executeUpdate(sql);
 
             sql = "SELECT `storage` from `book` where `bookId` = " + bookId;
@@ -107,7 +114,7 @@ public class Order extends HttpServlet {
             JSONArray array = new JSONArray();
             while(rs.next()) {
                 JSONObject tmp = new JSONObject();
-                tmp.put("orderId", rs.getInt("orderId"));
+                tmp.put("orderId", rs.getString("orderId"));
                 tmp.put("userId", rs.getInt("userId"));
                 tmp.put("bookId", rs.getInt("bookId"));
                 tmp.put("quantity", rs.getInt("quantity"));

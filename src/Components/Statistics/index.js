@@ -39,7 +39,9 @@ class Statistics extends React.Component {
     }
 
     componentWillMount() {
-        this.props.onLoadAll();
+        this.props.identity == 1 ?
+            this.props.onLoadAll() :
+            this.props.onLoadById(this.props.userId);
     }
 
     render() {
