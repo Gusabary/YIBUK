@@ -98,11 +98,13 @@ class Header extends React.Component {
                                     Orders
                             </Button>
                             </Link>
-                            <Link to="Cart">
-                                <Button>
-                                    Cart
-                            </Button>
-                            </Link>
+                            {this.props.identity === 1 || (
+                                <Link to="Cart">
+                                    <Button>
+                                        Cart
+                                    </Button>
+                                </Link>
+                            )}
                         </Toolbar>
                     </AppBar>
                 )}
