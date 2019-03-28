@@ -15,7 +15,8 @@ const styles = theme => ({
 const mapStateToProps = state => ({
     identity: state.user.identity,
     userId: state.user.userId,
-    orders: state.orders.orders
+    orders: state.orders.orders,
+    isLoading: state.common.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -53,11 +54,11 @@ class Orders extends React.Component {
             tmp = this.state.filterKey
         tmp[field] = event.target.value
         let tmp2 = this.state.filterKey
-        if (field === 'startTime' || field === 'endTime') 
+        if (field === 'startTime' || field === 'endTime')
             tmp2[4] = tmp;
         else
             tmp2 = tmp;
-            
+
         await this.setState({
             filterKey: tmp2
         })
@@ -90,71 +91,76 @@ class Orders extends React.Component {
                 </TableCell>)
             filterBar.push(filterInput)
         }
-        return (
-            <React.Fragment>
-                <div>
-                    <Button
-                        variant='contained'
-                        onClick={() => this.setState({ filterOpen: !this.state.filterOpen })}
-                        className={classes.button}
-                    >
-                        Filter
+        if (this.props.isLoading)
+            return (
+                <h1>Loading...</h1>
+            )
+        else
+            return (
+                <React.Fragment>
+                    <div>
+                        <Button
+                            variant='contained'
+                            onClick={() => this.setState({ filterOpen: !this.state.filterOpen })}
+                            className={classes.button}
+                        >
+                            Filter
                     </Button>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>OrderId</TableCell>
-                                <TableCell>UserId</TableCell>
-                                <TableCell>BookId</TableCell>
-                                <TableCell>Quantity</TableCell>
-                                <TableCell>Time</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.state.filterOpen &&
+                        <Table>
+                            <TableHead>
                                 <TableRow>
-                                    {filterBar}
-                                    <TableCell>
-                                        from
+                                    <TableCell>OrderId</TableCell>
+                                    <TableCell>UserId</TableCell>
+                                    <TableCell>BookId</TableCell>
+                                    <TableCell>Quantity</TableCell>
+                                    <TableCell>Time</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.filterOpen &&
+                                    <TableRow>
+                                        {filterBar}
+                                        <TableCell>
+                                            from
                                         <TextField
-                                            type='datetime-local'
-                                            value={this.state.filterKey[4].startTime}
-                                            onChange={this.handleChange('startTime')}
-                                            className={classes.text}
-                                        />
-                                        to
+                                                type='datetime-local'
+                                                value={this.state.filterKey[4].startTime}
+                                                onChange={this.handleChange('startTime')}
+                                                className={classes.text}
+                                            />
+                                            to
                                         <TextField
-                                            type='datetime-local'
-                                            value={this.state.filterKey[4].endTime}
-                                            onChange={this.handleChange('endTime')}
-                                            className={classes.text}
-                                        />
-                                    </TableCell>
-                                    {/*<Filter
+                                                type='datetime-local'
+                                                value={this.state.filterKey[4].endTime}
+                                                onChange={this.handleChange('endTime')}
+                                                className={classes.text}
+                                            />
+                                        </TableCell>
+                                        {/*<Filter
                                         filterKey={this.state.filterKey}
                                         onChange={(field) => this.handleChange(field)()}
                                     />*/}
-                                </TableRow>
-                            }
-                            {this.state.filteredOrders.map((order, index) => {
-                                let isInOneOrder = false;
-                                if (index > 0 && order.orderId === this.state.filteredOrders[index - 1].orderId)
-                                    isInOneOrder = true;
-                                return (
-                                    <TableRow>
-                                        <TableCell>{isInOneOrder ? '-' : order.orderId}</TableCell>
-                                        <TableCell>{order.userId}</TableCell>
-                                        <TableCell>{order.bookId}</TableCell>
-                                        <TableCell>{order.quantity}</TableCell>
-                                        <TableCell>{order.time}</TableCell>
                                     </TableRow>
-                                )
-                            })}
-                        </TableBody>
-                    </Table>
-                </div>
-            </React.Fragment>
-        )
+                                }
+                                {this.state.filteredOrders.map((order, index) => {
+                                    let isInOneOrder = false;
+                                    if (index > 0 && order.orderId === this.state.filteredOrders[index - 1].orderId)
+                                        isInOneOrder = true;
+                                    return (
+                                        <TableRow>
+                                            <TableCell>{isInOneOrder ? '-' : order.orderId}</TableCell>
+                                            <TableCell>{order.userId}</TableCell>
+                                            <TableCell>{order.bookId}</TableCell>
+                                            <TableCell>{order.quantity}</TableCell>
+                                            <TableCell>{order.time}</TableCell>
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </React.Fragment>
+            )
     }
 }
 

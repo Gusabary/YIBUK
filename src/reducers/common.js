@@ -1,6 +1,7 @@
 const defaultState = {
     redirectTo: null,
     isEditing: false,
+    isLoading: false,
     mode: 0,
 }
 
@@ -34,10 +35,19 @@ const common = (state = defaultState, action) => {
                 ...state,
                 redirectTo: null,
             }
-        /*case 'ASYNC_START':
+        case 'ASYNC_START':
             return {
+                ...state,
                 isLoading: true,
-            }*/
+            }
+        case 'LOAD_BOOKS':
+        case 'LOAD_CART':
+        case 'LOAD_CUSTOMERS':
+        case 'LOAD_ORDERS':
+            return {
+                ...state,
+                isLoading: false,
+            }
         default:
             return state
     }

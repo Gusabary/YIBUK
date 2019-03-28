@@ -11,6 +11,7 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
+    isLoading: state.common.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -42,19 +43,24 @@ class Manage extends React.Component {
 
     render() {
         const { classes } = this.props;
-        return (
-            <React.Fragment>
-                <Tabs fullWidth value={this.state.tabValue} onChange={this.handleTabValueChange}>
-                    <Tab label="Book" />
-                    <Tab label="Customer" />
-                </Tabs>
+        if (this.props.isLoading)
+            return (
+                <h1>Loading...</h1>
+            )
+        else
+            return (
+                <React.Fragment>
+                    <Tabs fullWidth value={this.state.tabValue} onChange={this.handleTabValueChange}>
+                        <Tab label="Book" />
+                        <Tab label="Customer" />
+                    </Tabs>
 
-                {this.state.tabValue == 0 ?
-                    <ManageBook history={this.props.history} /> :
-                    <Validity />
-                }
-            </React.Fragment>
-        )
+                    {this.state.tabValue == 0 ?
+                        <ManageBook history={this.props.history} /> :
+                        <Validity />
+                    }
+                </React.Fragment>
+            )
     }
 }
 

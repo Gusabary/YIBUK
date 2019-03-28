@@ -10,6 +10,7 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     books: state.books.books,
+    isLoading: state.common.isLoading,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -27,11 +28,16 @@ class Books extends React.Component {
     render() {
         const { classes, books } = this.props;
         //Booklist may have three kinds: visit, manage, cart.
-        return (
-            <React.Fragment>
-                <Booklist books={books} history={this.props.history} />
-            </React.Fragment>
-        );
+        if (this.props.isLoading)
+            return (
+                <h1>Loading...</h1>
+            )
+        else
+            return (
+                <React.Fragment>
+                    <Booklist books={books} history={this.props.history} />
+                </React.Fragment>
+            );
     }
 }
 

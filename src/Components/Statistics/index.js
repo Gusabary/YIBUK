@@ -12,7 +12,8 @@ const styles = theme => ({
 const mapStateToProps = state => ({
     identity: state.user.identity,
     userId: state.user.userId,
-    orders: state.orders.orders
+    orders: state.orders.orders,
+    isLoading: state.common.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -46,7 +47,7 @@ class Statistics extends React.Component {
 
     render() {
         const { classes } = this.props;
-        if (this.props.orders.length === 0)
+        if (this.props.isLoading)
             return (
                 <h1>Loading...</h1>
             )

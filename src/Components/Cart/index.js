@@ -50,8 +50,8 @@ class Cart extends React.Component {
             booksInCart: [],
             isBuying: false,
             isDeleting: false,
-            isToBuy: generateArray(1000,false),
-            isToDelete: generateArray(1000,false),
+            isToBuy: generateArray(1000, false),
+            isToDelete: generateArray(1000, false),
         }
         this.handleToggle = this.handleToggle.bind(this);
         this.handleOK = this.handleOK.bind(this);
@@ -144,33 +144,38 @@ class Cart extends React.Component {
 
     render() {
         const { classes } = this.props;
-        return (
-            <React.Fragment>
-                <ControlPurchase
-                    isBuying={this.state.isBuying}
-                    isDeleting={this.state.isDeleting}
-                    handleClick={(field) => this.handleClick(field)}
-                    handleOK={(field) => this.handleOK(field)}
-                />
-                {this.state.isBuying &&
-                    <BooklistCart
-                        books={this.state.booksInCart}
-                        isToBuy={this.state.isToBuy}
-                        isBuying={true}
-                        handleToggle={(index) => this.handleToggle('Buy', index)}
-                    />}
-                {this.state.isDeleting &&
-                    <BooklistCart
-                        books={this.state.booksInCart}
-                        isToDelete={this.state.isToDelete}
-                        isBuying={false}
-                        handleToggle={(index) => this.handleToggle('Delete', index)}
-                    />}
-                {this.state.isBuying || this.state.isDeleting ||
-                    <Booklist books={this.state.booksInCart} />
-                }
-            </React.Fragment>
-        );
+        if (this.props.isLoading)
+            return (
+                <h1>Loading...</h1>
+            )
+        else
+            return (
+                <React.Fragment>
+                    <ControlPurchase
+                        isBuying={this.state.isBuying}
+                        isDeleting={this.state.isDeleting}
+                        handleClick={(field) => this.handleClick(field)}
+                        handleOK={(field) => this.handleOK(field)}
+                    />
+                    {this.state.isBuying &&
+                        <BooklistCart
+                            books={this.state.booksInCart}
+                            isToBuy={this.state.isToBuy}
+                            isBuying={true}
+                            handleToggle={(index) => this.handleToggle('Buy', index)}
+                        />}
+                    {this.state.isDeleting &&
+                        <BooklistCart
+                            books={this.state.booksInCart}
+                            isToDelete={this.state.isToDelete}
+                            isBuying={false}
+                            handleToggle={(index) => this.handleToggle('Delete', index)}
+                        />}
+                    {this.state.isBuying || this.state.isDeleting ||
+                        <Booklist books={this.state.booksInCart} />
+                    }
+                </React.Fragment>
+            );
     }
 }
 
