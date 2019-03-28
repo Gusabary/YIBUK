@@ -4,24 +4,19 @@ import { AppBar, Toolbar, Button, TextField, Typography, withStyles, ExpansionPa
 import { Link } from 'react-router-dom'
 
 const mapStateToProps = state => ({
-    userId: state.user.userId,
-    identity: state.user.identity,
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLogOut: () =>
-        dispatch({ type: "LOG_OUT" })
 })
 
 const styles = theme => ({
     main: {
         backgroundColor: theme.palette.primary.main,
-        //position: 'absolute',
         marginTop: theme.spacing.unit * 15,
-        //marginBottom: -theme.spacing.unit,
         marginLeft: -theme.spacing.unit,
         width: '101%',
-        //height: theme.spacing.unit,
+        position: 'relative',
+        top: 8,
     },
     sub: {
         backgroundColor: theme.palette.primary.light,
@@ -29,29 +24,18 @@ const styles = theme => ({
     }
 })
 
-class Header extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleLogOut = this.handleLogOut.bind(this);
-    }
-
-    handleLogOut() {
-        this.props.onLogOut();
-    }
-
+class Footer extends React.Component {
     render() {
         const { classes } = this.props;
         return (
             <React.Fragment>
                 <AppBar position="static" className={classes.main}>
                     <Toolbar>
-                        
-                            Youthful Imagination Brings U Knowledge.
-                        
+                        Youthful Imagination Brings U Knowledge.
                     </Toolbar>
                 </AppBar>
             </React.Fragment>
         );
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Header));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Footer));
