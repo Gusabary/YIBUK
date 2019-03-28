@@ -71,5 +71,7 @@
 
 + componentWillReceiveProps 方法中要获得更新后的 props，需要使用参数 nextProps 。 nextProps 的值被赋给 this.props 应该发生在进入 render 后的一瞬间。
 
-##### Last-modified date: 2019.3.27, 4 p.m.
++ 在 componentWillMount 中发 load dispatch，然后在 componentWillReceiveProps 中用 nextProps 参数 setState（即 setState 不要在 dispatch 后立刻执行），这是一个不错的方法。因为经过中间件的 dispatch 过程是异步的，等 store 更新完之后，需要有一个带 nextProps 参数的 componentWillReceiveProps 方法捕获最新的状态。
+
+##### Last-modified date: 2019.3.28, 10 a.m.
 

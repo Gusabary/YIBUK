@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import agent from '../../agent'
 import BookToBuy from './Book'
 import BookToDelete from '../Manage/Book'
+import { generateArray } from '../../auxiliary'
 
 const styles = theme => ({
     padding: {
@@ -20,12 +21,8 @@ const mapDispatchToProps = dispatch => ({
 class BooklistCart extends React.Component {
     constructor(props) {
         super(props);
-        let modelArray = [];
-        modelArray[0] = false;
-        modelArray[1000] = false;
-        modelArray.fill(false, 0, 1000);
         this.state = {
-            isExpanded: modelArray,
+            isExpanded: generateArray(1000, false),
         }
         this.handleExpanded = this.handleExpanded.bind(this);
     }
@@ -42,8 +39,8 @@ class BooklistCart extends React.Component {
         if (this.props.books.length === 0)
             return (
                 <h1>
-                    Loading...
-            </h1>
+                    No books.
+                </h1>
             )
 
         return (

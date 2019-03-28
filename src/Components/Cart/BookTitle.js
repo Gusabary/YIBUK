@@ -44,17 +44,15 @@ class BookTitle extends React.Component {
         this.state = {
             quantity: this.props.cart[this.props.index].quantity,
         }
-        //console.log(12345689)
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(isAdding) {
-        this.setState((prevState)=>({
-            quantity: isAdding ? prevState.quantity + 1 : prevState.quantity - 1
-        }))
+    async handleClick(isAdding) {
+        await this.setState({
+            quantity: isAdding ? this.state.quantity + 1 : this.state.quantity - 1
+        })
         this.props.handleBuyToggle()
-        this.props.onQuantityChange(this.props.index, isAdding ? this.state.quantity + 1 : this.state.quantity - 1);
-        //console.log(this.props.toBuy)
+        this.props.onQuantityChange(this.props.index, this.state.quantity);
     }
 
     render() {

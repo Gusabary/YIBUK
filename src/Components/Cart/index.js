@@ -20,16 +20,13 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoadCart: (/*userId*/payload) => {
+    onLoadCart: (userId) => {
         dispatch({ type: 'LOAD_MODE', payload: 3 });
-        //dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
-        dispatch({ type: "LOAD_CART", payload: payload })
+        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
     },
     onLoadBooks: () => {
         dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
     },
-    /*onBuyToggle: (isToBuy, index, quantity) =>
-        dispatch({ type: "CHANGE_QUANTITY", payload: { index, quantity: isToBuy ? quantity : 0 } })*/
 })
 
 const updateCart = (books, cart) => {
@@ -49,9 +46,6 @@ const updateCart = (books, cart) => {
 class Cart extends React.Component {
     constructor(props) {
         super(props);
-        //this.props.onLoadCart(this.props.userId);
-        //const booksInCart = updateCart(this.props.books, this.props.cart);
-
         this.state = {
             booksInCart: [],
             isBuying: false,
@@ -109,12 +103,7 @@ class Cart extends React.Component {
             if (isEnough) {
                 await agent.Cart.buy(this.props.userId, bookIdOfBuy, quantity);
                 this.props.onLoadBooks();
-                const payload = await agent.Cart.show(this.props.userId);
-                this.props.onLoadCart(payload);
-                /*const booksInCart = updateCart(this.props.books, this.props.cart);
-                this.setState({
-                    booksInCart: booksInCart,
-                })*/
+                this.props.onLoadCart(this.props.userId);
             }
         }
         else {
@@ -128,12 +117,7 @@ class Cart extends React.Component {
                 }
             });
             await agent.Cart.delete(this.props.userId, bookIdOfDelete);
-            const payload = await agent.Cart.show(this.props.userId);
-            this.props.onLoadCart(payload);
-            const booksInCart = updateCart(this.props.books, this.props.cart);
-            this.setState({
-                booksInCart: booksInCart,
-            })
+            this.props.onLoadCart(this.props.userId);
         }
     }
 
@@ -148,19 +132,13 @@ class Cart extends React.Component {
             })
     }
 
-    async componentWillMount() {
-        const payload = await agent.Cart.show(this.props.userId);
-        this.props.onLoadCart(payload);
-        const booksInCart = updateCart(this.props.books, this.props.cart);
-        this.setState({
-            booksInCart: booksInCart,
-        })
+    componentWillMount() {
+        this.props.onLoadCart(this.props.userId);
     }
 
     componentWillReceiveProps(nextProps) {
-        const booksInCart = updateCart(nextProps.books, this.props.cart);
         this.setState({
-            booksInCart: booksInCart,
+            booksInCart: updateCart(nextProps.books, nextProps.cart),
         })
     }
 

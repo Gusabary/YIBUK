@@ -45,7 +45,9 @@ class Header extends React.Component {
             <React.Fragment>
                 <AppBar position="static" className={classes.main}>
                     <Toolbar>
-
+                        
+                            Youthful Imagination Brings U Knowledge.
+                        
                     </Toolbar>
                 </AppBar>
             </React.Fragment>

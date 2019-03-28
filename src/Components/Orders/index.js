@@ -30,7 +30,7 @@ class Orders extends React.Component {
         super(props)
         this.state = {
             filterKey: ['', '', '', '', { startTime: null, endTime: null }],
-            filteredOrders: this.props.orders,
+            filteredOrders: [],
             filterOpen: false,
         }
         this.handleChange = this.handleChange.bind(this);

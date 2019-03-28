@@ -90,7 +90,7 @@ class Booklist extends React.Component {
         if (this.props.books.length === 0)
             return (
                 <h1>
-                    Loading...
+                    No books.
                 </h1>
             )
         return (
