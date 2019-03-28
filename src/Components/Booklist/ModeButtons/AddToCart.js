@@ -3,6 +3,7 @@ import { Typography, withStyles, Button,Dialog,TextField } from '@material-ui/co
 import Create from '@material-ui/icons/Create'
 import { connect } from 'react-redux';
 import agent from '../../../agent'
+import AddShoppingCart from '@material-ui/icons/AddShoppingCart'
 
 const styles = theme => ({
     edit: {
@@ -11,6 +12,8 @@ const styles = theme => ({
         color: "#0277bd",
         border: 'solid',
         textDecoration: 'underline',
+        height: 70,
+        width: 170,
     },
     buttonIcon: {
         marginLeft: -theme.spacing.unit,
@@ -20,6 +23,7 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     userId: state.user.userId,
+    identity: state.user.identity
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -38,6 +42,7 @@ class AddToCart extends React.Component {
 
         this.handleAddToCartOK = this.handleAddToCartOK.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleClick = this.handleClick.bind(this)
     }
 
     async handleAddToCartOK() {
@@ -53,16 +58,26 @@ class AddToCart extends React.Component {
         })
     }
 
+    handleClick() {
+        if (this.props.identity === 2) {
+            alert('Please sign in first!')
+            return;
+        }
+        this.setState({
+            open: true
+        })
+    }
+
     render() {
         const { classes, book } = this.props;
         return (
             <React.Fragment>
                 <Button
                     className={classes.edit}
-                    onClick={() => this.setState({ open: true })}
+                    onClick={this.handleClick}
                     variant="contained"
                 >
-                    <Create className={classes.buttonIcon} />
+                    <AddShoppingCart className={classes.buttonIcon} />
                     Add to Cart
                 </Button>
 

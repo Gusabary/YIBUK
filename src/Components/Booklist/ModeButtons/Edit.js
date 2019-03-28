@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom'
 
 const styles = theme => ({
     edit: {
-        marginLeft: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit * 4,
         backgroundColor: "#f4ff81",
         color: "#0277bd",
         border: 'solid',
         textDecoration: 'underline',
+        height: 70,
+        width: 170,
     },
     buttonIcon: {
         marginLeft: -theme.spacing.unit,

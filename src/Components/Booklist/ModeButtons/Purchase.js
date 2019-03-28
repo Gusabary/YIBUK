@@ -3,14 +3,17 @@ import { Typography, withStyles, Button,Dialog,TextField } from '@material-ui/co
 import Create from '@material-ui/icons/Create'
 import { connect } from 'react-redux';
 import agent from '../../../agent'
+import Check from '@material-ui/icons/Check'
 
 const styles = theme => ({
     edit: {
-        marginLeft: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit * 4,
         backgroundColor: "#f4ff81",
         color: "#0277bd",
         border: 'solid',
         textDecoration: 'underline',
+        height: 70,
+        width: 170,
     },
     buttonIcon: {
         marginLeft: -theme.spacing.unit,
@@ -20,6 +23,7 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     userId: state.user.userId,
+    identity: state.user.identity
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -36,6 +40,7 @@ class Purchase extends React.Component {
         }
         this.handlePurchaseOK = this.handlePurchaseOK.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleClick = this.handleClick.bind(this)
     }
 
     async handlePurchaseOK() {
@@ -55,16 +60,26 @@ class Purchase extends React.Component {
         })
     }
 
+    handleClick() {
+        if (this.props.identity === 2) {
+            alert('Please sign in first!')
+            return;
+        }
+        this.setState({
+            open: true
+        })
+    }
+
     render() {
         const { classes, book } = this.props;
         return (
             <React.Fragment>
                 <Button
                     className={classes.edit}
-                    onClick={() => this.setState({ open: true })}
+                    onClick={this.handleClick}
                     variant="contained"
                 >
-                    <Create className={classes.buttonIcon} />
+                    <Check className={classes.buttonIcon} />
                     Purchase
                 </Button>
 

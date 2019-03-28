@@ -6,9 +6,14 @@ import Purchase from './Purchase'
 import Edit from './Edit'
 
 const styles = theme => ({
-    buttons: {
+    twoButtons: {
         marginTop: theme.spacing.unit * 3,
         marginLeft: theme.spacing.unit * 5,
+        float: 'left',
+    },
+    oneButton: {
+        marginTop: theme.spacing.unit * 3,
+        marginLeft: theme.spacing.unit * 10,
         float: 'left',
     },
 });
@@ -23,18 +28,18 @@ class BookContent extends React.Component {
         return (
             <React.Fragment>
                 {mode === 1 &&
-                    <div className={classes.buttons}>
+                    <div className={classes.twoButtons}>
                         <AddToCart book={book} />
                         <Purchase book={book} />
                     </div>
                 }
                 {mode === 2 &&
-                    <div className={classes.buttons}>
+                    <div className={classes.oneButton}>
                         <Edit index={index} history={this.props.history} />
                     </div>
                 }
                 {mode === 3 &&
-                    <div className={classes.buttons}>
+                    <div className={classes.oneButton}>
                         <Purchase book={book} />
                     </div>
                 }

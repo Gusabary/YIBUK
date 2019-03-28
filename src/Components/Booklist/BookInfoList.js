@@ -6,6 +6,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import Title from '@material-ui/icons/Title'
+import Person from '@material-ui/icons/Person'
+import Storage from '@material-ui/icons/Storage'
+import AttachMoney from '@material-ui/icons/AttachMoney'
 
 class BookInfoList extends React.Component {
     render() {
@@ -15,7 +19,7 @@ class BookInfoList extends React.Component {
                 <List>
                     <ListItem>
                         <ListItemIcon>
-                            <InboxIcon />
+                            <Title />
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
@@ -25,7 +29,7 @@ class BookInfoList extends React.Component {
                     </ListItem>
                     <ListItem>
                         <ListItemIcon>
-                            <DraftsIcon />
+                            <Person />
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
@@ -45,7 +49,7 @@ class BookInfoList extends React.Component {
                     </ListItem>
                     <ListItem>
                         <ListItemIcon>
-                            <DraftsIcon />
+                            <Storage />
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
@@ -55,7 +59,7 @@ class BookInfoList extends React.Component {
                     </ListItem>
                     <ListItem>
                         <ListItemIcon>
-                            <DraftsIcon />
+                            <AttachMoney />
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
