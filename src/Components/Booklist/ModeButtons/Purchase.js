@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, withStyles, Button,Dialog,TextField } from '@material-ui/core'
+import { Typography, withStyles, Button, Dialog, TextField } from '@material-ui/core'
 import Create from '@material-ui/icons/Create'
 import { connect } from 'react-redux';
 import agent from '../../../agent'
@@ -13,7 +13,10 @@ const styles = theme => ({
         border: 'solid',
         textDecoration: 'underline',
         height: 70,
-        width: 170,
+        width: 180,
+    },
+    text: {
+        color: "#0277bd",
     },
     buttonIcon: {
         marginLeft: -theme.spacing.unit,
@@ -80,7 +83,9 @@ class Purchase extends React.Component {
                     variant="contained"
                 >
                     <Check className={classes.buttonIcon} />
-                    Purchase
+                    <Typography variant='h6' className={classes.text}>
+                        Purchase
+                    </Typography>
                 </Button>
 
                 <Dialog open={this.state.open}>

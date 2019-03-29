@@ -7,13 +7,13 @@ import Edit from './Edit'
 
 const styles = theme => ({
     twoButtons: {
-        marginTop: theme.spacing.unit * 3,
+        marginTop: theme.spacing.unit * 5,
         marginLeft: theme.spacing.unit * 5,
         float: 'left',
     },
     oneButton: {
-        marginTop: theme.spacing.unit * 3,
-        marginLeft: theme.spacing.unit * 10,
+        marginTop: theme.spacing.unit * 5,
+        marginLeft: theme.spacing.unit * 15,
         float: 'left',
     },
 });

@@ -13,7 +13,10 @@ const styles = theme => ({
         border: 'solid',
         textDecoration: 'underline',
         height: 70,
-        width: 170,
+        width: 210,
+    },
+    text: {
+        color: "#0277bd",
     },
     buttonIcon: {
         marginLeft: -theme.spacing.unit,
@@ -78,7 +81,9 @@ class AddToCart extends React.Component {
                     variant="contained"
                 >
                     <AddShoppingCart className={classes.buttonIcon} />
-                    Add to Cart
+                    <Typography variant='h6' className={classes.text}>
+                            Add to Cart
+                    </Typography>
                 </Button>
 
                 <Dialog open={this.state.open}>

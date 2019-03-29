@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles, Button } from '@material-ui/core'
+import { withStyles, Button,Typography } from '@material-ui/core'
 import Create from '@material-ui/icons/Create'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -12,7 +12,10 @@ const styles = theme => ({
         border: 'solid',
         textDecoration: 'underline',
         height: 70,
-        width: 170,
+        width: 150,
+    },
+    text: {
+        color: "#0277bd",
     },
     buttonIcon: {
         marginLeft: -theme.spacing.unit,
@@ -49,7 +52,9 @@ class Edit extends React.Component {
                         variant="contained"
                     >
                         <Create className={classes.buttonIcon} />
-                        Edit
+                        <Typography variant='h6' className={classes.text}>
+                            Edit
+                        </Typography>
                     </Button>
                 </Link>
             </React.Fragment>
