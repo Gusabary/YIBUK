@@ -15,7 +15,7 @@ const mapDispatchToProps = dispatch => ({
 
 const styles = theme => ({
     buttons: {
-        position: 'fixed',
+        position: 'absolute',
         right: theme.spacing.unit * 4
     },
     icon: {
