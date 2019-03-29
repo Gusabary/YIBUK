@@ -9,14 +9,6 @@ const customers = (state = defaultState, action) => {
                 ...state,
                 customers: action.payload.users,
             }
-        case 'TOGGLE_VALIDITY': {
-            let newCustomers = state.customers;
-            newCustomers[action.payload.index].validity = action.payload.targetValidity;
-            return {
-                ...state,
-                customers: newCustomers,
-            }
-        }
         default:
             return state
     }
