@@ -85,7 +85,7 @@ public class Validity extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
-            sql="SELECT `userId`, `username`,`email`, `validity` from `user`";
+            sql="SELECT `userId`, `username`,`email`, `validity` from `user` where `identity` = 0";
 
             ResultSet rs = stmt.executeQuery(sql);
 
