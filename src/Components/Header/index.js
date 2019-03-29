@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AppBar, Toolbar, Typography, withStyles} from '@material-ui/core';
+import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import Subheader from './Subheader'
 import LogButtons from './LogButtons';
 import Logo from './Logo'
@@ -18,14 +18,8 @@ const styles = theme => ({
         marginLeft: -theme.spacing.unit,
         width: '101%',
     },
-    sub: {
-        backgroundColor: theme.palette.primary.light,
-        height: theme.spacing.unit * 6,
-        marginLeft: -theme.spacing.unit,
-        width: '101%',
-    },
-    logo: {
-        textDecoration: 'none'
+    greeting: {
+        marginLeft: 100,
     }
 })
 
@@ -38,6 +32,7 @@ class Header extends React.Component {
                     <Toolbar>
                         <Logo />
                         <Greeting
+                            className={classes.greeting}
                             username={this.props.username}
                             identity={this.props.identity}
                         />

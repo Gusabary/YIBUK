@@ -21,6 +21,9 @@ const styles = theme => ({
     sub: {
         backgroundColor: theme.palette.primary.light,
         height: theme.spacing.unit * 6
+    },
+    text: {
+        fontFamily: 'STXingkai'
     }
 })
 
@@ -31,7 +34,9 @@ class Footer extends React.Component {
             <React.Fragment>
                 <AppBar position="static" className={classes.main}>
                     <Toolbar>
-                        Youthful Imagination Brings U Knowledge.
+                        <Typography variant='h6' className={classes.text}>
+                            Youthful Imagination Brings U Knowledge.
+                        </Typography>
                     </Toolbar>
                 </AppBar>
             </React.Fragment>
