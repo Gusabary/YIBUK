@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent'
 import Booklist from '../Booklist/index'
-import BooklistCart from './BooklistCart'
-import ControlPurchase from './ControlPurchase'
+import BooklistCart from './Booklist'
+import ControlButtons from './ControlButtons'
 import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 
 const styles = theme => ({
@@ -151,7 +151,7 @@ class Cart extends React.Component {
         else
             return (
                 <React.Fragment>
-                    <ControlPurchase
+                    <ControlButtons
                         isBuying={this.state.isBuying}
                         isDeleting={this.state.isDeleting}
                         handleClick={(field) => this.handleClick(field)}

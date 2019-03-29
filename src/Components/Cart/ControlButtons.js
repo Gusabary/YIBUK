@@ -5,7 +5,7 @@ const styles = theme => ({
 
 });
 
-class ControlPurchase extends React.Component {
+class ControlButtons extends React.Component {
     render() {
         const { classes, isBuying, isDeleting } = this.props;
         return (
@@ -49,4 +49,4 @@ class ControlPurchase extends React.Component {
     }
 }
 
-export default (withStyles(styles)(ControlPurchase));
+export default (withStyles(styles)(ControlButtons));

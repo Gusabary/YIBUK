@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-class ControlManage extends React.Component {
+class ControlButtons extends React.Component {
     render() {
         const { classes, isDeleting } = this.props;
         return (
@@ -59,4 +59,4 @@ class ControlManage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ControlManage));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ControlButtons));

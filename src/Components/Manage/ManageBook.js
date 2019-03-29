@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent'
 import Booklist from '../Booklist/index'
-import BooklistManage from './BooklistManage';
-import ControlManage from './ControlManage';
+import BooklistManage from './Booklist';
+import ControlButtons from './ControlButtons';
 import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 
 const styles = theme => ({
@@ -64,7 +64,7 @@ class ManageBook extends React.Component {
         const { classes } = this.props;
         return (
             <React.Fragment>
-                <ControlManage
+                <ControlButtons
                     isDeleting={this.state.isDeleting}
                     handleClick={() => this.setState({ isDeleting: !this.state.isDeleting })}
                     handleDeleteOK={this.handleDeleteOK}
