@@ -10,6 +10,7 @@ const user = (state =defaultState, action) => {
             return {
                 ...state,
                 userId: action.payload.userId,
+                username: action.payload.username,
                 identity: action.payload.identity,
                 validity: action.payload.validity,
             }

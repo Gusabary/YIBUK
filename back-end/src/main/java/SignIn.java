@@ -46,13 +46,14 @@ public class SignIn extends HttpServlet {
             stmt = conn.createStatement();
 
             String sql;
-            sql="SELECT `userId`, `identity`, `validity` from `user`" +
+            sql="SELECT `userId`, `username`, `identity`, `validity` from `user`" +
                     "WHERE `username`='"+username+"' AND `password`='"+password+"'";
 
             ResultSet rs = stmt.executeQuery(sql);
             JSONObject resp = new JSONObject();
             while(rs.next()) {
                 resp.put("userId", rs.getInt("userId"));
+                resp.put("username", rs.getString("username"));
                 resp.put("identity", rs.getInt("identity"));
                 resp.put("validity", rs.getInt("validity"));
             }

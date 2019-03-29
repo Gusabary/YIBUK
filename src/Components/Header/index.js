@@ -1,16 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AppBar, Toolbar, Button, TextField, Typography, withStyles, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
-import { Link } from 'react-router-dom'
+import { AppBar, Toolbar, Typography, withStyles} from '@material-ui/core';
+import Subheader from './Subheader'
+import LogButtons from './LogButtons';
+import Logo from './Logo'
+import Greeting from './Greeting'
 
 const mapStateToProps = state => ({
-    userId: state.user.userId,
+    username: state.user.username,
     identity: state.user.identity,
-})
-
-const mapDispatchToProps = dispatch => ({
-    onLogOut: () =>
-        dispatch({ type: "LOG_OUT" })
 })
 
 const styles = theme => ({
@@ -25,91 +23,32 @@ const styles = theme => ({
         height: theme.spacing.unit * 6,
         marginLeft: -theme.spacing.unit,
         width: '101%',
+    },
+    logo: {
+        textDecoration: 'none'
     }
 })
 
 class Header extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleLogOut = this.handleLogOut.bind(this);
-    }
-
-    handleLogOut() {
-        this.props.onLogOut();
-    }
-
     render() {
         const { classes } = this.props;
         return (
             <React.Fragment>
                 <AppBar position="static" className={classes.main}>
                     <Toolbar>
-                        <Link to="/">
-                            <Button>
-                                e-Book
-                            </Button>
-                        </Link>
-                        <Typography>
-                            You are
-                            {this.props.identity === 2 && ' Visitor'}
-                            {this.props.identity === 0 && ' Customer'}
-                            {this.props.identity === 1 && ' Administrator'}
-                            {this.props.userId}
-                        </Typography>
-                        {this.props.identity === 2 ? (
-                            <div>
-                                <Link to="SignIn">
-                                    <Button>
-                                        Sign In
-                                    </Button>
-                                </Link>
-                                <Link to="SignUp">
-                                    <Button>
-                                        Sign Up
-                                    </Button>
-                                </Link>
-                            </div>) : (
-                                <Link to="/">
-                                    <Button onClick={this.handleLogOut}>
-                                        Log Out
-                                    </Button>
-                                </Link>
-                            )}
+                        <Logo />
+                        <Greeting
+                            username={this.props.username}
+                            identity={this.props.identity}
+                        />
+                        <LogButtons isLoggedin={this.props.identity !== 2} />
                     </Toolbar>
                 </AppBar>
                 {this.props.identity !== 2 && (
-                    <AppBar position="static" className={classes.sub}>
-                        <Toolbar>
-                            {this.props.identity === 1 && (
-                                <Link to="Manage">
-                                    <Button>
-                                        Manage
-                                </Button>
-                                </Link>
-                            )}
-
-                            <Link to="Statistics">
-                                <Button>
-                                    Statistics
-                            </Button>
-                            </Link>
-                            <Link to="Orders">
-                                <Button>
-                                    Orders
-                            </Button>
-                            </Link>
-                            {this.props.identity === 1 || (
-                                <Link to="Cart">
-                                    <Button>
-                                        Cart
-                                    </Button>
-                                </Link>
-                            )}
-                        </Toolbar>
-                    </AppBar>
+                    <Subheader isAdmin={this.props.identity === 1} />
                 )}
             </React.Fragment>
         );
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Header));
+export default connect(mapStateToProps)(withStyles(styles)(Header));
