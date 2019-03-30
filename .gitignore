@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+/front-end/node_modules
 /.pnp
 .pnp.js
 
@@ -20,7 +20,8 @@
 
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+/front-end/yarn-error.log*
+/front-end/yarn.lock
 
 # back-end environment
 /back-end/back-end.iml

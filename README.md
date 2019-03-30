@@ -1,68 +1,87 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# YIBUK
 
-## Available Scripts
+## Repo introduction
 
-In the project directory, you can run:
+In this repo is the course project of Web development, 2019 Spring semester. Its requirement is to develop an application which can behave just like an online bookstore.
 
-### `npm start`
+And it is my first full-stack project.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Current version
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+v1.0
 
-### `npm test`
+### Function description
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+At present stage, you cannot reach my application from Internet since I haven't deployed it.
 
-### `npm run build`
++ #### visit, sign up, sign in, log out
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Entering from local, you can view a list of books and their detailed information with the identity of visitors. 
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+If you want to add some books to shopping cart or do purchasing, you need to sign in first. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+In case that you are a newcomer, the sign up button is just beside the sign in one. To sign up, username, passwords and email are required but don't worry, we won't really verify the email you just typed in. 
 
-### `npm run eject`
+After signing in, you can log out at almost any time.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
++ #### add to cart, purchase
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Now you can view book list as a customer, that means you can see two buttons, 'add to cart' and 'purchase', if a book panel is expanded. Click 'add to cart' button, you can choose the quantity of that book to put in cart. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Click the other one, you can also choose the quantity to buy, but note that storage of the book to be bought is limited. By the way, you have infinite money, at least in current version.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
++ #### play with cart
 
-## Learn More
+At the sub header, you can see three buttons. They are 'Statistics', 'Orders' and 'Cart'. The cart button will bring you to your shopping cart, where lie books you selected to put here. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To purchase, you can expand a book panel to buy the certain one. Also, at the top left exist two buttons, clicking the right one 'Buy' will take you to shopping mode, where you can click a book panel header to buy it, instead of expanding it. That is to say, you can buy more than one kind of book at a time. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Return to the left one of the top left buttons and it is 'Delete'. Obviously, you can drop books from your cart after entering deleting mode with the same mechanism.
 
-### Code Splitting
++ #### view statistics and orders
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+Beside the cart button in the sub header, there are statistics and order ones. At statistics page, you can see how many books of each kind you have purchased exactly during a certain time span.
 
-### Analyzing the Bundle Size
+At orders page, you can see each order you have made, including orderId, bookId, purchases and payment time.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
++ #### sort, filter
 
-### Making a Progressive Web App
+On many occasions, there are two powerful functions, sort and filter. You can use them to get books you want, confirm a certain order quickly and screen out statistics during a certain period.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
++ #### manage books, ban/unban customers
 
-### Advanced Configuration
+If you are an administrator (probably not), you can manage books in the online store, such as adding a book, updating a book and deleting a book.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Also, a list of customer information can chosen to be shown, with which you can ban or unban someone just by toggling a switch. 
 
-### Deployment
+### Features to be realized
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
++ can sort and filter in manage and cart pages
++ display a dialog to confirm when making a purchase
++ keep former cover as default when editing
++ fix the footer at the bottom of page really
++ further beautification
 
-### `npm run build` fails to minify
+## API Spec.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+See [here](./API-Spec.md).
+
+## History version
+
+### v1.0
+
+release
+
+## Something trivial
+
+Given that the project name *e-book* is too straight forward, (Actually I don't think an online bookstore has to sell e-books. That means print ones are also available there. Anyway.) I got a name that is a little bit more interesting, *YIBUK*, which means *Youthful Imagination Brings U Knowledge*. Although the sentence looks a little farfetched and strange, it is after all better than *e-book*, maybe.
+
+I created this repo at Feb. 27th, almost a month and 100 commits ago. From developing the project, I actually learned a lot and now I feel excited and delighted, indeed.
+
+Well, welcome to raise an issue ~
+
+## License
+
+MIT
+
+##### Last-modified date: 2019.3.30, 9 p.m.
