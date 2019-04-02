@@ -33,7 +33,11 @@ const updateCart = (books, cart) => {
     let booksInCart = [];
     let k = 0;
     books.forEach((book) => {
-        if (k >= cart.length)
+        if (k >= cart.length) 
+            return;
+        if (book.bookId > cart[k].bookId) 
+            k++
+        if (k >= cart.length) 
             return;
         if (book.bookId === cart[k].bookId) {
             booksInCart.push(book);
