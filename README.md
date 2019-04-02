@@ -8,7 +8,7 @@ And it is my first full-stack project.
 
 ### Current version
 
-v1.0
+v1.1
 
 ### Function description
 
@@ -68,9 +68,14 @@ See [here](./API-Spec.md).
 
 ## History version
 
-### v1.0
+### v1.0 
 
-release
+**2019.3.30** release
+
+**v1.1**  2019.4.2
+
++ fixed a bug, which resulted in that when books in cart were deleted from booklist by administrator, some books would not be displayed properly in cart page
++ updated version of one of the back-end dependencies, commons-fileupload, to 1.3.3
 
 ## Something trivial
 
@@ -84,4 +89,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.3.30, 9 p.m.
+##### Last-modified date: 2019.4.2, 10 p.m.
