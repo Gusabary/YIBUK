@@ -2,7 +2,7 @@
 
 ## Sign in
 
-`POST /api/user/signin`
+`POST /api/users/signin`
 
 example request body:
 
@@ -44,7 +44,7 @@ example response body:
 
 ## Sign up
 
-`POST /api/user/signup`
+`POST /api/users/signup`
 
 example request body:
 
@@ -112,7 +112,7 @@ example response body:
 
 ## Show books
 
-`GET /api/manage/book`
+`GET /api/books/show`
 
 example response body:
 
