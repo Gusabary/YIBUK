@@ -13,8 +13,8 @@ public class UserService {
     UserRepository userRepository;
 
     public JSONObject signin(String username, String password) {
-        User user = userRepository.findByUsernameAndPassword(username, password);
         JSONObject resp = new JSONObject();
+        User user = userRepository.findByUsernameAndPassword(username, password);
 
         if (user == null) {
             resp.put("error", "Wrong username or password!");
@@ -28,6 +28,18 @@ public class UserService {
         resp.put("username", user.getUsername());
         resp.put("identity", user.getIdentity());
         resp.put("validity", user.getValidity());
+        return resp;
+    }
+
+    public JSONObject signup(String username, String password, String email) {
+        JSONObject resp = new JSONObject();
+
+        if (userRepository.findByUsername(username) != null) {
+            resp.put("error", "Username has existed!");
+            return resp;
+        }
+        userRepository.save(new User(username, password, email, 0, 1));
+        resp.put("message", "Sign up successfully!");
         return resp;
     }
 }
