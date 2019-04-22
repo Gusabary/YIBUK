@@ -145,7 +145,7 @@ example response body:
 
 ## Update a book
 
-`PUT /api/manage/book`
+`PUT /api/books/manage`
 
 example request body (note that it is a **FormData**):
 

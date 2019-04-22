@@ -9,8 +9,8 @@ import javax.persistence.*;
 public class Book {
 
     @Id
-    @GeneratedValue(generator = "AI")
-    @GenericGenerator(name = "AI", strategy = "increment")
+    /*@GeneratedValue(generator = "AI")
+    @GenericGenerator(name = "AI", strategy = "increment")*/
     @Column(name = "bookId")
     private int bookId;
 

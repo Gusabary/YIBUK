@@ -6,6 +6,10 @@ import com.example.demo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.entity.Book;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.File;
 
 @Service
 public class BookService {
@@ -29,5 +33,36 @@ public class BookService {
         resp.put("message", "Add book successfully!");
         resp.put("newBook", bookRepository.findByIsbn(book.getIsbn()));
         return resp;
+    }
+
+    public JSONObject update(Book book) {
+        JSONObject resp = new JSONObject();
+
+        bookRepository.save(book);
+        resp.put("message", "Update book successfully!");
+        resp.put("newBook", book);
+        return resp;
+    }
+
+    public Book parseFormData(MultipartHttpServletRequest request) {
+        String bookName = request.getParameter("bookName");
+        String author = request.getParameter("author");
+        String coverPath = request.getFile("image").getOriginalFilename();
+        String ISBN = request.getParameter("ISBN");
+        int storage = Integer.parseInt(request.getParameter("storage"));
+        float price = Float.parseFloat(request.getParameter("price"));
+        String introduction = request.getParameter("introduction");
+
+        return new Book(bookName, author, coverPath, ISBN, storage, price, introduction);
+    }
+
+    public void saveImage(MultipartFile image) {
+        String coverPath = image.getOriginalFilename();
+        try {
+            image.transferTo(new File("F:\\github\\YIBUK\\front-end\\public\\images\\" + coverPath));
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

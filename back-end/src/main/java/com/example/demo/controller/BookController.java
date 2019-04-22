@@ -41,24 +41,21 @@ public class BookController {
     @RequestMapping(value = "/manage", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<JSONObject> create(MultipartHttpServletRequest request) {
-        String bookName = request.getParameter("bookName");
-        String author = request.getParameter("author");
-        String ISBN = request.getParameter("ISBN");
-        int storage = Integer.parseInt(request.getParameter("storage"));
-        float price = Float.parseFloat(request.getParameter("price"));
-        String introduction = request.getParameter("introduction");
+        bookService.saveImage(request.getFile("image"));
 
-        MultipartFile image = request.getFile("image");
-        String coverPath = image.getOriginalFilename();
-        try {
-            image.transferTo(new File("F:\\github\\YIBUK\\front-end\\public\\images\\" + coverPath));
-        }
-        catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        Book book = new Book(bookName, author, coverPath, ISBN, storage, price, introduction);
+        Book book = bookService.parseFormData(request);
         JSONObject resp = bookService.create(book);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/manage", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<JSONObject> update(MultipartHttpServletRequest request) {
+        bookService.saveImage(request.getFile("image"));
+
+        Book book = bookService.parseFormData(request);
+        book.setBookId(Integer.parseInt(request.getParameter("bookId")));
+        JSONObject resp = bookService.update(book);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 }
