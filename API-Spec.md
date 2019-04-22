@@ -76,7 +76,7 @@ example response body:
 
 ## Create a book
 
-`POST /api/manage/book`
+`POST /api/books/manage`
 
 example request body (note that it is a **FormData**):
 

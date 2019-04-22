@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,6 +9,8 @@ import javax.persistence.*;
 public class Book {
 
     @Id
+    @GeneratedValue(generator = "AI")
+    @GenericGenerator(name = "AI", strategy = "increment")
     @Column(name = "bookId")
     private int bookId;
 
@@ -33,8 +37,7 @@ public class Book {
 
     public Book() {}
 
-    public Book(int bookId, String bookName, String author, String coverPath, String isbn, int storage, double price, String introduction) {
-        this.bookId = bookId;
+    public Book(String bookName, String author, String coverPath, String isbn, int storage, double price, String introduction) {
         this.bookName = bookName;
         this.author = author;
         this.coverPath =coverPath;

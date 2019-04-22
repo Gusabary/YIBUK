@@ -21,4 +21,13 @@ public class BookService {
         resp.put("books", books);
         return resp;
     }
+
+    public JSONObject create(Book book) {
+        JSONObject resp = new JSONObject();
+
+        bookRepository.save(book);
+        resp.put("message", "Add book successfully!");
+        resp.put("newBook", bookRepository.findByIsbn(book.getIsbn()));
+        return resp;
+    }
 }
