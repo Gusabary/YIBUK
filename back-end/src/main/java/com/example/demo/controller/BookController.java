@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.BookService;
 import com.example.demo.entity.Book;
@@ -56,6 +57,15 @@ public class BookController {
         Book book = bookService.parseFormData(request);
         book.setBookId(Integer.parseInt(request.getParameter("bookId")));
         JSONObject resp = bookService.update(book);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/manage", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<JSONObject> delete(@RequestBody String request) {
+        JSONArray bookIds = JSONObject.parseObject(request).getJSONArray("books");
+
+        JSONObject resp = bookService.delete(bookIds);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 }

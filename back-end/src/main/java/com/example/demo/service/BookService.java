@@ -44,6 +44,14 @@ public class BookService {
         return resp;
     }
 
+    public JSONObject delete(JSONArray bookIds) {
+        JSONObject resp = new JSONObject();
+
+        bookIds.forEach(bookId -> bookRepository.deleteById(Integer.parseInt(bookId.toString())));
+        resp.put("message", "Delete book successfully!");
+        return resp;
+    }
+
     public Book parseFormData(MultipartHttpServletRequest request) {
         String bookName = request.getParameter("bookName");
         String author = request.getParameter("author");

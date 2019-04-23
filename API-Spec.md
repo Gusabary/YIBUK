@@ -182,7 +182,7 @@ example response body:
 
 ## Delete books
 
-`DELETE /api/manage/book`
+`DELETE /api/books/manage`
 
 example request body:
 
