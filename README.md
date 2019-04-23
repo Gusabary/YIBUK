@@ -8,7 +8,7 @@ And it is my first full-stack project.
 
 ### Current version
 
-v1.1
+v2.0
 
 ### Function description
 
@@ -77,6 +77,13 @@ See [here](./API-Spec.md).
 + fixed a bug, which resulted in that when books in cart were deleted from booklist by administrator, some books would not be displayed properly in cart page
 + updated version of one of the back-end dependencies, commons-fileupload, to 1.3.3
 
+### v2.0
+
+**2019.4.23** 
+
++ refactored back-end to SpringBoot + Hibernate 
++ adjusted HTTP api
+
 ## Something trivial
 
 Given that the project name *e-book* is too straight forward, (Actually I don't think an online bookstore has to sell e-books. That means print ones are also available there. Anyway.) I got a name that is a little bit more interesting, *YIBUK*, which means *Youthful Imagination Brings U Knowledge*. Although the sentence looks a little farfetched and strange, it is after all better than *e-book*, maybe.
@@ -89,4 +96,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.4.2, 10 p.m.
+##### Last-modified date: 2019.4.23, 8 p.m.
