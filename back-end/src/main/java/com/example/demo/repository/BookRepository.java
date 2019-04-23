@@ -7,5 +7,4 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
 
     Book findByIsbn(String isbn);
 
-
 }
