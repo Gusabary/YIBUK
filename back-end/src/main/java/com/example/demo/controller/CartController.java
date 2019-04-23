@@ -52,7 +52,7 @@ public class CartController {
         JSONObject req = JSONObject.parseObject(request);
         int userId = req.getInteger("userId");
         JSONArray books = req.getJSONArray("books");
-        
+
         JSONObject resp = cartService.delete(userId, books);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }

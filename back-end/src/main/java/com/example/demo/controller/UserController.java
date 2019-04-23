@@ -44,4 +44,11 @@ public class UserController {
             return new ResponseEntity<JSONObject>(resp, HttpStatus.EXPECTATION_FAILED);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<JSONObject> show() {
+        JSONObject resp = userService.show();
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -42,4 +43,21 @@ public class UserService {
         resp.put("message", "Sign up successfully!");
         return resp;
     }
+
+    public JSONObject show() {
+        JSONObject resp = new JSONObject();
+        JSONArray users = new JSONArray();
+
+        userRepository.findAll().forEach(user -> {
+            JSONObject tmp = new JSONObject();
+            tmp.put("userId", user.getUserId());
+            tmp.put("username", user.getUsername());
+            tmp.put("email", user.getEmail());
+            tmp.put("validity", user.getValidity());
+            users.add(tmp);
+        });
+        resp.put("users", users);
+        return resp;
+    }
+
 }
