@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,17 @@ public class CartController {
         int quantity = req.getInteger("quantity");
 
         JSONObject resp = cartService.add(userId, bookId, quantity);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/manage", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<JSONObject> purchase(@RequestBody String request) {
+        JSONObject req = JSONObject.parseObject(request);
+        int userId = req.getInteger("userId");
+        JSONArray books = req.getJSONArray("books");
+
+        JSONObject resp = cartService.purchase(userId, books);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 }

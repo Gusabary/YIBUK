@@ -14,4 +14,6 @@ public interface CartRepository extends CrudRepository<Cart, Pair<Integer, Integ
     Iterable<Cart> findByUserId(int userId);
 
     Cart findByUserIdAndBookId(int userId, int bookId);
+
+    Cart findByBookId(int bookId);
 }

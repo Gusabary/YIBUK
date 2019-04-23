@@ -2,17 +2,28 @@ package com.example.demo.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.entity.Book;
 import com.example.demo.entity.Cart;
+import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.CartRepository;
+import com.example.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private OrderService orderService;
 
     public JSONObject show(int userId) {
         JSONObject resp = new JSONObject();
@@ -29,12 +40,39 @@ public class CartService {
     }
 
     public JSONObject add(int userId, int bookId, int quantity) {
+        JSONObject resp = new JSONObject();
         int targetQuantity = quantity;
         if (doesExist(userId, bookId))
             targetQuantity += cartRepository.findByUserIdAndBookId(userId, bookId).getQuantity();
 
         cartRepository.save(new Cart(userId, bookId, targetQuantity));
-        return new JSONObject();
+        resp.put("message", "Add to cart successfully!");
+        return resp;
+    }
+
+    public JSONObject purchase(int userId, JSONArray books) {
+        JSONObject resp = new JSONObject();
+
+        String now = String.valueOf(new Date().getTime());
+        books.forEach(bookInCart -> {
+            int bookId = ((JSONObject)bookInCart).getInteger("bookId");
+            int consume = ((JSONObject)bookInCart).getInteger("quantity");
+            Book book = bookRepository.findByBookId(bookId);
+            Cart cart = cartRepository.findByUserIdAndBookId(userId, bookId);
+            int storage = book.getStorage();
+            int quantity = cart.getQuantity();
+
+            book.setStorage(storage - consume);
+            bookRepository.save(book);
+            cart.setQuantity((quantity - consume <= 0) ? 1 : (quantity - consume));
+            cartRepository.save(cart);
+
+            orderService.add(now, userId, bookId, consume);
+
+        });
+
+        resp.put("message", "Purchase successfully!");
+        return resp;
     }
 
     public boolean doesExist(int userId, int bookId) {
@@ -42,6 +80,5 @@ public class CartService {
             return false;
         return true;
     }
-
 
 }
