@@ -202,7 +202,7 @@ example response body:
 
 ## Show customers
 
-`GET /api/manage/user`
+`GET /api/users/show`
 
 example response body:
 
@@ -227,13 +227,13 @@ example response body:
 
 ## Ban/Unban customers
 
-`PUT /api/manage/user`
+`PUT /api/users/manage`
 
 example request body:
 
 ```json
 {
-    "userId": "tbc",
+    "userId": 1,
     "targetValidity": 0
 }
 ```

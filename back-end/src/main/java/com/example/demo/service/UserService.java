@@ -60,4 +60,15 @@ public class UserService {
         return resp;
     }
 
+    public JSONObject toggle(int userId, int targetValidity) {
+        JSONObject resp = new JSONObject();
+
+        User user = userRepository.findById(userId).get();
+        user.setValidity(targetValidity);
+        userRepository.save(user);
+
+        resp.put("message", "Update validity successfully!");
+        return resp;
+    }
+
 }

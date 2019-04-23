@@ -51,4 +51,15 @@ public class UserController {
         JSONObject resp = userService.show();
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/manage", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<JSONObject> toggle(@RequestBody String request) {
+        JSONObject req = JSONObject.parseObject(request);
+        int userId = req.getInteger("userId");
+        int targetValidity = req.getInteger("targetValidity");
+
+        JSONObject resp = userService.toggle(userId, targetValidity);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
 }
