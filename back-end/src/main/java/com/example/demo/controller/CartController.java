@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/api/carts")
@@ -20,8 +17,20 @@ public class CartController {
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<JSONObject> show(@RequestParam int userId){
+    public ResponseEntity<JSONObject> show(@RequestParam int userId) {
         JSONObject resp = cartService.show(userId);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/manage", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<JSONObject> add(@RequestBody String request) {
+        JSONObject req = JSONObject.parseObject(request);
+        int userId = req.getInteger("userId");
+        int bookId = req.getInteger("bookId");
+        int quantity = req.getInteger("quantity");
+
+        JSONObject resp = cartService.add(userId, bookId, quantity);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 }

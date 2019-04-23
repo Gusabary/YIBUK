@@ -20,8 +20,8 @@ public class Cart {
 
     public Cart() {}
 
-    public Cart(/*int userId, */int bookId, int quantity) {
-        //this.userId = userId;
+    public Cart(int userId, int bookId, int quantity) {
+        this.userId = userId;
         this.bookId = bookId;
         this.quantity = quantity;
     }

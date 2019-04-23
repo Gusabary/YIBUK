@@ -248,7 +248,7 @@ example response body:
 
 ## Add books to cart
 
-`POST /api/cart`
+`POST /api/carts/manage`
 
 example request body:
 
@@ -270,7 +270,7 @@ example response body:
 
 ## Show books in cart
 
-`GET /api/cart?userId=1`
+`GET /api/carts/show?userId=1`
 
 example response body:
 
