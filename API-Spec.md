@@ -20,7 +20,7 @@ example response body:
   ``` json
   {
       "userId": 65536,
-      "username": ICS-loser,
+      "username": "ICS-loser",
       "identity": 1,
       "validity": 1
   }
