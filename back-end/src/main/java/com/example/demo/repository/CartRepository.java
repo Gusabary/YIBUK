@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.util.Pair;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,5 +16,6 @@ public interface CartRepository extends CrudRepository<Cart, Pair<Integer, Integ
 
     Cart findByUserIdAndBookId(int userId, int bookId);
 
-    Cart findByBookId(int bookId);
+    @Transactional
+    void deleteByUserIdAndBookId(int userId, int bookId);
 }

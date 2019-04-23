@@ -75,6 +75,14 @@ public class CartService {
         return resp;
     }
 
+    public JSONObject delete(int userId, JSONArray books) {
+        JSONObject resp = new JSONObject();
+
+        books.forEach(bookId -> cartRepository.deleteByUserIdAndBookId(userId, Integer.parseInt(bookId.toString())));
+        resp.put("message", "Delete successfully!");
+        return resp;
+    }
+
     public boolean doesExist(int userId, int bookId) {
         if (cartRepository.findByUserIdAndBookId(userId, bookId) == null)
             return false;

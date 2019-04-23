@@ -291,7 +291,7 @@ example response body:
 
 ## Purchase from cart
 
-`PUT /api/cart`
+`PUT /api/carts/manage`
 
 example request body:
 
@@ -321,7 +321,7 @@ example response body:
 
 ## Delete books in cart:
 
-`DELETE /api/cart`
+`DELETE /api/carts/manage`
 
 example request body:
 
