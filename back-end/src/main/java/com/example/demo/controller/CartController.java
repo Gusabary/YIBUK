@@ -25,8 +25,8 @@ public class CartController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<JSONObject> add(@RequestBody String request) {
-        JSONObject req = JSONObject.parseObject(request);
+    public ResponseEntity<JSONObject> add(@RequestBody String requestBody) {
+        JSONObject req = JSONObject.parseObject(requestBody);
         int userId = req.getInteger("userId");
         int bookId = req.getInteger("bookId");
         int quantity = req.getInteger("quantity");
@@ -37,8 +37,8 @@ public class CartController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<JSONObject> purchase(@RequestBody String request) {
-        JSONObject req = JSONObject.parseObject(request);
+    public ResponseEntity<JSONObject> purchase(@RequestBody String requestBody) {
+        JSONObject req = JSONObject.parseObject(requestBody);
         int userId = req.getInteger("userId");
         JSONArray books = req.getJSONArray("books");
 
@@ -48,8 +48,8 @@ public class CartController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<JSONObject> delete(@RequestBody String request) {
-        JSONObject req = JSONObject.parseObject(request);
+    public ResponseEntity<JSONObject> delete(@RequestBody String requestBody) {
+        JSONObject req = JSONObject.parseObject(requestBody);
         int userId = req.getInteger("userId");
         JSONArray books = req.getJSONArray("books");
 

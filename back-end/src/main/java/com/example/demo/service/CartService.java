@@ -20,9 +20,6 @@ public class CartService {
     private CartRepository cartRepository;
 
     @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
     private OrderService orderService;
 
     public JSONObject show(int userId) {
@@ -57,18 +54,13 @@ public class CartService {
         books.forEach(bookInCart -> {
             int bookId = ((JSONObject)bookInCart).getInteger("bookId");
             int consume = ((JSONObject)bookInCart).getInteger("quantity");
-            Book book = bookRepository.findByBookId(bookId);
-            Cart cart = cartRepository.findByUserIdAndBookId(userId, bookId);
-            int storage = book.getStorage();
-            int quantity = cart.getQuantity();
 
-            book.setStorage(storage - consume);
-            bookRepository.save(book);
+            Cart cart = cartRepository.findByUserIdAndBookId(userId, bookId);
+            int quantity = cart.getQuantity();
             cart.setQuantity((quantity - consume <= 0) ? 1 : (quantity - consume));
             cartRepository.save(cart);
 
             orderService.add(now, userId, bookId, consume);
-
         });
 
         resp.put("message", "Purchase successfully!");

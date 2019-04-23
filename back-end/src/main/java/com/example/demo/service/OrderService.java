@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.Order;
 import com.example.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,20 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public void add(String now, int userId, int bookId, int quantity) {
+    @Autowired
+    private BookService bookService;
+
+    public JSONObject add(String now, int userId, int bookId, int quantity) {
+        JSONObject resp = new JSONObject();
+
         String orderId = constructID(now, userId);
         Order order = new Order(orderId, userId, bookId, quantity, new Timestamp(new Date().getTime()));
         orderRepository.save(order);
+
+        bookService.purchase(bookId, quantity);
+
+        resp.put("message", "Purchase successfully!");
+        return resp;
     }
 
     private String constructID(String now, int userId) {

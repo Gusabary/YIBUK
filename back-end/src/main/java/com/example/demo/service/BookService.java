@@ -52,6 +52,12 @@ public class BookService {
         return resp;
     }
 
+    public void purchase(int bookId, int quantity) {
+        Book book = bookRepository.findById(bookId).get();
+        book.setStorage(book.getStorage() - quantity);
+        bookRepository.save(book);
+    }
+
     public Book parseFormData(MultipartHttpServletRequest request) {
         String bookName = request.getParameter("bookName");
         String author = request.getParameter("author");

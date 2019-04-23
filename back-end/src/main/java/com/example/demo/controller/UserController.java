@@ -54,8 +54,8 @@ public class UserController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<JSONObject> toggle(@RequestBody String request) {
-        JSONObject req = JSONObject.parseObject(request);
+    public ResponseEntity<JSONObject> toggle(@RequestBody String requestBody) {
+        JSONObject req = JSONObject.parseObject(requestBody);
         int userId = req.getInteger("userId");
         int targetValidity = req.getInteger("targetValidity");
 
