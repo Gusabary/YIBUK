@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -30,6 +27,13 @@ public class OrderController {
         int quantity = req.getInteger("quantity");
 
         JSONObject resp = orderService.add(String.valueOf(new Date().getTime()), userId, bookId, quantity);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<JSONObject> show(@RequestParam(name = "userId", required = false) Integer userId) {
+        JSONObject resp = orderService.show(userId);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 }

@@ -5,4 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.util.Pair;
 
 public interface OrderRepository extends CrudRepository<Order, Pair<String, Integer>> {
+
+    Iterable<Order> findByUserId(Integer userId);
+
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.Order;
 import com.example.demo.repository.OrderRepository;
@@ -28,6 +29,19 @@ public class OrderService {
         bookService.purchase(bookId, quantity);
 
         resp.put("message", "Purchase successfully!");
+        return resp;
+    }
+
+    public JSONObject show(Integer userId) {
+        JSONObject resp = new JSONObject();
+        JSONArray orders = new JSONArray();
+
+        if (userId == null)
+            orderRepository.findAll().forEach(order -> orders.add(order));
+        else
+            orderRepository.findByUserId(userId).forEach(order -> orders.add(order));
+
+        resp.put("orders", orders);
         return resp;
     }
 

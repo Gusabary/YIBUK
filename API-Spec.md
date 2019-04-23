@@ -342,7 +342,7 @@ example response body:
 
 ## Purchase from booklist
 
-`POST /api/order`
+`POST /api/orders/add`
 
 example request body:
 
@@ -364,7 +364,7 @@ example response body:
 
 ## Show orders
 
-`GET /api/order`
+`GET /api/orders/show`
 
 example response body:
 
@@ -395,5 +395,5 @@ Filter by userId:
 ?userId=1
 ```
 
-##### Last-modified date: 2019.3.30, 9 p.m.
+##### Last-modified date: 2019.4.23, 7 p.m.
 
