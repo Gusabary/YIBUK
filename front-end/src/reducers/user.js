@@ -1,5 +1,6 @@
 const defaultState = {
     userId: 0,
+    username: '',
     identity: 2, //2 means 'visitor', 0 means 'customer', 1 means 'administrator'
     validity: 1,
 }
