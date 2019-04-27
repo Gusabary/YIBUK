@@ -2,9 +2,8 @@ import React from 'react'
 import { Paper, withStyles, TextField, Button, Typography, Grid, Tabs, Tab } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent';
-import AddBook from './AddBook';
-import Validity from './Validity';
-import ManageBook from './ManageBook';
+import ManageCustomer from './ManageCustomer';
+import ManageBook from './ManageBook/index';
 
 const styles = theme => ({
 
@@ -57,7 +56,7 @@ class Manage extends React.Component {
 
                     {this.state.tabValue == 0 ?
                         <ManageBook history={this.props.history} /> :
-                        <Validity />
+                        <ManageCustomer />
                     }
                 </React.Fragment>
             )

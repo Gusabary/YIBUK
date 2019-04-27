@@ -38,7 +38,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: 'CHANGE_QUANTITY', payload: { index, quantity } })
 })
 
-class BookTitle extends React.Component {
+class BookTitleInCart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -86,4 +86,4 @@ class BookTitle extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookTitle));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BookTitleInCart));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Home from './Components/Mainview/index'
+import Home from './Components/Home/index'
 import SignIn from './Components/SignIn'
 import SignUp from './Components/SignUp'
 import Header from './Components/Header/index'
@@ -9,7 +9,7 @@ import Manage from './Components/Manage/index'
 import Statistics from './Components/Statistics/index'
 import Orders from './Components/Orders/index'
 import Cart from './Components/Cart/index'
-import AddBook from './Components/Manage/AddBook'
+import AddBook from './Components/AddBook'
 import { connect } from 'react-redux';
 
 class App extends React.Component {

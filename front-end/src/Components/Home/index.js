@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import Booklist from '../Booklist/index'
+import BooklistInHome from '../Books/Booklist/BooklistInHome'
 import agent from '../../agent'
 
 const styles = theme => ({
@@ -35,7 +35,7 @@ class Books extends React.Component {
         else
             return (
                 <React.Fragment>
-                    <Booklist books={books} history={this.props.history} />
+                    <BooklistInHome books={books} history={this.props.history} />
                 </React.Fragment>
             );
     }

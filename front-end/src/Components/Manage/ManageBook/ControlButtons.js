@@ -2,7 +2,7 @@ import React from 'react'
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles, Button } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import agent from '../../agent'
+import agent from '../../../agent'
 
 const styles = theme => ({
 

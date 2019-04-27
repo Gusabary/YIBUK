@@ -8,7 +8,7 @@ const styles = theme => ({
     },
 });
 
-class BookTitle extends React.Component {
+class BookTitleInHome extends React.Component {
     render() {
         const { classes, book, isExpanded } = this.props;
         return (
@@ -28,4 +28,4 @@ class BookTitle extends React.Component {
     }
 }
 
-export default withStyles(styles)(BookTitle);
+export default withStyles(styles)(BookTitleInHome);
