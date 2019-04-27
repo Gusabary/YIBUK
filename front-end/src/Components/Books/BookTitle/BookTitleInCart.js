@@ -10,22 +10,19 @@ const styles = theme => ({
         marginBottom: -theme.spacing.unit,
         float: 'left'
     },
-    unhover: {
-        marginTop: -20,
-        marginBottom: -20,
-        //paddingRight: 0,
-        //height:30,
+    unexpanded: {
+        marginTop: 12,
     },
-    hover: {
-        marginTop: -20,
-        marginBottom: -20,
-        backgroundColor: "#fafafa"
-        //paddingRight: 0,
-        //height:30,
+    expanded: {
+        marginTop: 21,
     },
     expandedNum: {
         paddingTop: 9,
     },
+    iconContainer: {
+        marginTop: -20,
+        marginBottom: -20,
+    }
 });
 
 const mapStateToProps = state => ({
@@ -70,16 +67,17 @@ class BookTitleInCart extends React.Component {
                     </Typography>
                 }
                 {isToBuy &&
-                    <React.Fragment>
-                        <IconButton disableRipple onClick={() => this.handleClick(1)} className={classes.unhover}>
+                    <React.Fragment><div className={classes.iconContainer}>
+                        <IconButton disableRipple onClick={() => this.handleClick(1)} className={isExpanded?classes.expanded:classes.unexpanded}>
                             <Add />
-                        </IconButton>
+                        </IconButton></div>
                         <Typography variant='h6' className={isExpanded && classes.expandedNum}>
                             {this.state.quantity}
-                        </Typography>
-                        <IconButton disableRipple onClick={() => this.handleClick(0)} className={classes.unhover}>
+                        </Typography><div className={classes.iconContainer}>
+                        <IconButton disableRipple onClick={() => this.handleClick(0)} className={isExpanded?classes.expanded:classes.unexpanded}>
                             <Remove />
-                        </IconButton>
+                    </IconButton></div>
+                    <div></div>
                     </React.Fragment>}
             </React.Fragment>
         );
