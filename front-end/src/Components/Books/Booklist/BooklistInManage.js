@@ -2,7 +2,7 @@ import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../../agent'
-import BookPanelInHome from '../BookPanel/BookPanelInHome'
+import BookPanelInManage from '../BookPanel/BookPanelInManage'
 import { generateArray, sort, getCopy, filter } from '../../../auxiliary'
 
 const styles = theme => ({
@@ -46,7 +46,7 @@ class BooklistInManage extends React.Component {
             <React.Fragment>
                 <div className={classes.padding}></div>
                 {this.props.books.map((book, index) =>
-                    <BookPanelInHome
+                    <BookPanelInManage
                         book={book}
                         isExpanded={this.state.isExpanded[index]}
                         handleExpanded={() => this.handleExpanded(index)}
