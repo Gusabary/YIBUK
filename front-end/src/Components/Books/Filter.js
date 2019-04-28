@@ -1,14 +1,19 @@
 import React from 'react'
-import { withStyles, Typography, Menu, MenuItem, Button } from '@material-ui/core'
+import { withStyles, Typography, Menu, MenuItem, Button, TextField } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent'
-import Book from './Book'
+import Book from './BookPanel/BookPanelInHome'
 
-const bookAttr = ['BookId', 'Book title', 'Author', 'ISBN', 'Storage', 'Price']
+const bookAttr = ['BookId', 'Book title', 'Author', 'isbn', 'Storage', 'Price']
 
 const styles = theme => ({
     padding: {
-        marginTop: theme.spacing.unit * 5,
+        marginTop: theme.spacing.unit * 2,
+    },
+    OK: {
+        backgroundColor: theme.palette.primary.light,
+        position: 'relative',
+        bottom: 5,
     }
 });
 
@@ -36,9 +41,8 @@ class Sort extends React.Component {
         this.setState({
             anchorEl: null,
         })
-        //console.log(attr)
         if (attr !== -1)
-            this.props.handleChange(attr)
+            this.props.handleFilterFieldChange(attr)
     }
     render() {
         const { classes, attr } = this.props;
@@ -46,7 +50,7 @@ class Sort extends React.Component {
         return (
             <React.Fragment>
                 <Typography variant='h5' className={classes.padding}>
-                    Sort by
+                    Filter by
                     <Button
                         aria-owns={anchorEl ? 'simple-menu' : undefined}
                         aria-haspopup="true"
@@ -54,7 +58,13 @@ class Sort extends React.Component {
                     >
                         {bookAttr[attr]}
                     </Button>
+                    : &nbsp;
+                    <TextField
+                        value={this.props.filterKey}
+                        onChange={this.props.handleFilterKeyChange}
+                    /> 
                 </Typography>
+                
                 <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}

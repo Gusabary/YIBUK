@@ -2,8 +2,8 @@ import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent'
-import Booklist from '../Booklist/index'
-import BooklistCart from './Booklist'
+import BooklistInHome from '../Books/Booklist/BooklistInHome'
+import BooklistInCart from '../Books/Booklist/BooklistInCart'
 import ControlButtons from './ControlButtons'
 import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 
@@ -162,21 +162,21 @@ class Cart extends React.Component {
                         handleOK={(field) => this.handleOK(field)}
                     />
                     {this.state.isBuying &&
-                        <BooklistCart
+                        <BooklistInCart
                             books={this.state.booksInCart}
                             isToBuy={this.state.isToBuy}
                             isBuying={true}
                             handleToggle={(index) => this.handleToggle('Buy', index)}
                         />}
                     {this.state.isDeleting &&
-                        <BooklistCart
+                        <BooklistInCart
                             books={this.state.booksInCart}
                             isToDelete={this.state.isToDelete}
                             isBuying={false}
                             handleToggle={(index) => this.handleToggle('Delete', index)}
                         />}
                     {this.state.isBuying || this.state.isDeleting ||
-                        <Booklist books={this.state.booksInCart} />
+                        <BooklistInHome books={this.state.booksInCart} />
                     }
                 </React.Fragment>
             );

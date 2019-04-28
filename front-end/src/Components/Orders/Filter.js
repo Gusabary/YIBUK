@@ -1,8 +1,16 @@
 import React from 'react'
 import { Paper, withStyles, TextField, Button, Typography, Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core'
 
+const styles = theme => ({
+    text: {
+        position: 'relative',
+        top: 8,
+    }
+});
+
 class Filter extends React.Component {
     render() {
+        const { classes } = this.props;
         const { filterKey } = this.props;
         let filterBar = [];
         for (let i = 0; i <= 3; i++) {
@@ -10,7 +18,7 @@ class Filter extends React.Component {
                 (<TableCell>
                     <TextField
                         value={filterKey[i]}
-                        onChange={this.props.onChange(i)}
+                        onChange={e => this.props.onChange(i, e)}
                     />
                 </TableCell>)
             filterBar.push(filterInput)
@@ -19,17 +27,22 @@ class Filter extends React.Component {
             <React.Fragment>
                 {filterBar}
                 <TableCell>
-                    from
+                    <span className={classes.text}>
+                        from &nbsp;
+                    </span>
                     <TextField
                         type='datetime-local'
                         value={filterKey[4].startTime}
-                        onChange={this.props.onChange('startTime')}
+                        onChange={e => this.props.onChange('startTime', e)}
                     />
-                    to
+                    <br />
+                    <span className={classes.text}>
+                        &nbsp; to &nbsp; &nbsp;
+                    </span>
                     <TextField
                         type='datetime-local'
                         value={filterKey[4].endTime}
-                        onChange={this.props.onChange('endTime')}
+                        onChange={e => this.props.onChange('endTime', e)}
                     />
                 </TableCell>
             </React.Fragment>
@@ -37,4 +50,4 @@ class Filter extends React.Component {
     }
 }
 
-export default Filter;
+export default withStyles(styles)(Filter);

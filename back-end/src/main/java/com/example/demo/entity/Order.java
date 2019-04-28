@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -23,6 +25,7 @@ public class Order {
     private int quantity;
 
     @Column(name = "time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Timestamp time;
 
     public Order() {}

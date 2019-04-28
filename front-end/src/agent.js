@@ -16,12 +16,12 @@ const User = {
 }
 
 const Books = {
-    create: (bookName, author, image, ISBN, storage, price, introduction) =>
+    create: (bookName, author, image, isbn, storage, price, introduction) =>
         requests.post(API_ROOT + '/api/books/manage')
             .attach('image', image)
             .field('bookName', bookName)
             .field('author', author)
-            .field('ISBN', ISBN)
+            .field('isbn', isbn)
             .field('storage', storage)
             .field('price', price)
             .field('introduction', introduction)
@@ -30,13 +30,13 @@ const Books = {
     show: () => requests.get(API_ROOT + '/api/books/show')
         .then(res => res.body),
 
-    update: (bookId, bookName, author, image, ISBN, storage, price, introduction) =>
+    update: (bookId, bookName, author, image, isbn, storage, price, introduction) =>
         requests.put(API_ROOT + '/api/books/manage')
             .attach('image', image)
             .field('bookId', bookId)
             .field('bookName', bookName)
             .field('author', author)
-            .field('ISBN', ISBN)
+            .field('isbn', isbn)
             .field('storage', storage)
             .field('price', price)
             .field('introduction', introduction)

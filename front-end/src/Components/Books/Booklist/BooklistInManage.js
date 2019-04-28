@@ -1,9 +1,9 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../../agent'
-import Book from './Book'
-import { generateArray, sort, getCopy, filter } from '../../auxiliary'
+import agent from '../../../agent'
+import BookPanelInHome from '../BookPanel/BookPanelInHome'
+import { generateArray, sort, getCopy, filter } from '../../../auxiliary'
 
 const styles = theme => ({
     padding: {
@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-class BooklistManage extends React.Component {
+class BooklistInManage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,7 +46,7 @@ class BooklistManage extends React.Component {
             <React.Fragment>
                 <div className={classes.padding}></div>
                 {this.props.books.map((book, index) =>
-                    <Book
+                    <BookPanelInHome
                         book={book}
                         isExpanded={this.state.isExpanded[index]}
                         handleExpanded={() => this.handleExpanded(index)}
@@ -61,4 +61,4 @@ class BooklistManage extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BooklistManage));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BooklistInManage));

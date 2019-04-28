@@ -1,11 +1,11 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../../agent'
-import Book from './Book'
-import Sort from './Sort'
-import Filter from './Filter'
-import { generateArray, sort, getCopy, filter } from '../../auxiliary'
+import agent from '../../../agent'
+import BookPanelInHome from '../BookPanel/BookPanelInHome'
+import Sort from '../Sort'
+import Filter from '../Filter'
+import { generateArray, sort, getCopy, filter } from '../../../auxiliary'
 
 const styles = theme => ({
     padding: {
@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-class Booklist extends React.Component {
+class BooklistInHome extends React.Component {
     constructor(props) {
         super(props);
 
@@ -46,7 +46,7 @@ class Booklist extends React.Component {
 
     async handleSort(sortBy) {
         let sortedBooks = getCopy(this.state.sortedBooks)
-        const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
+        const bookAttr = ['bookId', 'bookName', 'author', 'isbn', 'storage', 'price']
         sort(sortedBooks, bookAttr[sortBy]);
         await this.setState({
             sortBy,
@@ -57,7 +57,7 @@ class Booklist extends React.Component {
 
     //convert sortedBooks to filteredBooks
     handleFilter() {
-        const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
+        const bookAttr = ['bookId', 'bookName', 'author', 'isbn', 'storage', 'price']
         const filteredBooks = filter(this.state.sortedBooks, [bookAttr[this.state.filterBy]], [this.state.filterKey])
         this.setState({
             filteredBooks
@@ -109,7 +109,7 @@ class Booklist extends React.Component {
                 <div className={classes.padding}></div>
 
                 {this.state.filteredBooks.map((book, index) =>
-                    <Book
+                    <BookPanelInHome
                         book={book}
                         handleExpanded={() => this.handleExpanded(index)}
                         isExpanded={this.state.isExpanded[index]}
@@ -122,4 +122,4 @@ class Booklist extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Booklist));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BooklistInHome));

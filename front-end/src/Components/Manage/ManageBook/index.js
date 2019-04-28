@@ -1,11 +1,11 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../../agent'
-import Booklist from '../Booklist/index'
-import BooklistManage from './Booklist';
+import agent from '../../../agent'
+import BooklistInHome from '../../Books/Booklist/BooklistInHome'
+import BooklistInManage from '../../Books/Booklist/BooklistInManage';
 import ControlButtons from './ControlButtons';
-import { generateArray, sort, getCopy, filter } from '../../auxiliary'
+import { generateArray, sort, getCopy, filter } from '../../../auxiliary'
 
 const styles = theme => ({
 
@@ -70,12 +70,12 @@ class ManageBook extends React.Component {
                     handleDeleteOK={this.handleDeleteOK}
                 />
                 {this.state.isDeleting ?
-                    <BooklistManage
+                    <BooklistInManage
                         books={this.props.books}
                         isToDelete={this.state.isToDelete}
                         handleDeleteToggle={(index) => this.handleDeleteToggle(index)}
                     /> :
-                    <Booklist books={this.props.books} />
+                    <BooklistInHome books={this.props.books} />
                 }
             </React.Fragment>
         );

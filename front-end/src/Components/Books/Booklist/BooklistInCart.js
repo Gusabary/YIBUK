@@ -1,10 +1,10 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../../agent'
-import BookToBuy from './Book'
-import BookToDelete from '../Manage/Book'
-import { generateArray } from '../../auxiliary'
+import agent from '../../../agent'
+import BookPanelInCart from '../BookPanel/BookPanelInCart'
+import BookPanelInManage from '../BookPanel/BookPanelInManage'
+import { generateArray } from '../../../auxiliary'
 
 const styles = theme => ({
     padding: {
@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-class BooklistCart extends React.Component {
+class BooklistInCart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,7 +48,7 @@ class BooklistCart extends React.Component {
                 <div className={classes.padding}></div>
                 {isBuying ?
                     (this.props.books.map((book, index) =>
-                        <BookToBuy
+                        <BookPanelInCart
                             book={book}
                             isExpanded={this.state.isExpanded[index]}
                             handleExpanded={() => this.handleExpanded(index)}
@@ -58,7 +58,7 @@ class BooklistCart extends React.Component {
                         />
                     )) :
                     (this.props.books.map((book, index) =>
-                        <BookToDelete
+                        <BookPanelInManage
                             book={book}
                             isExpanded={this.state.isExpanded[index]}
                             handleExpanded={() => this.handleExpanded(index)}
@@ -73,4 +73,4 @@ class BooklistCart extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BooklistCart));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BooklistInCart));

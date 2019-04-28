@@ -1,8 +1,8 @@
 import React from 'react'
 import { ExpansionPanel, withStyles, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import BookTitle from './BookTitle';
-import BookContent from '../Booklist/BookContent';
+import BookTitleInCart from '../BookTitle/BookTitleInCart';
+import BookContent from '../BookContent';
 
 const styles = theme => ({
     post: {
@@ -29,7 +29,7 @@ const styles = theme => ({
     },
 });
 
-class Book extends React.Component {
+class BookPanelInCart extends React.Component {
     render() {
         const { classes, book, index, isExpanded, isToBuy } = this.props;
         return (
@@ -45,7 +45,7 @@ class Book extends React.Component {
                             (isToBuy ? classes.EBtitle : classes.ENBtitle) :
                             (isToBuy && classes.NEBtitle)}
                     >
-                        <BookTitle
+                        <BookTitleInCart
                             book={book}
                             isExpanded={isExpanded}
                             handleBuyToggle={this.props.handleBuyToggle}
@@ -62,4 +62,4 @@ class Book extends React.Component {
     }
 }
 
-export default withStyles(styles)(Book);
+export default withStyles(styles)(BookPanelInCart);

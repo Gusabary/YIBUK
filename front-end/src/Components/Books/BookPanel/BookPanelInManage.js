@@ -2,8 +2,8 @@ import React from 'react'
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, withStyles } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { connect } from 'react-redux';
-import BookTitle from '../Booklist/BookTitle';
-import BookContent from '../Booklist/BookContent';
+import BookTitleInHome from '../BookTitle/BookTitleInHome';
+import BookContent from '../BookContent';
 
 const styles = theme => ({
     post: {
@@ -30,7 +30,7 @@ const styles = theme => ({
     },
 });
 
-class Book extends React.Component {
+class BookPanelInManage extends React.Component {
     render() {
         const {  classes, book, index, isExpanded, isToDelete  } = this.props;
         return (
@@ -46,7 +46,7 @@ class Book extends React.Component {
                             (isToDelete ? classes.EDtitle : classes.ENDtitle) :
                             (isToDelete && classes.NEDtitle)}
                     >
-                        <BookTitle book={book} isExpanded={isExpanded} />
+                        <BookTitleInHome book={book} isExpanded={isExpanded} />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={isToDelete? classes.Dcontent: classes.NDcontent}>
                         <BookContent book={book} index={index} />
@@ -57,4 +57,4 @@ class Book extends React.Component {
     }
 }
 
-export default withStyles(styles)(Book);
+export default withStyles(styles)(BookPanelInManage);

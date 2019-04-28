@@ -43,7 +43,7 @@ class BookInfoList extends React.Component {
                         </ListItemIcon>
                         <ListItemText>
                             <Typography variant='h5'>
-                                {"ISBN: " + book.ISBN}
+                                {"ISBN: " + book.isbn}
                             </Typography>
                         </ListItemText>
                     </ListItem>
