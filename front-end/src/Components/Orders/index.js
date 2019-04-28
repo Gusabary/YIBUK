@@ -46,7 +46,9 @@ class Orders extends React.Component {
         })
     }
 
-    handleChange = field => async event => {
+    handleChange = async (field, event) => {
+        console.log(field)
+        console.log(event)
         let tmp;
         if (field === 'startTime' || field === 'endTime')
             tmp = this.state.filterKey[4]
@@ -79,18 +81,18 @@ class Orders extends React.Component {
 
     render() {
         const { classes } = this.props;
-        let filterBar = [];
-        for (let i = 0; i <= 3; i++) {
-            const filterInput =
-                (<TableCell>
-                    <TextField
-                        value={this.state.filterKey[i]}
-                        onChange={this.handleChange(i)}
-                        className={classes.text}
-                    />
-                </TableCell>)
-            filterBar.push(filterInput)
-        }
+        /* let filterBar = [];
+         for (let i = 0; i <= 3; i++) {
+             const filterInput =
+                 (<TableCell>
+                     <TextField
+                         value={this.state.filterKey[i]}
+                         onChange={this.handleChange(i)}
+                         className={classes.text}
+                     />
+                 </TableCell>)
+             filterBar.push(filterInput)
+         }*/
         if (this.props.isLoading)
             return (
                 <h1>Loading...</h1>
@@ -118,7 +120,7 @@ class Orders extends React.Component {
                             </TableHead>
                             <TableBody>
                                 {this.state.filterOpen &&
-                                    <TableRow>
+                                    /*<TableRow>
                                         {filterBar}
                                         <TableCell>
                                             from
@@ -135,12 +137,12 @@ class Orders extends React.Component {
                                                 onChange={this.handleChange('endTime')}
                                                 className={classes.text}
                                             />
-                                        </TableCell>
-                                        {/*<Filter
+                                        </TableCell>*/
+                                    <Filter
                                         filterKey={this.state.filterKey}
-                                        onChange={(field) => this.handleChange(field)()}
-                                    />*/}
-                                    </TableRow>
+                                        onChange={(field, e) => this.handleChange(field, e)}
+                                    />
+                                    //</TableRow>
                                 }
                                 {this.state.filteredOrders.map((order, index) => {
                                     let isInOneOrder = false;

@@ -10,7 +10,7 @@ class Filter extends React.Component {
                 (<TableCell>
                     <TextField
                         value={filterKey[i]}
-                        onChange={this.props.onChange(i)}
+                        onChange={e => this.props.onChange(i, e)}
                     />
                 </TableCell>)
             filterBar.push(filterInput)
@@ -23,13 +23,13 @@ class Filter extends React.Component {
                     <TextField
                         type='datetime-local'
                         value={filterKey[4].startTime}
-                        onChange={this.props.onChange('startTime')}
+                        onChange={e => this.props.onChange('startTime', e)}
                     />
                     to
                     <TextField
                         type='datetime-local'
                         value={filterKey[4].endTime}
-                        onChange={this.props.onChange('endTime')}
+                        onChange={e => this.props.onChange('endTime', e)}
                     />
                 </TableCell>
             </React.Fragment>
