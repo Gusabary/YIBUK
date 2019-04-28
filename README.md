@@ -8,7 +8,7 @@ And it is my first full-stack project.
 
 ### Current version
 
-v2.0
+v2.1
 
 ### Function description
 
@@ -84,6 +84,16 @@ See [here](./API-Spec.md).
 + refactored back-end to SpringBoot + Hibernate 
 + adjusted HTTP api
 
+**v2.1** 2019.4.28
+
++ fixed bugs, which resulted in that
+  + visitors and administrators could add to cart and purchase
+  + time displayed in orders were not correct due to timezone problems
+  + ISBN could not be shown normally
++ some beautification
+  + the shadow of iconButton + and - is a circle now
+  + filter bar is more beautiful now
+
 ## Something trivial
 
 Given that the project name *e-book* is too straight forward, (Actually I don't think an online bookstore has to sell e-books. That means print ones are also available there. Anyway.) I got a name that is a little bit more interesting, *YIBUK*, which means *Youthful Imagination Brings U Knowledge*. Although the sentence looks a little farfetched and strange, it is after all better than *e-book*, maybe.
@@ -96,4 +106,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.4.23, 8 p.m.
+##### Last-modified date: 2019.4.28, 10 p.m.
