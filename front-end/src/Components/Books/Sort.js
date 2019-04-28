@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import agent from '../../agent'
 import Book from './BookPanel/BookPanelInHome'
 
-const bookAttr = ['BookId', 'Book title', 'Author', 'ISBN', 'Storage', 'Price']
+const bookAttr = ['BookId', 'Book title', 'Author', 'isbn', 'Storage', 'Price']
 
 const styles = theme => ({
     padding: {

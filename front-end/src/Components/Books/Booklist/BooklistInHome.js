@@ -46,7 +46,7 @@ class BooklistInHome extends React.Component {
 
     async handleSort(sortBy) {
         let sortedBooks = getCopy(this.state.sortedBooks)
-        const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
+        const bookAttr = ['bookId', 'bookName', 'author', 'isbn', 'storage', 'price']
         sort(sortedBooks, bookAttr[sortBy]);
         await this.setState({
             sortBy,
@@ -57,7 +57,7 @@ class BooklistInHome extends React.Component {
 
     //convert sortedBooks to filteredBooks
     handleFilter() {
-        const bookAttr = ['bookId', 'bookName', 'author', 'ISBN', 'storage', 'price']
+        const bookAttr = ['bookId', 'bookName', 'author', 'isbn', 'storage', 'price']
         const filteredBooks = filter(this.state.sortedBooks, [bookAttr[this.state.filterBy]], [this.state.filterKey])
         this.setState({
             filteredBooks

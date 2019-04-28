@@ -82,7 +82,7 @@ class AddBook extends React.Component {
             bookName: '',
             author: '',
             image: '',
-            ISBN: '',
+            isbn: '',
             storage: '',
             price: '',
             introduction: '',
@@ -107,14 +107,14 @@ class AddBook extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        const { bookName, author, image, ISBN, storage, price, introduction } = this.state;
+        const { bookName, author, image, isbn, storage, price, introduction } = this.state;
         if (this.props.isEditing) {
             const bookId = this.props.books[this.props.bookInEditing].bookId;
-            await agent.Books.update(bookId, bookName, author, image, ISBN, storage, price, introduction)
+            await agent.Books.update(bookId, bookName, author, image, isbn, storage, price, introduction)
             this.props.onSave();
         }
         else {
-            await agent.Books.create(bookName, author, image, ISBN, storage, price, introduction)
+            await agent.Books.create(bookName, author, image, isbn, storage, price, introduction)
             this.props.onSave();
         }
     }
@@ -132,7 +132,7 @@ class AddBook extends React.Component {
                 bookName: this.props.books[this.props.bookInEditing].bookName,
                 author: this.props.books[this.props.bookInEditing].author,
                 //image: this.props.books[this.props.bookInEditing].image,
-                ISBN: this.props.books[this.props.bookInEditing].ISBN,
+                isbn: this.props.books[this.props.bookInEditing].isbn,
                 storage: this.props.books[this.props.bookInEditing].storage,
                 price: this.props.books[this.props.bookInEditing].price,
                 introduction: this.props.books[this.props.bookInEditing].introduction,
@@ -181,10 +181,10 @@ class AddBook extends React.Component {
                             <br />
                             <TextField
                                 type="text"
-                                label='ISBN'
+                                label='isbn'
                                 className={classes.title}
-                                value={this.state.ISBN}
-                                onChange={this.updateState('ISBN')}
+                                value={this.state.isbn}
+                                onChange={this.updateState('isbn')}
                             />
                             <br />
                             <TextField
