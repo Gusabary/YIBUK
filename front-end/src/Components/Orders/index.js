@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import agent from '../../agent';
 import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 import Filter from './Filter'
-
+/*
 const formatTime = time => {
     let formated = time.replace(/T/, ' ').slice(0, -9);
     return formated;
-}
+}*/
 
 const styles = theme => ({
     button: {
@@ -19,10 +19,10 @@ const styles = theme => ({
         width: '23%',
     },
     column2: {
-        width: '18%',
+        width: '17%',
     },
     column3: {
-        width: '23%',
+        width: '26%',
     },
 });
 
@@ -135,7 +135,7 @@ class Orders extends React.Component {
                                             <TableCell>{order.userId}</TableCell>
                                             <TableCell>{order.bookId}</TableCell>
                                             <TableCell>{order.quantity}</TableCell>
-                                            <TableCell>{formatTime(order.time)}</TableCell>
+                                            <TableCell>{order.time}</TableCell>
                                         </TableRow>
                                     )
                                 })}

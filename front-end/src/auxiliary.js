@@ -38,7 +38,7 @@ const filter = (toBeFiltered, filterBy, filterKey) => {
         let isLeft = true;
         for (let i = 0; i < filterBy.length; i++) {
             if (filterBy[i] === 'time') {
-                const orderTime = Date.parse(element.time) - 28800000
+                const orderTime = Date.parse(element.time)
                 if (startTime > orderTime || endTime < orderTime) {
                     isLeft = false;
                     break;
