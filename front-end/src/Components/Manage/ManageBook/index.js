@@ -15,10 +15,12 @@ const mapStateToProps = state => ({
     identity: state.user.identity,
     books: state.books.books,
     redirectTo: state.common.redirectTo,
+    isLoading: state.common.isLoading,
 })
 
 const mapDispatchToProps = dispatch => ({
     onLoad: () => {
+        dispatch({ type: 'LOAD_MODE', payload: 2 })
         dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
     },
 })
@@ -60,8 +62,17 @@ class ManageBook extends React.Component {
         this.props.onLoad();
     }
 
+    componentWillMount() {
+        this.props.onLoad();
+    }
+
     render() {
         const { classes } = this.props;
+        if (this.props.isLoading)
+            return (
+                <h1>Loading...</h1>
+            )
+        else
         return (
             <React.Fragment>
                 <ControlButtons

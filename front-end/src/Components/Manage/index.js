@@ -10,16 +10,11 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
-    isLoading: state.common.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: () => {
-        dispatch({ type: 'LOAD_MODE', payload: 2 })
-        dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
-        dispatch({ type: 'LOAD_CUSTOMERS', payload: agent.Customers.show() });
-    }
 })
+
 class Manage extends React.Component {
     constructor(props) {
         super(props);
@@ -36,17 +31,9 @@ class Manage extends React.Component {
         })
     }
 
-    componentWillMount() {
-        this.props.onLoad();
-    }
-
     render() {
         const { classes } = this.props;
-        if (this.props.isLoading)
-            return (
-                <h1>Loading...</h1>
-            )
-        else
+        
             return (
                 <React.Fragment>
                     <Tabs fullWidth value={this.state.tabValue} onChange={this.handleTabValueChange}>
