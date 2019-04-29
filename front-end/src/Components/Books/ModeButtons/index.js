@@ -50,7 +50,7 @@ class BookContent extends React.Component {
                         </Typography>
                     </div>
                 }
-                {mode === 2 || (mode === 1 && identity === 1) &&
+                {(mode === 2 || (mode === 1 && identity === 1)) &&
                     <div className={classes.oneButton}>
                         <Edit index={index} history={this.props.history} />
                     </div>
