@@ -62,12 +62,12 @@ public class BookService {
         String bookName = request.getParameter("bookName");
         String author = request.getParameter("author");
         String coverPath = request.getFile("image").getOriginalFilename();
-        String ISBN = request.getParameter("ISBN");
+        String isbn = request.getParameter("isbn");
         int storage = Integer.parseInt(request.getParameter("storage"));
         float price = Float.parseFloat(request.getParameter("price"));
         String introduction = request.getParameter("introduction");
 
-        return new Book(bookName, author, coverPath, ISBN, storage, price, introduction);
+        return new Book(bookName, author, coverPath, isbn, storage, price, introduction);
     }
 
     public void saveImage(MultipartFile image) {
