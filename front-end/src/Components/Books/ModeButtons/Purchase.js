@@ -1,9 +1,10 @@
 import React from 'react'
-import { Typography, withStyles, Button, Dialog, TextField } from '@material-ui/core'
+import { Typography, withStyles, Button, TextField } from '@material-ui/core'
 import Create from '@material-ui/icons/Create'
 import { connect } from 'react-redux';
 import agent from '../../../agent'
 import Check from '@material-ui/icons/Check'
+import MyDialog from './MyDialog'
 
 const styles = theme => ({
     edit: {
@@ -39,7 +40,7 @@ class Purchase extends React.Component {
         super(props);
         this.state = {
             open: false,
-            number: 1
+            number: 1,
         }
         this.handlePurchaseOK = this.handlePurchaseOK.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -59,15 +60,11 @@ class Purchase extends React.Component {
     handleClose() {
         this.setState({
             open: false,
-            number: 1
+            number: 1,
         })
     }
 
     handleClick() {
-        if (this.props.identity === 2) {
-            alert('Please sign in first!')
-            return;
-        }
         this.setState({
             open: true
         })
@@ -88,27 +85,15 @@ class Purchase extends React.Component {
                     </Typography>
                 </Button>
 
-                <Dialog open={this.state.open}>
-                    <Typography variant="h5">
-                        Purchase it?
-                    </Typography>
-                    <Typography>
-                        {'《' + book.bookName + '》'}
-                    </Typography>
-
-                    <TextField
-                        type="text"
-                        label='number'
-                        value={this.state.number}
-                        onChange={(event) => this.setState({ number: event.target.value })}
-                    />
-                    <Button onClick={this.handlePurchaseOK}>
-                        Yes
-                    </Button>
-                    <Button onClick={this.handleClose}>
-                        No
-                    </Button>
-                </Dialog>
+                <MyDialog
+                    open={this.state.open}
+                    bookName={book.bookName}
+                    number={this.state.number}
+                    isPurchase={true}
+                    handleOK={this.handlePurchaseOK}
+                    handleClose={this.handleClose}
+                    handleNumberChange={event => this.setState({ number: event.target.value })}
+                />
             </React.Fragment>
         )
     }
