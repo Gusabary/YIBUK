@@ -35,7 +35,7 @@ public class CartController {
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/manage", method = RequestMethod.PUT)
+    @RequestMapping(value = "/manage/buy", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<JSONObject> purchase(@RequestBody String requestBody) {
         JSONObject req = JSONObject.parseObject(requestBody);
@@ -43,6 +43,16 @@ public class CartController {
         JSONArray books = req.getJSONArray("books");
 
         JSONObject resp = cartService.purchase(userId, books);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/manage/empty", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<JSONObject> empty(@RequestBody String requestBody) {
+        JSONObject req = JSONObject.parseObject(requestBody);
+        int userId = req.getInteger("userId");
+
+        JSONObject resp = cartService.empty(userId);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 

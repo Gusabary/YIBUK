@@ -70,7 +70,7 @@ const Cart = {
             .then(res => res.body),
 
     buy: (userId, bookIdOfBuy, quantity) =>
-        requests.put(API_ROOT + '/api/carts/manage')
+        requests.put(API_ROOT + '/api/carts/manage/buy')
             .send({
                 userId,
                 books: bookIdOfBuy.map((bookId, index) => ({
@@ -78,6 +78,11 @@ const Cart = {
                     quantity: quantity[index],
                 }))
             })
+            .then(res => res.body),
+
+    empty: (userId) =>
+        requests.put(API_ROOT + '/api/carts/manage/empty')
+            .send({ userId })
             .then(res => res.body),
 
     delete: (userId, bookIdOfDelete) =>
@@ -89,7 +94,7 @@ const Cart = {
             .then(res => res.body)
 }
 
-const Orders = {            
+const Orders = {
     buy: (userId, bookId, quantity) =>
         requests.post(API_ROOT + '/api/orders/add')
             .send({ userId, bookId, quantity })

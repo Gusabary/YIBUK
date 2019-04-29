@@ -18,4 +18,5 @@ public interface CartRepository extends CrudRepository<Cart, Pair<Integer, Integ
 
     @Transactional
     void deleteByUserIdAndBookId(int userId, int bookId);
+
 }

@@ -125,15 +125,20 @@ class Cart extends React.Component {
         }
     }
 
-    handleClick(field) {
+    async handleClick(field) {
         if (field === 'Buy')
             this.setState({
                 isBuying: !this.state.isBuying
             })
-        else
+        else if (field === 'Delete')
             this.setState({
                 isDeleting: !this.state.isDeleting
             })
+        else {
+            await agent.Cart.empty(this.props.userId)
+            this.props.onLoadBooks();
+            this.props.onLoadCart(this.props.userId);
+        }
     }
 
     componentWillMount() {

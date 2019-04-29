@@ -291,7 +291,7 @@ example response body:
 
 ## Purchase from cart
 
-`PUT /api/carts/manage`
+`PUT /api/carts/manage/buy`
 
 example request body:
 
@@ -316,6 +316,26 @@ example response body:
 ```json
 {
     "message": "Purchase successfully!"
+}
+```
+
+## Empty cart
+
+`PUT /api/carts/manage/empty`
+
+example request body:
+
+``` JSON
+{
+    "userId": 1
+}
+```
+
+example response body:
+
+```JSON
+{
+    "message": "Empty cart successfully!"
 }
 ```
 

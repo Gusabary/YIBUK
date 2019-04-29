@@ -67,6 +67,19 @@ public class CartService {
         return resp;
     }
 
+    public JSONObject empty(int userId) {
+        JSONObject resp = new JSONObject();
+
+        String now = String.valueOf(new Date().getTime());
+        cartRepository.findByUserId(userId).forEach(bookInCart -> {
+            cartRepository.deleteByUserIdAndBookId(userId, bookInCart.getBookId());
+            orderService.add(now, userId, bookInCart.getBookId(), bookInCart.getQuantity());
+        });
+
+        resp.put("message", "Empty cart successfully!");
+        return resp;
+    }
+
     public JSONObject delete(int userId, JSONArray books) {
         JSONObject resp = new JSONObject();
 

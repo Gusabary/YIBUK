@@ -26,6 +26,13 @@ class ControlButtons extends React.Component {
                         >
                             Buy
                         </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.props.handleClick('Empty')}
+                        >
+                            Empty
+                        </Button>
                     </div>) :
                     (<div>
                         <Button
