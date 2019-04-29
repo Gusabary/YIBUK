@@ -49,12 +49,14 @@ public class UserService {
         JSONArray users = new JSONArray();
 
         userRepository.findAll().forEach(user -> {
-            JSONObject tmp = new JSONObject();
-            tmp.put("userId", user.getUserId());
-            tmp.put("username", user.getUsername());
-            tmp.put("email", user.getEmail());
-            tmp.put("validity", user.getValidity());
-            users.add(tmp);
+            if (user.getIdentity() != 1) {
+                JSONObject tmp = new JSONObject();
+                tmp.put("userId", user.getUserId());
+                tmp.put("username", user.getUsername());
+                tmp.put("email", user.getEmail());
+                tmp.put("validity", user.getValidity());
+                users.add(tmp);
+            }
         });
         resp.put("users", users);
         return resp;
