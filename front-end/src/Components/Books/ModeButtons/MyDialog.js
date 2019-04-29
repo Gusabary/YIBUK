@@ -20,7 +20,9 @@ const styles = theme => ({
     },
     button: {
         marginTop: theme.spacing.unit,
-        marginLeft: theme.spacing.unit * 0.5,
+        marginLeft: theme.spacing.unit,
+        color: theme.palette.primary.dark,
+        fontWeight: 'bold',
     }
 })
 
