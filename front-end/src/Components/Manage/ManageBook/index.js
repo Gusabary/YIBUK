@@ -6,10 +6,20 @@ import BooklistInHome from '../../Books/Booklist/BooklistInHome'
 import BooklistInManage from '../../Books/Booklist/BooklistInManage';
 import ControlButtons from './ControlButtons';
 import { generateArray, sort, getCopy, filter } from '../../../auxiliary'
+import DialogT from '../../Dialog/index'
 
 const styles = theme => ({
 
 });
+
+const convert = isToDelete => {
+    let indexesToDelete = [];
+    isToDelete.forEach((element, index) => {
+        if (element)
+            indexesToDelete.push(index);
+    });
+    return indexesToDelete;
+}
 
 const mapStateToProps = state => ({
     identity: state.user.identity,
@@ -31,10 +41,11 @@ class ManageBook extends React.Component {
 
         this.state = {
             isDeleting: false,
-            isToDelete: generateArray(1000,false),
+            isToDelete: generateArray(1000, false),
+            open: false,
         }
         this.handleDeleteToggle = this.handleDeleteToggle.bind(this);
-        this.handleDeleteOK = this.handleDeleteOK.bind(this);
+        this.handleDeleteConfirm = this.handleDeleteConfirm.bind(this);
     }
 
     handleDeleteToggle(index) {
@@ -44,7 +55,7 @@ class ManageBook extends React.Component {
         })
     }
 
-    async handleDeleteOK() {
+    async handleDeleteConfirm() {
         this.setState({
             isDeleting: false,
         });
@@ -73,23 +84,30 @@ class ManageBook extends React.Component {
                 <h1>Loading...</h1>
             )
         else
-        return (
-            <React.Fragment>
-                <ControlButtons
-                    isDeleting={this.state.isDeleting}
-                    handleClick={() => this.setState({ isDeleting: !this.state.isDeleting })}
-                    handleDeleteOK={this.handleDeleteOK}
-                />
-                {this.state.isDeleting ?
-                    <BooklistInManage
-                        books={this.props.books}
-                        isToDelete={this.state.isToDelete}
-                        handleDeleteToggle={(index) => this.handleDeleteToggle(index)}
-                    /> :
-                    <BooklistInHome books={this.props.books} />
-                }
-            </React.Fragment>
-        );
+            return (
+                <React.Fragment>
+                    <ControlButtons
+                        isDeleting={this.state.isDeleting}
+                        handleClick={() => this.setState({ isDeleting: !this.state.isDeleting })}
+                        handleDeleteOK={() => this.setState({ open: true })}
+                    />
+                    {this.state.isDeleting ?
+                        <BooklistInManage
+                            books={this.props.books}
+                            isToDelete={this.state.isToDelete}
+                            handleDeleteToggle={(index) => this.handleDeleteToggle(index)}
+                        /> :
+                        <BooklistInHome books={this.props.books} />
+                    }
+                    <DialogT
+                        open={this.state.open}
+                        type={"delete"}
+                        handleOK={this.handleDeleteConfirm}
+                        handleClose={() => this.setState({ open: false })}
+                        indexesToDelete={convert(this.state.isToDelete)}
+                    />
+                </React.Fragment>
+            );
     }
 }
 

@@ -4,7 +4,7 @@ import Create from '@material-ui/icons/Create'
 import { connect } from 'react-redux';
 import agent from '../../../agent'
 import Check from '@material-ui/icons/Check'
-import MyDialog from './MyDialog'
+import DialogT from '../../Dialog/index'
 
 const styles = theme => ({
     edit: {
@@ -43,8 +43,6 @@ class Purchase extends React.Component {
             number: 1,
         }
         this.handlePurchaseOK = this.handlePurchaseOK.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleClick = this.handleClick.bind(this)
     }
 
     async handlePurchaseOK() {
@@ -54,20 +52,6 @@ class Purchase extends React.Component {
         }
         await agent.Orders.buy(this.props.userId, this.props.book.bookId, this.state.number);
         this.props.onLoad();
-        this.handleClose();
-    }
-
-    handleClose() {
-        this.setState({
-            open: false,
-            number: 1,
-        })
-    }
-
-    handleClick() {
-        this.setState({
-            open: true
-        })
     }
 
     render() {
@@ -76,7 +60,7 @@ class Purchase extends React.Component {
             <React.Fragment>
                 <Button
                     className={classes.edit}
-                    onClick={this.handleClick}
+                    onClick={() => this.setState({ open: true })}
                     variant="contained"
                 >
                     <Check className={classes.buttonIcon} />
@@ -85,13 +69,13 @@ class Purchase extends React.Component {
                     </Typography>
                 </Button>
 
-                <MyDialog
+                <DialogT
                     open={this.state.open}
+                    type={"purchase"}
+                    handleOK={this.handlePurchaseOK}
+                    handleClose={() => this.setState({ open: false, number: 1 })}
                     bookName={book.bookName}
                     number={this.state.number}
-                    isPurchase={true}
-                    handleOK={this.handlePurchaseOK}
-                    handleClose={this.handleClose}
                     handleNumberChange={event => this.setState({ number: event.target.value })}
                 />
             </React.Fragment>
