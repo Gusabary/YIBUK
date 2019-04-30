@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
@@ -18,10 +19,9 @@ public class UserController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<JSONObject> signin(@RequestBody String requestBody) {
-        JSONObject req = JSONObject.parseObject(requestBody);
-        String username = req.getString("username");
-        String password = req.getString("password");
+    public ResponseEntity<JSONObject> signin(@RequestBody JSONObject request) {
+        String username = request.getString("username");
+        String password = request.getString("password");
 
         JSONObject resp = userService.signin(username, password);
         if (resp.getString("error") == "Wrong username or password!")
@@ -33,11 +33,11 @@ public class UserController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<JSONObject> signup(@RequestBody String requestBody) {
-        JSONObject req = JSONObject.parseObject(requestBody);
-        String username = req.getString("username");
-        String password = req.getString("password");
-        String email = req.getString("email");
+    public ResponseEntity<JSONObject> signup(@RequestBody JSONObject request) {
+        //JSONObject req = JSONObject.parseObject(requestBody);
+        String username = request.getString("username");
+        String password = request.getString("password");
+        String email = request.getString("email");
 
         JSONObject resp = userService.signup(username, password, email);
         if (resp.getString("error") == "Username has existed!")
@@ -54,10 +54,9 @@ public class UserController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<JSONObject> toggle(@RequestBody String requestBody) {
-        JSONObject req = JSONObject.parseObject(requestBody);
-        int userId = req.getInteger("userId");
-        int targetValidity = req.getInteger("targetValidity");
+    public ResponseEntity<JSONObject> toggle(@RequestBody JSONObject request) {
+        int userId = request.getInteger("userId");
+        int targetValidity = request.getInteger("targetValidity");
 
         JSONObject resp = userService.toggle(userId, targetValidity);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);

@@ -20,11 +20,10 @@ public class OrderController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<JSONObject> add(@RequestBody String requestBody) {
-        JSONObject req = JSONObject.parseObject(requestBody);
-        int userId = req.getInteger("userId");
-        int bookId = req.getInteger("bookId");
-        int quantity = req.getInteger("quantity");
+    public ResponseEntity<JSONObject> add(@RequestBody JSONObject request) {
+        int userId = request.getInteger("userId");
+        int bookId = request.getInteger("bookId");
+        int quantity = request.getInteger("quantity");
 
         JSONObject resp = orderService.add(String.valueOf(new Date().getTime()), userId, bookId, quantity);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);

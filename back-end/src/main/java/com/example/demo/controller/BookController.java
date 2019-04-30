@@ -63,8 +63,8 @@ public class BookController {
 
     @RequestMapping(value = "/manage", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<JSONObject> delete(@RequestBody String requestBody) {
-        JSONArray bookIds = JSONObject.parseObject(requestBody).getJSONArray("books");
+    public ResponseEntity<JSONObject> delete(@RequestBody JSONObject request) {
+        JSONArray bookIds = request.getJSONArray("books");
 
         JSONObject resp = bookService.delete(bookIds);
         return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
