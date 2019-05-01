@@ -33,11 +33,11 @@ const updateCart = (books, cart) => {
     let booksInCart = [];
     let k = 0;
     books.forEach((book) => {
-        if (k >= cart.length) 
+        if (k >= cart.length)
             return;
-        if (book.bookId > cart[k].bookId) 
+        if (book.bookId > cart[k].bookId)
             k++
-        if (k >= cart.length) 
+        if (k >= cart.length)
             return;
         if (book.bookId === cart[k].bookId) {
             booksInCart.push(book);
@@ -47,98 +47,40 @@ const updateCart = (books, cart) => {
     return booksInCart;
 }
 
+const convert = isToDelete => {
+    let indexesToDelete = [];
+    isToDelete.forEach((element, index) => {
+        if (element)
+            indexesToDelete.push(index);
+    });
+    return indexesToDelete;
+}
+
 class Cart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             booksInCart: [],
-            isBuying: false,
-            isDeleting: false,
-            isToBuy: generateArray(1000, false),
-            isToDelete: generateArray(1000, false),
+            status: 0,  //0 means viewing, 1 means buying and 2 means deleting
+            isSelected: generateArray(1000, false),
         }
         this.handleToggle = this.handleToggle.bind(this);
-        this.handleOK = this.handleOK.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleStatusChange = this.handleStatusChange.bind(this);
     }
 
-    handleToggle(field, index) {
-        if (field === 'Buy') {
-            const isToBuy = this.state.isToBuy
-            this.setState({
-                isToBuy: isToBuy.fill(!isToBuy[index], index, index + 1),
-            })
-        }
-        else {
-            const isToDelete = this.state.isToDelete
-            this.setState({
-                isToDelete: isToDelete.fill(!isToDelete[index], index, index + 1),
-            })
-        }
-    }
-
-    async handleOK(field) {
+    handleToggle(index) {
+        const isSelected = this.state.isSelected
         this.setState({
-            isBuying: false,
-            isDeleting: false,
-        });
-        if (field === 'Buy') {
-            let bookIdOfBuy = [];
-            let bookIndexOfBuy = [];
-            let quantity = [];
-            this.state.isToBuy.forEach((element, index) => {
-                if (element) {
-                    this.setState({
-                        isToBuy: this.state.isToBuy.fill(false, index, index + 1),
-                    })
-                    bookIdOfBuy.push(this.state.booksInCart[index].bookId);
-                    bookIndexOfBuy.push(index);
-                    quantity.push(this.props.toBuy[index])
-                }
-            });
-
-            let isEnough = true;
-            bookIndexOfBuy.forEach((bookIndex, index) => {
-                if (this.state.booksInCart[bookIndex].storage < quantity[index]) {
-                    alert('Storage is not enough!');
-                    isEnough = false;
-                }
-            })
-            if (isEnough) {
-                await agent.Cart.buy(this.props.userId, bookIdOfBuy, quantity);
-                this.props.onLoadBooks();
-                this.props.onLoadCart(this.props.userId);
-            }
-        }
-        else {
-            let bookIdOfDelete = [];
-            this.state.isToDelete.forEach((element, index) => {
-                if (element) {
-                    this.setState({
-                        isToDelete: this.state.isToDelete.fill(false, index, index + 1),
-                    })
-                    bookIdOfDelete.push(this.state.booksInCart[index].bookId);
-                }
-            });
-            await agent.Cart.delete(this.props.userId, bookIdOfDelete);
-            this.props.onLoadCart(this.props.userId);
-        }
+            isSelected: isSelected.fill(!isSelected[index], index, index + 1),
+        })
     }
 
-    async handleClick(field) {
-        if (field === 'Buy')
+    handleStatusChange(status) {
+        this.setState({ status });
+        if (status === 0)
             this.setState({
-                isBuying: !this.state.isBuying
+                isSelected: generateArray(1000, false),
             })
-        else if (field === 'Delete')
-            this.setState({
-                isDeleting: !this.state.isDeleting
-            })
-        else {
-            await agent.Cart.empty(this.props.userId)
-            this.props.onLoadBooks();
-            this.props.onLoadCart(this.props.userId);
-        }
     }
 
     componentWillMount() {
@@ -161,28 +103,28 @@ class Cart extends React.Component {
             return (
                 <React.Fragment>
                     <ControlButtons
-                        isBuying={this.state.isBuying}
-                        isDeleting={this.state.isDeleting}
-                        handleClick={(field) => this.handleClick(field)}
-                        handleOK={(field) => this.handleOK(field)}
+                        status={this.state.status}
+                        books={this.state.booksInCart}
+                        bookIndexesSelected={convert(this.state.isSelected)}
+                        handleStatusChange={status => this.handleStatusChange(status)}
                     />
-                    {this.state.isBuying &&
-                        <BooklistInCart
-                            books={this.state.booksInCart}
-                            isToBuy={this.state.isToBuy}
-                            isBuying={true}
-                            handleToggle={(index) => this.handleToggle('Buy', index)}
-                        />}
-                    {this.state.isDeleting &&
-                        <BooklistInCart
-                            books={this.state.booksInCart}
-                            isToDelete={this.state.isToDelete}
-                            isBuying={false}
-                            handleToggle={(index) => this.handleToggle('Delete', index)}
-                        />}
-                    {this.state.isBuying || this.state.isDeleting ||
+                    {this.state.status === 0 &&
                         <BooklistInHome books={this.state.booksInCart} />
                     }
+                    {this.state.status === 1 &&
+                        <BooklistInCart
+                            books={this.state.booksInCart}
+                            isToBuy={this.state.isSelected}
+                            isBuying={true}
+                            handleToggle={(index) => this.handleToggle(index)}
+                        />}
+                    {this.state.status === 2 &&
+                        <BooklistInCart
+                            books={this.state.booksInCart}
+                            isToDelete={this.state.isSelected}
+                            isBuying={false}
+                            handleToggle={(index) => this.handleToggle(index)}
+                        />}
                 </React.Fragment>
             );
     }

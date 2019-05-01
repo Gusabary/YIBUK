@@ -14,7 +14,6 @@ const styles = theme => ({
 })
 
 const mapStateToProps = state => ({
-    books: state.books.books
 })
 
 const mapDispatchToProps = dispatch => ({

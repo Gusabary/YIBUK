@@ -104,6 +104,7 @@ class ManageBook extends React.Component {
                         type={"delete"}
                         handleOK={this.handleDeleteConfirm}
                         handleClose={() => this.setState({ open: false })}
+                        books={this.props.books}
                         indexesToDelete={convert(this.state.isToDelete)}
                     />
                 </React.Fragment>

@@ -3,6 +3,7 @@ import { Typography, withStyles, Button, TextField, Dialog, Divider } from '@mat
 import { connect } from 'react-redux';
 import InfoOfCartAndBuy from './InfoOfCartAndBuy';
 import InfoOfDelete from './InfoOfDelete'
+import InfoOfOrder from './InfoOfOrder';
 
 const getHint = type => {
     switch (type) {
@@ -12,6 +13,8 @@ const getHint = type => {
             return "Purchase it?"
         case 'delete':
             return "Sure to delete?"
+        case 'order':
+            return "Sure to buy?"
         case 'default':
             return "Dialog"
     }
@@ -20,7 +23,7 @@ const getHint = type => {
 const styles = theme => ({
     root: {
         padding: theme.spacing.unit * 2.5,
-        paddingRight: theme.spacing.unit * 2,
+        paddingRight: theme.spacing.unit * 2.5,
         border: 'solid',
         borderColor: theme.palette.primary.main,
     },
@@ -35,7 +38,9 @@ const styles = theme => ({
         fontWeight: 'bold',
     },
     buttons: {
-        float: 'right'
+        float: 'right',
+        position: 'relative',
+        left: 8
     },
 })
 
@@ -46,11 +51,15 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class DialogT extends React.Component {
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+    }
     render() {
         const { classes } = this.props;
+        console.log(this.props.type)
         return (
             <React.Fragment>
-                <Dialog open={this.props.open}>
+                <Dialog open={this.props.open} fullWidth={this.props.type === 'order'} maxWidth="md">
                     <div className={classes.root}>
                         <Typography variant="h5" className={classes.hint}>
                             {getHint(this.props.type)}
@@ -66,7 +75,14 @@ class DialogT extends React.Component {
                         )}
                         {this.props.type === 'delete' && (
                             <InfoOfDelete
+                                books={this.props.books}
                                 indexesToDelete={this.props.indexesToDelete}
+                            />
+                        )}
+                        {this.props.type === 'order' && (
+                            <InfoOfOrder
+                                books={this.props.books}
+                                indexesToBuy={this.props.indexesToBuy}
                             />
                         )}
 

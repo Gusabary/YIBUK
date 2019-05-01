@@ -1,5 +1,8 @@
 import React from 'react'
 import { withStyles, Button } from '@material-ui/core'
+import ButtonsOfBuy from './ButtonsOfBuy';
+import ButtonsOfDelete from './ButtonsOfDelete'
+import ButtonsOfEmpty from './ButtonsOfEmpty'
 
 const styles = theme => ({
 
@@ -7,50 +10,25 @@ const styles = theme => ({
 
 class ControlButtons extends React.Component {
     render() {
-        const { classes, isBuying, isDeleting } = this.props;
+        const { classes } = this.props;
         return (
             <React.Fragment>
-                {!isBuying && !isDeleting ?
-                    (<div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.props.handleClick('Delete')}
-                        >
-                            Delete
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.props.handleClick('Buy')}
-                        >
-                            Buy
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.props.handleClick('Empty')}
-                        >
-                            Empty
-                        </Button>
-                    </div>) :
-                    (<div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.props.handleOK(isBuying ? 'Buy' : 'Delete')}
-                        >
-                            OK
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => this.props.handleClick(isBuying ? 'Buy' : 'Delete')}
-                        >
-                            Cancel
-                        </Button>
-                    </div>)
-                }
+                <ButtonsOfDelete
+                    status={this.props.status}
+                    handleStatusChange={this.props.handleStatusChange}
+                    books={this.props.books}
+                    bookIndexesSelected={this.props.bookIndexesSelected}
+                />
+                <ButtonsOfBuy
+                    status={this.props.status}
+                    handleStatusChange={this.props.handleStatusChange}
+                    books={this.props.books}
+                    bookIndexesSelected={this.props.bookIndexesSelected}
+                />
+                <ButtonsOfEmpty
+                    status={this.props.status}
+                    books={this.props.books}
+                />
             </React.Fragment>
         );
     }
