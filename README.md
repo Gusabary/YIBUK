@@ -8,7 +8,7 @@ And it is my first full-stack project.
 
 ### Current version
 
-v2.1
+v2.2
 
 ### Function description
 
@@ -94,6 +94,13 @@ See [here](./API-Spec.md).
   + the shadow of iconButton + and - is a circle now
   + filter bar is more beautiful now
 
+**v2.2** 2019.5.1
+
++ can empty cart now
++ beautified dialogs
++ toggling validity will not lead to page refreshing now
++ administrators' info won't be shown when managing customers
+
 ## Something trivial
 
 Given that the project name *e-book* is too straight forward, (Actually I don't think an online bookstore has to sell e-books. That means print ones are also available there. Anyway.) I got a name that is a little bit more interesting, *YIBUK*, which means *Youthful Imagination Brings U Knowledge*. Although the sentence looks a little farfetched and strange, it is after all better than *e-book*, maybe.
@@ -106,4 +113,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.4.28, 10 p.m.
+##### Last-modified date: 2019.5.1, 10 a.m.
