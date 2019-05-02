@@ -96,17 +96,7 @@ example response body:
 
 ``` json
 {
-    "message": "Add book successfully!",
-    "newBook": {
-        "bookId": 1,
-        "bookName": "The Wandering Earth",
-    	"author": "Liu Cixin",
-    	"coverPath": "The-Wandering-Earth.jpg",
-		"ISBN": "1234-5678-9-0",
-		"storage": 20,
-    	"price": 15.5,
-    	"introduction": "It's really a fantastic book!"
-    }
+    "message": "Add book successfully!"
 }
 ```
 

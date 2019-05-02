@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,66 +12,54 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public JSONObject signin(String username, String password) {
-        JSONObject resp = new JSONObject();
-        User user = userRepository.findByUsernameAndPassword(username, password);
+    public boolean isBanned(String username) {
+        System.out.println(username);
+        System.out.println(userRepository.findByUsername(username).getValidity());
+        if (userRepository.findByUsername(username).getValidity() == 0)
+            return true;
+        return false;
+    }
 
-        if (user == null) {
-            resp.put("error", "Wrong username or password!");
-            return resp;
-        }
-        if (user.getValidity() == 0) {
-            resp.put("error", "You are forbidden!");
-            return resp;
-        }
-        resp.put("userId", user.getUserId());
-        resp.put("username", user.getUsername());
-        resp.put("identity", user.getIdentity());
-        resp.put("validity", user.getValidity());
-        return resp;
+    public boolean isLoginInfoCorrect(String username, String password) {
+        if (userRepository.findByUsernameAndPassword(username, password) != null)
+            return true;
+        return false;
+    }
+
+    public JSONObject signin(String username) {
+        User user = userRepository.findByUsername(username);
+        return UserUtil.constructJsonOfSignIn(user.getUserId(), user.getUsername(), user.getIdentity(), user.getValidity());
+    }
+
+    public boolean doesUsernameExist(String username) {
+        if (userRepository.findByUsername(username) != null)
+            return true;
+        return false;
     }
 
     public JSONObject signup(String username, String password, String email) {
-        JSONObject resp = new JSONObject();
-
-        if (userRepository.findByUsername(username) != null) {
-            resp.put("error", "Username has existed!");
-            return resp;
-        }
         userRepository.save(new User(username, password, email, 0, 1));
-        resp.put("message", "Sign up successfully!");
-        return resp;
+        return UserUtil.constructJsonOfSignUp();
     }
 
     public JSONObject show() {
-        JSONObject resp = new JSONObject();
         JSONArray users = new JSONArray();
-
         userRepository.findAll().forEach(user -> {
-            if (user.getIdentity() != 1) {
-                JSONObject tmp = new JSONObject();
-                tmp.put("userId", user.getUserId());
-                tmp.put("username", user.getUsername());
-                tmp.put("email", user.getEmail());
-                tmp.put("validity", user.getValidity());
-                users.add(tmp);
+            if (user.getIdentity() != 1) { //if not administrator
+                users.add(UserUtil.constructJsonOfUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getValidity()));
             }
         });
-        resp.put("users", users);
-        return resp;
+        return UserUtil.constructJsonOfShow(users);
     }
 
     public JSONObject toggle(int userId, int targetValidity) {
-        JSONObject resp = new JSONObject();
-
         User user = userRepository.findById(userId).get();
         user.setValidity(targetValidity);
         userRepository.save(user);
 
-        resp.put("message", "Update validity successfully!");
-        return resp;
+        return UserUtil.constructJsonOfToggle();
     }
 
 }

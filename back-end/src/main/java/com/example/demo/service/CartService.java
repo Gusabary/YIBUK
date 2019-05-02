@@ -7,6 +7,7 @@ import com.example.demo.entity.Cart;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.repository.OrderRepository;
+import com.example.demo.util.CartUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -19,73 +20,32 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    @Autowired
-    private OrderService orderService;
-
     public JSONObject show(int userId) {
-        JSONObject resp = new JSONObject();
         JSONArray booksInCart = new JSONArray();
-
         cartRepository.findByUserId(userId).forEach(book -> {
-            JSONObject tmp = new JSONObject();
-            tmp.put("bookId", book.getBookId());
-            tmp.put("quantity", book.getQuantity());
-            booksInCart.add(tmp);
+            booksInCart.add(CartUtil.constructJsonOfCartItem(book.getBookId(), book.getQuantity()));
         });
-        resp.put("cart", booksInCart);
-        return resp;
+        return CartUtil.constructJsonOfShow(booksInCart);
     }
 
     public JSONObject add(int userId, int bookId, int quantity) {
-        JSONObject resp = new JSONObject();
         int targetQuantity = quantity;
         if (doesExist(userId, bookId))
             targetQuantity += cartRepository.findByUserIdAndBookId(userId, bookId).getQuantity();
 
         cartRepository.save(new Cart(userId, bookId, targetQuantity));
-        resp.put("message", "Add to cart successfully!");
-        return resp;
+        return CartUtil.constructJsonOfAdd();
     }
 
-    public JSONObject purchase(int userId, JSONArray books) {
-        JSONObject resp = new JSONObject();
-
-        String now = String.valueOf(new Date().getTime());
-        books.forEach(bookInCart -> {
-            int bookId = ((JSONObject)bookInCart).getInteger("bookId");
-            int consume = ((JSONObject)bookInCart).getInteger("quantity");
-
-            Cart cart = cartRepository.findByUserIdAndBookId(userId, bookId);
-            int quantity = cart.getQuantity();
-            cart.setQuantity((quantity - consume <= 0) ? 1 : (quantity - consume));
-            cartRepository.save(cart);
-
-            orderService.add(now, userId, bookId, consume);
-        });
-
-        resp.put("message", "Purchase successfully!");
-        return resp;
+    public void update(int userId, int bookId, int consume) {
+        Cart cart = cartRepository.findByUserIdAndBookId(userId, bookId);
+        int quantity = cart.getQuantity();
+        cart.setQuantity((quantity - consume <= 0) ? 1 : (quantity - consume));
+        cartRepository.save(cart);
     }
 
-    public JSONObject empty(int userId) {
-        JSONObject resp = new JSONObject();
-
-        String now = String.valueOf(new Date().getTime());
-        cartRepository.findByUserId(userId).forEach(bookInCart -> {
-            cartRepository.deleteByUserIdAndBookId(userId, bookInCart.getBookId());
-            orderService.add(now, userId, bookInCart.getBookId(), bookInCart.getQuantity());
-        });
-
-        resp.put("message", "Empty cart successfully!");
-        return resp;
-    }
-
-    public JSONObject delete(int userId, JSONArray books) {
-        JSONObject resp = new JSONObject();
-
-        books.forEach(bookId -> cartRepository.deleteByUserIdAndBookId(userId, Integer.parseInt(bookId.toString())));
-        resp.put("message", "Delete successfully!");
-        return resp;
+    public void delete(int userId, int bookId) {
+        cartRepository.deleteByUserIdAndBookId(userId, bookId);
     }
 
     public boolean doesExist(int userId, int bookId) {

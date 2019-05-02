@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.BookService;
 import com.example.demo.entity.Book;
+import com.example.demo.util.BookUtil;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
@@ -36,37 +37,30 @@ public class BookController {
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<JSONObject> show(){
-        JSONObject resp = bookService.show();
-        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(bookService.show(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/manage", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<JSONObject> create(MultipartHttpServletRequest request) {
-        bookService.saveImage(request.getFile("image"));
-
-        Book book = bookService.parseFormData(request);
-        JSONObject resp = bookService.create(book);
-        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+        BookUtil.saveImage(request.getFile("image"));
+        Book book = BookUtil.parseFormData(request);
+        return new ResponseEntity<JSONObject>(bookService.create(book), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/manage", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<JSONObject> update(MultipartHttpServletRequest request) {
-        bookService.saveImage(request.getFile("image"));
-
-        Book book = bookService.parseFormData(request);
+        BookUtil.saveImage(request.getFile("image"));
+        Book book = BookUtil.parseFormData(request);
         book.setBookId(Integer.parseInt(request.getParameter("bookId")));
-        JSONObject resp = bookService.update(book);
-        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(bookService.update(book), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/manage", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<JSONObject> delete(@RequestBody JSONObject request) {
         JSONArray bookIds = request.getJSONArray("books");
-
-        JSONObject resp = bookService.delete(bookIds);
-        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(bookService.delete(bookIds), HttpStatus.OK);
     }
 }

@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Repository
 public interface CartRepository extends CrudRepository<Cart, Pair<Integer, Integer>> {
 
     //@Query("SELECT bookId, quantity from Cart where userId = :userId")
