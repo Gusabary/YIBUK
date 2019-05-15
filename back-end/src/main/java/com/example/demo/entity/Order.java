@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "order")
-@IdClass(OrderPK.class)
 public class Order {
 
     @Id
@@ -16,13 +15,6 @@ public class Order {
 
     @Column(name = "userId")
     private int userId;
-
-    @Id
-    @Column(name = "bookId")
-    private int bookId;
-
-    @Column(name = "quantity")
-    private int quantity;
 
     @Column(name = "time")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
@@ -33,8 +25,6 @@ public class Order {
     public Order(String orderId, int userId, int bookId, int quantity, Timestamp time) {
         this.orderId = orderId;
         this.userId = userId;
-        this.bookId = bookId;
-        this.quantity = quantity;
         this.time = time;
     }
 
@@ -52,22 +42,6 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Timestamp getTime() {
