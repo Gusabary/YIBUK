@@ -8,7 +8,7 @@ And it is my first full-stack project.
 
 ### Current version
 
-v2.2
+v3.0
 
 ### Function description
 
@@ -57,7 +57,6 @@ Also, a list of customer information can chosen to be shown, with which you can 
 ### Features to be realized
 
 + can sort and filter in manage and cart pages
-+ display a dialog to confirm when making a purchase
 + keep former cover as default when editing
 + fix the footer at the bottom of page really
 + further beautification
@@ -101,6 +100,13 @@ See [here](./API-Spec.md).
 + toggling validity will not lead to page refreshing now
 + administrators' info won't be shown when managing customers
 
+### v3.0
+
+**2019.5.17**
+
++ refactored database, adding OrderItem table
++ adjusted HTTP api
+
 ## Something trivial
 
 Given that the project name *e-book* is too straight forward, (Actually I don't think an online bookstore has to sell e-books. That means print ones are also available there. Anyway.) I got a name that is a little bit more interesting, *YIBUK*, which means *Youthful Imagination Brings U Knowledge*. Although the sentence looks a little farfetched and strange, it is after all better than *e-book*, maybe.
@@ -113,4 +119,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.5.1, 10 a.m.
+##### Last-modified date: 2019.5.17, 3 p.m.
