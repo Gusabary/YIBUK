@@ -46,11 +46,11 @@ class Purchase extends React.Component {
     }
 
     async handlePurchaseOK() {
-        if (this.props.book.storage < this.state.number) {
+        const resBody = await agent.Orders.buy(this.props.userId, this.props.book.bookId, this.state.number);
+        if (resBody.message === 'Storage is not enough!') {
             alert('Storage is not enough!');
             return;
         }
-        await agent.Orders.buy(this.props.userId, this.props.book.bookId, this.state.number);
         this.props.onLoad();
     }
 

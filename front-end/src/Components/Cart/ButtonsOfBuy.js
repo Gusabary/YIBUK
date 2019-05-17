@@ -41,18 +41,15 @@ class ButtonsOfBuy extends React.Component {
             quantity.push(this.props.toBuy[bookIndex])
         });
 
-        let isEnough = true;
-        bookIndexOfBuy.forEach((bookIndex, index) => {
-            if (this.props.books[bookIndex].storage < quantity[index]) {
-                alert(`《${this.props.books[bookIndex].bookName}》's storage is not enough!`);
-                isEnough = false;
-            }
-        })
-        if (isEnough) {
-            await agent.Cart.buy(this.props.userId, bookIdOfBuy, quantity);
-            this.props.onLoadBooks();
-            this.props.onLoadCart(this.props.userId);
+        const resBody = await agent.Cart.buy(this.props.userId, bookIdOfBuy, quantity);
+        if (resBody.message === 'Storage is not enough!') {
+            alert('Storage is not enough!');
+            return;
         }
+
+        this.props.onLoadBooks();
+        this.props.onLoadCart(this.props.userId);
+
         this.props.handleStatusChange(0)
     }
 

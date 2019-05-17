@@ -78,12 +78,14 @@ const Cart = {
                     quantity: quantity[index],
                 }))
             })
-            .then(res => res.body),
+            .then(res => res.body)
+            .catch(err => err.response.body),
 
     empty: (userId) =>
         requests.put(API_ROOT + '/api/carts/manage/empty')
             .send({ userId })
-            .then(res => res.body),
+            .then(res => res.body)
+            .catch(err => err.response.body),
 
     delete: (userId, bookIdOfDelete) =>
         requests.delete(API_ROOT + '/api/carts/manage')
@@ -98,7 +100,8 @@ const Orders = {
     buy: (userId, bookId, quantity) =>
         requests.post(API_ROOT + '/api/orders/add')
             .send({ userId, bookId, quantity })
-            .then(res => res.body),
+            .then(res => res.body)
+            .catch(err => err.response.body),
 
     showAll: () => requests.get(API_ROOT + '/api/orders/show')
         .then(res => res.body),

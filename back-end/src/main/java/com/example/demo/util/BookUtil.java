@@ -39,6 +39,15 @@ public class BookUtil {
         return json;
     }
 
+    public static JSONArray constructJsonOfBuy(int bookId, int quantity) {
+        JSONObject book = new JSONObject();
+        book.put("bookId", bookId);
+        book.put("quantity", quantity);
+        JSONArray books = new JSONArray();
+        books.add(book);
+        return books;
+    }
+
     public static JSONObject constructJsonOfCreate() {
         JSONObject json = new JSONObject();
         json.put("message", "Add book successfully!");

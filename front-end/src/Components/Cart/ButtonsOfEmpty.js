@@ -33,18 +33,13 @@ class ButtonsOfEmpty extends React.Component {
     }
 
     async handleEmptyConfirm() {
-        let isEnough = true;
-        this.props.books.forEach((book, index) => {
-            if (book.storage < this.props.toBuy[index]) {
-                alert(`《${book.bookName}》's storage is not enough!`);
-                isEnough = false;
-            }
-        })
-        if (isEnough) {
-            await agent.Cart.empty(this.props.userId)
-            this.props.onLoadBooks();
-            this.props.onLoadCart(this.props.userId);
+        const resBody = await agent.Cart.empty(this.props.userId)
+        if (resBody.message === 'Storage is not enough!') {
+            alert('Storage is not enough!');
+            return;
         }
+        this.props.onLoadBooks();
+        this.props.onLoadCart(this.props.userId);
     }
 
     render() {
