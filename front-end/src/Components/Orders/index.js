@@ -88,7 +88,7 @@ class Orders extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             filteredOrders: nextProps.orders,
-        })
+        }, ()=>console.log(this.state.filteredOrders))
     }
 
     render() {
