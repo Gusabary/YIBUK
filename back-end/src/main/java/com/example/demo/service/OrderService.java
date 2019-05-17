@@ -1,10 +1,11 @@
 package com.example.demo.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 public interface OrderService {
 
-    void add(String now, int userId, int bookId, int quantity);
+    void add(int userId, JSONArray books);
 
     JSONObject show(Integer userId);
 

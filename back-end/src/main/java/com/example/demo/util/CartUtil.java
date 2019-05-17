@@ -41,4 +41,10 @@ public class CartUtil {
         json.put("message", "Delete successfully!");
         return json;
     }
+
+    public static JSONObject constructJsonOfStorageNotEnough() {
+        JSONObject json = new JSONObject();
+        json.put("message", "Storage is not enough!");
+        return json;
+    }
 }

@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Override
     public boolean isBanned(String username) {
         System.out.println(username);
         System.out.println(userRepository.findByUsername(username).getValidity());
@@ -23,28 +24,33 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
     public boolean isLoginInfoCorrect(String username, String password) {
         if (userRepository.findByUsernameAndPassword(username, password) != null)
             return true;
         return false;
     }
 
+    @Override
     public JSONObject signin(String username) {
         User user = userRepository.findByUsername(username);
         return UserUtil.constructJsonOfSignIn(user.getUserId(), user.getUsername(), user.getIdentity(), user.getValidity());
     }
 
+    @Override
     public boolean doesUsernameExist(String username) {
         if (userRepository.findByUsername(username) != null)
             return true;
         return false;
     }
 
+    @Override
     public JSONObject signup(String username, String password, String email) {
         userRepository.save(new User(username, password, email, 0, 1));
         return UserUtil.constructJsonOfSignUp();
     }
 
+    @Override
     public JSONObject show() {
         JSONArray users = new JSONArray();
         userRepository.findAll().forEach(user -> {
@@ -55,6 +61,7 @@ public class UserServiceImpl implements UserService {
         return UserUtil.constructJsonOfShow(users);
     }
 
+    @Override
     public JSONObject toggle(int userId, int targetValidity) {
         User user = userRepository.findById(userId).get();
         user.setValidity(targetValidity);

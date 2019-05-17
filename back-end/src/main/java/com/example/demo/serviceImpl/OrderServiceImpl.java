@@ -18,14 +18,21 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public void add(String now, int userId, int bookId, int quantity) {
-        String orderId = OrderUtil.constructID(now, userId);
+    @Override
+    public void add(int userId, JSONArray books) {
         Map<Integer, Integer> orderItem = new HashMap<>();
-        orderItem.put(bookId, quantity);
+        books.forEach(book -> {
+            int bookId = ((JSONObject)book).getInteger("bookId");
+            int quantity = ((JSONObject)book).getInteger("quantity");
+            orderItem.put(bookId, quantity);
+        });
+
+        String orderId = OrderUtil.constructID(String.valueOf(new Date().getTime()), userId);
         Order order = new Order(orderId, userId, orderItem, new Timestamp(new Date().getTime()));
         orderRepository.save(order);
     }
 
+    @Override
     public JSONObject show(Integer userId) {
         JSONArray orders = new JSONArray();
 

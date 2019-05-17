@@ -49,15 +49,21 @@ public class CartController {
         int userId = request.getInteger("userId");
         JSONArray books = request.getJSONArray("books");
 
-        String now = String.valueOf(new Date().getTime());
-        books.forEach(bookInCart -> {
-            int bookId = ((JSONObject)bookInCart).getInteger("bookId");
-            int consume = ((JSONObject)bookInCart).getInteger("quantity");
+        //judge whether storage is enough
+        if (!bookService.isStorageEnough(books))
+            return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfStorageNotEnough(), HttpStatus.EXPECTATION_FAILED);
+
+        //update cart and booklist
+        for (Object bookInCart : books) {
+            int bookId = ((JSONObject) bookInCart).getInteger("bookId");
+            int consume = ((JSONObject) bookInCart).getInteger("quantity");
 
             cartService.update(userId, bookId, consume);
-            orderService.add(now, userId, bookId, consume);
             bookService.purchase(bookId, consume);
-        });
+        }
+
+        //generate order
+        orderService.add(userId, books);
 
         return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfPurchase(), HttpStatus.OK);
     }
@@ -68,15 +74,21 @@ public class CartController {
         int userId = request.getInteger("userId");
         JSONArray books = cartService.show(userId).getJSONArray("cart");
 
-        String now = String.valueOf(new Date().getTime());
-        books.forEach(bookInCart -> {
-            int bookId = ((JSONObject)bookInCart).getInteger("bookId");
-            int consume = ((JSONObject)bookInCart).getInteger("quantity");
+        //judge whether storage is enough
+        if (!bookService.isStorageEnough(books))
+            return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfStorageNotEnough(), HttpStatus.EXPECTATION_FAILED);
+
+        //update cart and booklist
+        for (Object bookInCart : books) {
+            int bookId = ((JSONObject) bookInCart).getInteger("bookId");
+            int consume = ((JSONObject) bookInCart).getInteger("quantity");
 
             cartService.delete(userId, bookId);
-            orderService.add(now, userId, bookId, consume);
             bookService.purchase(bookId, consume);
-        });
+        }
+
+        //generate order
+        orderService.add(userId, books);
 
         return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfEmpty(), HttpStatus.OK);
     }

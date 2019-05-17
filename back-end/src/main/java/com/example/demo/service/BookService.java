@@ -16,4 +16,6 @@ public interface BookService {
 
     void purchase(int bookId, int quantity);
 
+    boolean isStorageEnough(JSONArray books);
+
 }

@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.BookService;
 import com.example.demo.service.OrderService;
+import com.example.demo.util.CartUtil;
 import com.example.demo.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,10 +30,14 @@ public class OrderController {
         int userId = request.getInteger("userId");
         int bookId = request.getInteger("bookId");
         int quantity = request.getInteger("quantity");
-        String now = String.valueOf(new Date().getTime());
+        JSONArray books = new JSONArray();
+        books.add(request.remove("userId"));
 
-        orderService.add(now, userId, bookId, quantity);
+        if (!bookService.isStorageEnough(books))
+            return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfStorageNotEnough(), HttpStatus.EXPECTATION_FAILED);
+
         bookService.purchase(bookId, quantity);
+        orderService.add(userId, books);
 
         return new ResponseEntity<JSONObject>(OrderUtil.constructJsonOfAdd(), HttpStatus.OK);
     }

@@ -329,7 +329,7 @@ example response body:
 }
 ```
 
-## Delete books in cart:
+## Delete books in cart
 
 `DELETE /api/carts/manage`
 
@@ -382,19 +382,22 @@ example response body:
 {
     "orders": [
         {
-        	"orderId": "1533251122300001",
-        	"userId": 1,
-        	"bookId": 12,
-        	"quantity": 20,
-        	"time": "2019-3-28 21:53:00"
+            "orderId": "155790397421400033",
+            "userId": 33,
+            "time": "2019-05-15 15:06:14",
+            "orderItem": {
+                "1": 2
+            }
         },
         {
-        	"orderId": "1533254622300001",
-        	"userId": 1,
-        	"bookId": 1,
-        	"quantity": 1,
-        	"time": "2019-3-28 21:55:00"
-        },
+            "orderId": "155790406639800033",
+            "userId": 33,
+            "time": "2019-05-15 15:07:46",
+            "orderItem": {
+                "1": 2,
+                "2": 1
+            }
+        }
     ]
 }
 ```
@@ -405,5 +408,5 @@ Filter by userId:
 ?userId=1
 ```
 
-##### Last-modified date: 2019.4.23, 7 p.m.
+##### Last-modified date: 2019.5.17, 2 p.m.
 

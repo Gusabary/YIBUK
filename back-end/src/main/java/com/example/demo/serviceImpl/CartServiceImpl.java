@@ -15,6 +15,7 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Override
     public JSONObject show(int userId) {
         JSONArray booksInCart = new JSONArray();
         cartRepository.findByUserId(userId).forEach(book -> {
@@ -23,6 +24,7 @@ public class CartServiceImpl implements CartService {
         return CartUtil.constructJsonOfShow(booksInCart);
     }
 
+    @Override
     public JSONObject add(int userId, int bookId, int quantity) {
         int targetQuantity = quantity;
         if (doesExist(userId, bookId))
@@ -32,6 +34,7 @@ public class CartServiceImpl implements CartService {
         return CartUtil.constructJsonOfAdd();
     }
 
+    @Override
     public void update(int userId, int bookId, int consume) {
         Cart cart = cartRepository.findByUserIdAndBookId(userId, bookId);
         int quantity = cart.getQuantity();
@@ -39,10 +42,12 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
     }
 
+    @Override
     public void delete(int userId, int bookId) {
         cartRepository.deleteByUserIdAndBookId(userId, bookId);
     }
 
+    @Override
     public boolean doesExist(int userId, int bookId) {
         if (cartRepository.findByUserIdAndBookId(userId, bookId) == null)
             return false;
