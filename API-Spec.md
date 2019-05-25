@@ -21,7 +21,7 @@ example response body:
   {
       "userId": 65536,
       "username": "ICS-loser",
-      "identity": 1,
+      "identity": 0,
       "validity": 1
   }
   ```
