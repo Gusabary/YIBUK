@@ -22,12 +22,11 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<JSONObject> signin(@RequestBody JSONObject request) {
         String username = request.getString("username");
-        if (userService.isBanned(username))
-            return new ResponseEntity<JSONObject>(UserUtil.constructJsonOfBanned(), HttpStatus.FORBIDDEN);
-
         String password = request.getString("password");
         if (!userService.isLoginInfoCorrect(username, password))
             return new ResponseEntity<JSONObject>(UserUtil.constructJsonOfWrongLoginInfo(), HttpStatus.EXPECTATION_FAILED);
+        if (userService.isBanned(username))
+            return new ResponseEntity<JSONObject>(UserUtil.constructJsonOfBanned(), HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<JSONObject>(userService.signin(username), HttpStatus.OK);
     }
