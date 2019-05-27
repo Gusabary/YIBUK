@@ -372,9 +372,9 @@ example response body:
 }
 ```
 
-## Show orders
+## Show orders of someone
 
-`GET /api/orders/show`
+`GET /api/orders/show?userId=${id}`
 
 example response body:
 
@@ -402,11 +402,35 @@ example response body:
 }
 ```
 
-Filter by userId:
+## Show all orders
 
-```
-?userId=1
+`GET /api/orders/show/all`
+
+example response body:
+
+```json
+{
+    "orders": [
+        {
+            "orderId": "155790397421400033",
+            "userId": 33,
+            "time": "2019-05-15 15:06:14",
+            "orderItem": {
+                "1": 2
+            }
+        },
+        {
+            "orderId": "155790406639800002",
+            "userId": 2,
+            "time": "2019-05-15 15:07:42",
+            "orderItem": {
+                "1": 2,
+                "2": 3
+            }
+        }
+    ]
+}
 ```
 
-##### Last-modified date: 2019.5.17, 2 p.m.
+##### Last-modified date: 2019.5.27, 4 p.m.
 

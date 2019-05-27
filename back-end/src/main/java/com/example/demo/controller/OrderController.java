@@ -45,7 +45,13 @@ public class OrderController {
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<JSONObject> show(@RequestParam(name = "userId", required = false) Integer userId) {
+    public ResponseEntity<JSONObject> show(@RequestParam(name = "userId") int userId) {
         return new ResponseEntity<JSONObject>(orderService.show(userId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/show/all", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<JSONObject> showAll() {
+        return new ResponseEntity<JSONObject>(orderService.showAll(), HttpStatus.OK);
     }
 }

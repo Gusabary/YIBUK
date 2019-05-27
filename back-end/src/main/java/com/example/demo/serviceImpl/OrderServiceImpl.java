@@ -33,13 +33,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public JSONObject show(Integer userId) {
+    public JSONObject show(int userId) {
         JSONArray orders = new JSONArray();
 
-        if (userId == null)
-            orderRepository.findAll().forEach(order -> orders.add(order));
-        else
-            orderRepository.findByUserId(userId).forEach(order -> orders.add(order));
+        orderRepository.findByUserId(userId).forEach(order -> orders.add(order));
+
+        return OrderUtil.constructJsonOfShow(orders);
+    }
+
+    @Override
+    public JSONObject showAll() {
+        JSONArray orders = new JSONArray();
+
+        orderRepository.findAll().forEach(order -> orders.add(order));
 
         return OrderUtil.constructJsonOfShow(orders);
     }

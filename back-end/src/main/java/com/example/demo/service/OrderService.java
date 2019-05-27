@@ -7,6 +7,8 @@ public interface OrderService {
 
     void add(int userId, JSONArray books);
 
-    JSONObject show(Integer userId);
+    JSONObject show(int userId);
+
+    JSONObject showAll();
 
 }

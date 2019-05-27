@@ -103,7 +103,7 @@ const Orders = {
             .then(res => res.body)
             .catch(err => err.response.body),
 
-    showAll: () => requests.get(API_ROOT + '/api/orders/show')
+    showAll: () => requests.get(API_ROOT + '/api/orders/show/all')
         .then(res => res.body),
 
     showById: (userId) =>
