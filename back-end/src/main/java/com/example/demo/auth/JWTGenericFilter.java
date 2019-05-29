@@ -23,14 +23,7 @@ class JWTGenericFilter extends GenericFilterBean {
         Authentication authentication = TokenService.verifyToken((HttpServletRequest)req);
         //pass on auth info
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        /*resp.setContentType("application/json");
-        //resp.setStatus(HttpServletResponse.SC_OK);
-
-        JSONObject json = new JSONObject();
-        json.put("error", "unauthorized");
-        resp.getOutputStream().println(json.toJSONString());
-*/
+        
         chain.doFilter(req, resp);
     }
 }
