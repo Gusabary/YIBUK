@@ -18,7 +18,7 @@ import java.util.List;
 
 class TokenService {
     static final long EXPIRATIONTIME = 5000000;     // 50秒
-    static final String SECRET = "P@ssw02d";            // JWT密码
+    static final String SECRET = "my-jwt-secret-here";            // JWT密码
     static final String TOKEN_PREFIX = "Bearer";        // Token前缀
     static final String HEADER_STRING = "Authorization";// 存放Token的Header Key
 
