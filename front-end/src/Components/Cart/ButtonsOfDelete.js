@@ -10,12 +10,13 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     userId: state.user.userId,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoadCart: (userId) => {
+    onLoadCart: (userId, token) => {
         dispatch({ type: 'LOAD_MODE', payload: 3 });
-        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
+        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId, token) })
     },
 })
 
@@ -33,8 +34,8 @@ class ButtonsOfDelete extends React.Component {
         this.props.bookIndexesSelected.forEach(bookIndex => {
             bookIdOfDelete.push(this.props.books[bookIndex].bookId)
         })
-        await agent.Cart.delete(this.props.userId, bookIdOfDelete);
-        this.props.onLoadCart(this.props.userId);
+        await agent.Cart.delete(this.props.userId, bookIdOfDelete, this.props.token);
+        this.props.onLoadCart(this.props.userId, this.props.token);
         this.props.handleStatusChange(0)
     }
 

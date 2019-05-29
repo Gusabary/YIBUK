@@ -26,6 +26,7 @@ const mapStateToProps = state => ({
     books: state.books.books,
     redirectTo: state.common.redirectTo,
     isLoading: state.common.isLoading,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -69,7 +70,7 @@ class ManageBook extends React.Component {
                 bookIdOfDeleted.push(this.props.books[index].bookId);
             }
         });
-        await agent.Books.delete(bookIdOfDeleted);
+        await agent.Books.delete(bookIdOfDeleted, this.props.token);
         this.props.onLoad();
     }
 

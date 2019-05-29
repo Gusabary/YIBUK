@@ -11,12 +11,13 @@ const styles = theme => ({
 const mapStateToProps = state => ({
     userId: state.user.userId,
     toBuy: state.cart.toBuy,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoadCart: (userId) => {
+    onLoadCart: (userId, token) => {
         dispatch({ type: 'LOAD_MODE', payload: 3 });
-        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
+        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId, token) })
     },
     onLoadBooks: () => {
         dispatch({ type: 'LOAD_BOOKS', payload: agent.Books.show() })
@@ -33,13 +34,13 @@ class ButtonsOfEmpty extends React.Component {
     }
 
     async handleEmptyConfirm() {
-        const resBody = await agent.Cart.empty(this.props.userId)
+        const resBody = await agent.Cart.empty(this.props.userId, this.props.token)
         if (resBody.message === 'Storage is not enough!') {
             alert('Storage is not enough!');
             return;
         }
         this.props.onLoadBooks();
-        this.props.onLoadCart(this.props.userId);
+        this.props.onLoadCart(this.props.userId, this.props.token);
     }
 
     render() {

@@ -1,8 +1,6 @@
 import React from 'react'
 import { withStyles, Typography, Menu, MenuItem, Button, TextField } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../../agent'
-import Book from './BookPanel/BookPanelInHome'
 
 const bookAttr = ['BookId', 'Book title', 'Author', 'isbn', 'Storage', 'Price']
 

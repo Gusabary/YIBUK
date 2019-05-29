@@ -9,12 +9,13 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     customers: state.customers.customers,
-    isLoading: state.common.isLoading
+    isLoading: state.common.isLoading,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: () =>
-        dispatch({ type: 'LOAD_CUSTOMERS', payload: agent.Customers.show() })
+    onLoad: (token) =>
+        dispatch({ type: 'LOAD_CUSTOMERS', payload: agent.Customers.show(token) })
 })
 
 class Validity extends React.Component {
@@ -33,7 +34,7 @@ class Validity extends React.Component {
     }
 
     componentWillMount() {
-        this.props.onLoad();
+        this.props.onLoad(this.props.token);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -47,7 +48,7 @@ class Validity extends React.Component {
     componentWillUnmount() {
         this.state.validity.forEach((validity, index) => {
             if (validity !== this.props.customers[index].validity) {
-                agent.Customers.toggle(this.props.customers[index].userId, validity);
+                agent.Customers.toggle(this.props.customers[index].userId, validity, this.props.token);
             }
         })
     }

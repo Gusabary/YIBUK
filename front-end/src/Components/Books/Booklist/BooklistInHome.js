@@ -1,7 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
-import agent from '../../../agent'
 import BookPanelInHome from '../BookPanel/BookPanelInHome'
 import Sort from '../Sort'
 import Filter from '../Filter'

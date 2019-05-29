@@ -34,10 +34,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoadAll: () =>
-        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showAll() }),
-    onLoadById: (userId) =>
-        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showById(userId) })
+    onLoadAll: (token) =>
+        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showAll(token) }),
+    onLoadById: (userId, token) =>
+        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showById(userId, token) })
 })
 
 class Orders extends React.Component {
@@ -81,14 +81,14 @@ class Orders extends React.Component {
 
     componentWillMount() {
         this.props.identity == 1 ?
-            this.props.onLoadAll() :
-            this.props.onLoadById(this.props.userId);
+            this.props.onLoadAll(this.props.token) :
+            this.props.onLoadById(this.props.userId, this.props.token);
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             filteredOrders: nextProps.orders,
-        }, ()=>console.log(this.state.filteredOrders))
+        })
     }
 
     render() {

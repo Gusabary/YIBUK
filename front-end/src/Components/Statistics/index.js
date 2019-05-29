@@ -13,14 +13,15 @@ const mapStateToProps = state => ({
     identity: state.user.identity,
     userId: state.user.userId,
     orders: state.orders.orders,
-    isLoading: state.common.isLoading
+    isLoading: state.common.isLoading,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoadAll: () =>
-        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showAll() }),
-    onLoadById: (userId) =>
-        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showById(userId) })
+    onLoadAll: (token) =>
+        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showAll(token) }),
+    onLoadById: (userId, token) =>
+        dispatch({ type: 'LOAD_ORDERS', payload: agent.Orders.showById(userId, token) })
 })
 
 class Statistics extends React.Component {
@@ -41,8 +42,8 @@ class Statistics extends React.Component {
 
     componentWillMount() {
         this.props.identity == 1 ?
-            this.props.onLoadAll() :
-            this.props.onLoadById(this.props.userId);
+            this.props.onLoadAll(this.props.token) :
+            this.props.onLoadById(this.props.userId, this.props.token);
     }
 
     render() {

@@ -27,12 +27,13 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     userId: state.user.userId,
-    identity: state.user.identity
+    identity: state.user.identity,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
-    onLoad: (userId) => {
-        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId) })
+    onLoad: (userId, token) => {
+        dispatch({ type: "LOAD_CART", payload: agent.Cart.show(userId, token) })
     },
 })
 
@@ -48,8 +49,8 @@ class AddToCart extends React.Component {
     }
 
     async handleAddToCartOK() {
-        await agent.Cart.add(this.props.userId, this.props.book.bookId, this.state.number);
-        this.props.onLoad(this.props.userId);
+        await agent.Cart.add(this.props.userId, this.props.book.bookId, this.state.number, this.props.token);
+        this.props.onLoad(this.props.userId, this.props.token);
     }
 
     render() {

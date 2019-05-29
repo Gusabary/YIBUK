@@ -63,6 +63,7 @@ const mapStateToProps = state => ({
     bookInEditing: state.books.bookInEditing,
     books: state.books.books,
     isEditing: state.common.isEditing,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -110,11 +111,11 @@ class AddBook extends React.Component {
         const { bookName, author, image, isbn, storage, price, introduction } = this.state;
         if (this.props.isEditing) {
             const bookId = this.props.books[this.props.bookInEditing].bookId;
-            await agent.Books.update(bookId, bookName, author, image, isbn, storage, price, introduction)
+            await agent.Books.update(bookId, bookName, author, image, isbn, storage, price, introduction, this.props.token)
             this.props.onSave();
         }
         else {
-            await agent.Books.create(bookName, author, image, isbn, storage, price, introduction)
+            await agent.Books.create(bookName, author, image, isbn, storage, price, introduction, this.props.token)
             this.props.onSave();
         }
     }

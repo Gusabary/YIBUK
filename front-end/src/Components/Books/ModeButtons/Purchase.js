@@ -27,7 +27,8 @@ const styles = theme => ({
 
 const mapStateToProps = state => ({
     userId: state.user.userId,
-    identity: state.user.identity
+    identity: state.user.identity,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -46,7 +47,7 @@ class Purchase extends React.Component {
     }
 
     async handlePurchaseOK() {
-        const resBody = await agent.Orders.buy(this.props.userId, this.props.book.bookId, this.state.number);
+        const resBody = await agent.Orders.buy(this.props.userId, this.props.book.bookId, this.state.number, this.props.token);
         if (resBody.message === 'Storage is not enough!') {
             alert('Storage is not enough!');
             return;

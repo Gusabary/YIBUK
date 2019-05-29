@@ -14,6 +14,7 @@ const user = (state =defaultState, action) => {
                 username: action.payload.username,
                 identity: action.payload.identity,
                 validity: action.payload.validity,
+                token: action.payload.token
             }
         case 'SIGN_UP':
         case 'LOG_OUT':
