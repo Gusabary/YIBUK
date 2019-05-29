@@ -8,7 +8,7 @@ And it is my first full-stack project.
 
 ### Current version
 
-v3.0
+v3.1
 
 ### Function description
 
@@ -107,6 +107,11 @@ See [here](./API-Spec.md).
 + refactored database, adding OrderItem table
 + adjusted HTTP api
 
+**v3.1** 2019.5.29
+
++ added Test in back-end
++ applied Spring Security with JWT to protect api
+
 ## Something trivial
 
 Given that the project name *e-book* is too straight forward, (Actually I don't think an online bookstore has to sell e-books. That means print ones are also available there. Anyway.) I got a name that is a little bit more interesting, *YIBUK*, which means *Youthful Imagination Brings U Knowledge*. Although the sentence looks a little farfetched and strange, it is after all better than *e-book*, maybe.
@@ -119,4 +124,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.5.17, 3 p.m.
+##### Last-modified date: 2019.5.29, 9 p.m.
