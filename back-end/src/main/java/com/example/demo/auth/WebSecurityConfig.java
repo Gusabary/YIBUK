@@ -21,6 +21,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // 关闭csrf验证
         http.csrf().disable()
+                .cors().and()
                 .authorizeRequests()
                     .antMatchers("/api/users/signin").permitAll()
                     .antMatchers("/api/users/signup").permitAll()

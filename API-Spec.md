@@ -1,10 +1,16 @@
 # API Spec.
 
+## Authentication header:
+
+```
+Authorization: Bearer jwt.token.here
+```
+
 ## Sign in
 
 `POST /api/users/signin`
 
-example request body:
+example request body (no authentication required):
 
 ```json
 {
@@ -46,7 +52,7 @@ example response body:
 
 `POST /api/users/signup`
 
-example request body:
+example request body (no authentication required):
 
 ``` json
 {
@@ -78,7 +84,7 @@ example response body:
 
 `POST /api/books/manage`
 
-example request body (note that it is a **FormData**):
+example request body (note that it is a **FormData** and authentication required):
 
 ``` formdata
 {
@@ -104,7 +110,7 @@ example response body:
 
 `GET /api/books/show`
 
-example response body:
+example response body (no authentication required):
 
 ``` json
 {
@@ -137,7 +143,7 @@ example response body:
 
 `PUT /api/books/manage`
 
-example request body (note that it is a **FormData**):
+example request body (note that it is a **FormData** and authentication required):
 
 ```formdata
 {
@@ -174,7 +180,7 @@ example response body:
 
 `DELETE /api/books/manage`
 
-example request body:
+example request body (authentication required):
 
 ``` json
 {
@@ -194,7 +200,7 @@ example response body:
 
 `GET /api/users/show`
 
-example response body:
+example response body (authentication required):
 
 ```json
 {
@@ -219,7 +225,7 @@ example response body:
 
 `PUT /api/users/manage`
 
-example request body:
+example request body (authentication required):
 
 ```json
 {
@@ -240,7 +246,7 @@ example response body:
 
 `POST /api/carts/manage`
 
-example request body:
+example request body (authentication required):
 
 ```json
 {
@@ -262,7 +268,7 @@ example response body:
 
 `GET /api/carts/show?userId=1`
 
-example response body:
+example response body (authentication required):
 
 ```json
 {
@@ -283,7 +289,7 @@ example response body:
 
 `PUT /api/carts/manage/buy`
 
-example request body:
+example request body (authentication required):
 
 ```json
 {
@@ -313,7 +319,7 @@ example response body:
 
 `PUT /api/carts/manage/empty`
 
-example request body:
+example request body (authentication required):
 
 ``` JSON
 {
@@ -333,7 +339,7 @@ example response body:
 
 `DELETE /api/carts/manage`
 
-example request body:
+example request body (authentication required):
 
 ```json
 {
@@ -354,7 +360,7 @@ example response body:
 
 `POST /api/orders/add`
 
-example request body:
+example request body (authentication required):
 
 ```json
 {
@@ -376,7 +382,7 @@ example response body:
 
 `GET /api/orders/show?userId=${id}`
 
-example response body:
+example response body (authentication required):
 
 ```json
 {
@@ -406,7 +412,7 @@ example response body:
 
 `GET /api/orders/show/all`
 
-example response body:
+example response body (authentication required):
 
 ```json
 {
@@ -432,5 +438,5 @@ example response body:
 }
 ```
 
-##### Last-modified date: 2019.5.27, 4 p.m.
+##### Last-modified date: 2019.5.29, 9 p.m.
 
