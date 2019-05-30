@@ -122,7 +122,7 @@ public class UserControllerTest {
         assertThat(response.getBody().getString("error"), equalTo("Username has existed!"));
     }
 
-    @Test
+    /*@Test
     public void show() {
         ResponseEntity<JSONObject> response =
                 restTemplate.getForEntity(showUrl, JSONObject.class);
@@ -140,5 +140,5 @@ public class UserControllerTest {
         userRepository.deleteByUsername(username);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
-    }
+    }*/
 }

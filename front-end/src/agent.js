@@ -1,6 +1,6 @@
 const requests = require('superagent');
 
-const API_ROOT = 'http://localhost:8080';
+const API_ROOT = 'http://47.100.126.180:8080';
 
 const User = {
     signUp: (username, password, email) =>
