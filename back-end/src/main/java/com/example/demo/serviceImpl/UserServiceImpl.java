@@ -45,7 +45,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JSONObject signup(String username, String password, String email) {
+    public JSONObject signup(String username, String password, String email, String ipAddr) {
+        if (!UserUtil.doAllowSignUp(ipAddr))
+            return UserUtil.constructJsonOfDisallow();
         userRepository.save(new User(username, password, email, 0, 1));
         return UserUtil.constructJsonOfSignUp();
     }

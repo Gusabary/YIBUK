@@ -14,7 +14,7 @@ public interface UserService {
 
     boolean doesUsernameExist(String username);
 
-    JSONObject signup(String username, String password, String email);
+    JSONObject signup(String username, String password, String email, String ipAddr);
 
     JSONObject show();
 

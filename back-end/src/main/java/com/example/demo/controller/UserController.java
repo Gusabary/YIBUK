@@ -11,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+
 @Controller
 @RequestMapping(value = "/api/users")
 public class UserController {
@@ -33,15 +37,21 @@ public class UserController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<JSONObject> signup(@RequestBody JSONObject request) {
+    public ResponseEntity<JSONObject> signup(HttpServletRequest req) throws IOException {
+        JSONObject request = UserUtil.parseRequestOfSignUp(req);
+
         String username = request.getString("username");
         if (userService.doesUsernameExist(username))
             return new ResponseEntity<JSONObject>(UserUtil.constructJsonOfUsernameExists(), HttpStatus.EXPECTATION_FAILED);
 
         String password = request.getString("password");
         String email = request.getString("email");
+        String ipAddr = req.getRemoteAddr();
 
-        return new ResponseEntity<JSONObject>(userService.signup(username, password, email), HttpStatus.OK);
+        JSONObject resp = userService.signup(username, password, email, ipAddr);
+        if (resp.containsKey("error"))
+            return new ResponseEntity<JSONObject>(resp, HttpStatus.EXPECTATION_FAILED);
+        return new ResponseEntity<JSONObject>(resp, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
