@@ -50,6 +50,10 @@ const mapDispatchToProps = dispatch => ({
             alert('Username has existed!');
             return;
         }
+        if (resBody.error === 'Flooding attack detected, signup fail!') {
+            alert('Flooding attack detected, signup fail!');
+            return;
+        }
         dispatch({ type: 'SIGN_UP', payload: resBody })
     },
     onRedirect: () =>
