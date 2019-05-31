@@ -30,7 +30,8 @@ const mapStateToProps = state => ({
     identity: state.user.identity,
     userId: state.user.userId,
     orders: state.orders.orders,
-    isLoading: state.common.isLoading
+    isLoading: state.common.isLoading,
+    token: state.user.token
 })
 
 const mapDispatchToProps = dispatch => ({
