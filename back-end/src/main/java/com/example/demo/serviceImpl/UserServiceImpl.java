@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.secret.DefensePolicy;
 import com.example.demo.service.UserService;
 import com.example.demo.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private DefensePolicy defensePolicy;
 
     @Override
     public boolean isBanned(String username) {
@@ -46,8 +50,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public JSONObject signup(String username, String password, String email, String ipAddr) {
-        if (!UserUtil.doAllowSignUp(ipAddr))
+        if (!defensePolicy.doAllowSignUp(ipAddr))
             return UserUtil.constructJsonOfDisallow();
+        defensePolicy.checkDatebase();
         userRepository.save(new User(username, password, email, 0, 1));
         return UserUtil.constructJsonOfSignUp();
     }
@@ -56,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public JSONObject show() {
         JSONArray users = new JSONArray();
         userRepository.findAll().forEach(user -> {
-            if (user.getIdentity() != 1) { //if not administrator
+            if (user.getIdentity() != 1) {  //if not administrator
                 users.add(UserUtil.constructJsonOfUser(user.getUserId(), user.getUsername(), user.getEmail(), user.getValidity()));
             }
         });

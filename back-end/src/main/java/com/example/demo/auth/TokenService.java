@@ -1,33 +1,29 @@
 package com.example.demo.auth;
 
-import com.alibaba.fastjson.JSONObject;
+import com.example.demo.secret.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 class TokenService {
-    static final long EXPIRATIONTIME = 5000000;     // 50秒
-    //@Value("${custom.jwt.secret}")
-    static final String SECRET = "my-jwt-secret-here";            // JWT密码
+    static final long EXPIRATIONTIME = JWTService.expirationTime;     // 50秒
+    static final String SECRET = JWTService.secret;            // JWT密码
     static final String TOKEN_PREFIX = "Bearer";        // Token前缀
     static final String HEADER_STRING = "Authorization";// 存放Token的Header Key
 
     //Step 4: addAuthentication: Authentication -> token
     static String createToken(Authentication auth) throws IOException {
         System.out.println("step 4");
-        System.out.println(SECRET);
         String username = auth.getPrincipal().toString();
         String authorities = new ArrayList<GrantedAuthority>(auth.getAuthorities()).get(0).getAuthority();
 
