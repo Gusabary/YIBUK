@@ -28,7 +28,7 @@ const Books = {
             .field('introduction', introduction)
             .then(res => res.body),
 
-    show: (token) => requests.get(API_ROOT + '/api/books/show')
+    show: () => requests.get(API_ROOT + '/api/books/show')
         .then(res => res.body),
 
     update: (bookId, bookName, author, image, isbn, storage, price, introduction, token) =>

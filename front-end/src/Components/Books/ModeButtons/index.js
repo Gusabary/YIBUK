@@ -33,13 +33,13 @@ class BookContent extends React.Component {
         const { classes, mode, book, index, identity } = this.props;
         return (
             <React.Fragment>
-                {mode === 1 /*&& identity === 0*/ &&
+                {mode === 1 && identity === 0 &&
                     <div className={classes.twoButtons}>
                         <AddToCart book={book} />
                         <Purchase book={book} />
                     </div>
                 }
-                {/*mode === 1 && identity === 2 &&
+                {mode === 1 && identity === 2 &&
                     <div className={classes.hint}>
                         <Typography variant='h6'>
                             <Link to="Signin">Sign in</Link> to Add to cart or Purchase.
@@ -48,7 +48,7 @@ class BookContent extends React.Component {
                         <Typography variant='h6'>
                             No account? <Link to="Signup">Sign up</Link> here.
                         </Typography>
-                    </div>*/
+                    </div>
                 }
                 {(mode === 2 || (mode === 1 && identity === 1)) &&
                     <div className={classes.oneButton}>
