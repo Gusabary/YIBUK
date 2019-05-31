@@ -6,7 +6,7 @@ Have a try at http://47.100.126.180:3000.
 
 In this repo is the course project of Web development, 2019 Spring semester. Its requirement is to develop an application which can behave just like an online bookstore.
 
-And it is my first full-stack project.
+And it is my first full-stack and deployed project.
 
 ### Current version
 
@@ -48,11 +48,19 @@ See [here](./API-Spec.md).
 
 See [here](./History-Version.md)
 
+## Attention
+
+Some sensitive information in back-end codes has been hidden by `.gitignore` such as secret used to build token, some strategies for defense against flooding attack and `application.yml`. 
+
 ## Something trivial
 
 Given that the project name *e-book* is too straight forward, (Actually I don't think an online bookstore has to sell e-books. That means print ones are also available there. Anyway.) I got a name that is a little bit more interesting, *YIBUK*, which means *Youthful Imagination Brings U Knowledge*. Although the sentence looks a little farfetched and strange, it is after all better than *e-book*, maybe.
 
 I created this repo at Feb. 27th, almost a month and 100 commits ago. From developing the project, I actually learned a lot and now I feel excited and delighted, indeed.
+
+Now about two more months passed and I just deployed the project onto cloud server. There are still many shortcomings or, straightforwardly, bugs, I know, but deployment is totally exciting.
+
+Wish my little YIBUK good luck.
 
 Well, welcome to raise an issue ~
 
@@ -60,4 +68,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.5.30, 10 p.m.
+##### Last-modified date: 2019.5.31, 4 p.m.

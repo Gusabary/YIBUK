@@ -45,5 +45,12 @@
 - added Test in back-end
 - applied Spring Security with JWT to protect api
 
-##### Last-modified date: 2019.5.30, 10 p.m.
+### v4.0
+
+**2019.5.31**
+
++ deployed the whole project to cloud server
++ applied some strategies to defend flooding attack
+
+##### Last-modified date: 2019.5.31, 4 p.m.
 
