@@ -19,14 +19,16 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
             <Header />
-            <Route exact path="/" component={Home} />
-            <Route exact path="/SignIn" component={SignIn} />
-            <Route exact path="/SignUp" component={SignUp} />
-            <Route exact path="/Manage" component={Manage} />
-            <Route exact path="/Statistics" component={Statistics} />
-            <Route exact path="/Orders" component={Orders} />
-            <Route exact path="/Cart" component={Cart} />
-            <Route exact path="/AddBook" component={AddBook} />
+            <div style={{ minHeight: 445 }}>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/SignIn" component={SignIn} />
+              <Route exact path="/SignUp" component={SignUp} />
+              <Route exact path="/Manage" component={Manage} />
+              <Route exact path="/Statistics" component={Statistics} />
+              <Route exact path="/Orders" component={Orders} />
+              <Route exact path="/Cart" component={Cart} />
+              <Route exact path="/AddBook" component={AddBook} />
+            </div>
             <Footer />
           </div>
         </BrowserRouter>

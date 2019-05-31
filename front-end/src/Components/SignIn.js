@@ -9,6 +9,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 10,
         width: '30%',
         marginLeft: '35%',
+        marginBottom: -59,
         paddingTop: theme.spacing.unit * 5,
         paddingBottom: theme.spacing.unit * 6,
         display: 'flex',
