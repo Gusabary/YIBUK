@@ -35,7 +35,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/users/manage").hasAuthority("admin")
                     .antMatchers("/api/books/manage").hasAuthority("admin")
                     .antMatchers("/api/orders/show/all").hasAuthority("admin")
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
                     .and()
                 // 添加一个过滤器 所有登录请求交给 JWTLoginFilter 来处理 这个类处理所有的JWT相关内容
                 .addFilterBefore(new JWTLoginFilter("/api/users/signin", authenticationManager()),
