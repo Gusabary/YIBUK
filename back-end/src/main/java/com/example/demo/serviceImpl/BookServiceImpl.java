@@ -3,6 +3,7 @@ package com.example.demo.serviceImpl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.BookService;
 import com.example.demo.util.BookUtil;
 import com.example.demo.util.CartUtil;
@@ -18,10 +19,14 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @Override
     public JSONObject show() {
         JSONArray books = new JSONArray();
-        bookRepository.findAll().forEach(book -> books.add(book));
+        bookRepository.findAll().forEach(book -> books.add(
+                BookUtil.attachCommentsTo(commentRepository.findByBookId(book.getBookId()), book)));
         return BookUtil.constructJsonOfShow(books);
     }
 

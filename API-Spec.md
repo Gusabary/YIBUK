@@ -123,7 +123,14 @@ example response body (no authentication required):
 			"ISBN": "1234-5678-9-0",
 			"storage": 20,
     		"price": 15.5,
-    		"introduction": "It's really a fantastic book!"
+    		"introduction": "It's really a fantastic book!",
+            "comment": {
+                "bookId": 1,
+                "userId": 1,
+                "time": "2000-12-31T16:00:00.000+0000",
+                "content": "I like this!",
+                "followup": null //or can be another comment
+            }
         },
         {
             "bookId": 2,
@@ -133,7 +140,8 @@ example response body (no authentication required):
 			"ISBN": "1234-5678-9-1",
 			"storage": 20,
     		"price": 17.5,
-    		"introduction": "It's also really a fantastic book!"
+    		"introduction": "It's also really a fantastic book!",
+            "comment": null
         }
     ]
 }
@@ -438,5 +446,5 @@ example response body (authentication required):
 }
 ```
 
-##### Last-modified date: 2019.5.29, 9 p.m.
+##### Last-modified date: 2019.6.9, 2 p.m.
 
