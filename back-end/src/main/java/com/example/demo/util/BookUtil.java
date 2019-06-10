@@ -4,11 +4,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.Comment;
-import org.springframework.stereotype.Service;
+import com.example.demo.entity.SComment;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.util.List;
 
 public class BookUtil {
 
@@ -67,7 +68,7 @@ public class BookUtil {
         return json;
     }
 
-    public static JSONObject attachCommentsTo(Comment comment, Book book) {
+    public static JSONObject attachCommentsTo(List<Comment> comments, Book book) {
         JSONObject json = new JSONObject();
         json.put("bookId", book.getBookId());
         json.put("bookName", book.getBookName());
@@ -77,7 +78,7 @@ public class BookUtil {
         json.put("storage", book.getStorage());
         json.put("price", book.getPrice());
         json.put("introduction", book.getIntroduction());
-        json.put("comment", comment);
+        json.put("comments", comments);
         return json;
     }
 

@@ -1,13 +1,9 @@
 package com.example.demo.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.Date;
+import java.util.List;
 
-@Document(collection = "comments")
 public class Comment {
-
-    private int bookId;
 
     private int userId;
 
@@ -15,24 +11,15 @@ public class Comment {
 
     private String content;
 
-    private Comment followup;
+    private List<Comment> followup;
 
     public Comment() {}
 
-    public Comment(int bookId, int userId, Date time, String content, Comment followup) {
-        this.bookId = bookId;
+    public Comment(int userId, Date time, String content, List<Comment> followup) {
         this.userId = userId;
         this.time = time;
         this.content = content;
         this.followup = followup;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
     }
 
     public int getUserId() {
@@ -59,11 +46,11 @@ public class Comment {
         this.content = content;
     }
 
-    public Comment getFollowup() {
+    public List<Comment> getFollowup() {
         return followup;
     }
 
-    public void setFollowup(Comment followup) {
+    public void setFollowup(List<Comment> followup) {
         this.followup = followup;
     }
 
