@@ -2,8 +2,8 @@ package com.example.demo.serviceImpl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.dao.OrderDao;
 import com.example.demo.entity.Order;
-import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.OrderService;
 import com.example.demo.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.*;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderDao orderDao;
 
     @Override
     public void add(int userId, JSONArray books) {
@@ -29,14 +29,14 @@ public class OrderServiceImpl implements OrderService {
 
         String orderId = OrderUtil.constructID(String.valueOf(new Date().getTime()), userId);
         Order order = new Order(orderId, userId, orderItem, new Timestamp(new Date().getTime()));
-        orderRepository.save(order);
+        orderDao.save(order);
     }
 
     @Override
     public JSONObject show(int userId) {
         JSONArray orders = new JSONArray();
 
-        orderRepository.findByUserId(userId).forEach(order -> orders.add(order));
+        orderDao.findByUserId(userId).forEach(order -> orders.add(order));
 
         return OrderUtil.constructJsonOfShow(orders);
     }
@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     public JSONObject showAll() {
         JSONArray orders = new JSONArray();
 
-        orderRepository.findAll().forEach(order -> orders.add(order));
+        orderDao.findAll().forEach(order -> orders.add(order));
 
         return OrderUtil.constructJsonOfShow(orders);
     }

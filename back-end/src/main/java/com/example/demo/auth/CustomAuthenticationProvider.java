@@ -2,11 +2,7 @@ package com.example.demo.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.UserService;
-import com.example.demo.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;

@@ -2,15 +2,11 @@ package com.example.demo.serviceImpl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.dao.BookDao;
 import com.example.demo.dao.SCommentDao;
-import com.example.demo.repository.BookRepository;
-import com.example.demo.repository.SCommentRepository;
 import com.example.demo.service.BookService;
 import com.example.demo.util.BookUtil;
-import com.example.demo.util.CartUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.example.demo.entity.Book;
 
@@ -18,7 +14,7 @@ import com.example.demo.entity.Book;
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookDao bookDao;
 
     @Autowired
     private SCommentDao sCommentDao;
@@ -26,35 +22,35 @@ public class BookServiceImpl implements BookService {
     @Override
     public JSONObject show() {
         JSONArray books = new JSONArray();
-        bookRepository.findAll().forEach(book -> books.add(
+        bookDao.findAll().forEach(book -> books.add(
                 BookUtil.attachCommentsTo(sCommentDao.findByBookId(book.getBookId()), book)));
         return BookUtil.constructJsonOfShow(books);
     }
 
     @Override
     public JSONObject create(Book book) {
-        bookRepository.save(book);
+        bookDao.save(book);
         return BookUtil.constructJsonOfCreate();
     }
 
     @Override
     public JSONObject update(Book book) {
-        bookRepository.save(book);
+        bookDao.save(book);
         return BookUtil.constructJsonOfUpdate();
     }
 
     @Override
     public JSONObject delete(JSONArray bookIds) {
-        bookIds.forEach(bookId -> bookRepository.deleteById(Integer.parseInt(bookId.toString())));
+        bookIds.forEach(bookId -> bookDao.deleteById(Integer.parseInt(bookId.toString())));
         return BookUtil.constructJsonOfDelete();
     }
 
     @Override
     public void purchase(int bookId, int quantity) {
         //built-in findById() doesn't return an entity, need .get() to convert
-        Book book = bookRepository.findById(bookId).get();
+        Book book = bookDao.findById(bookId);
         book.setStorage(book.getStorage() - quantity);
-        bookRepository.save(book);
+        bookDao.save(book);
     }
 
     @Override
@@ -63,7 +59,7 @@ public class BookServiceImpl implements BookService {
             int bookId = ((JSONObject) bookInCart).getInteger("bookId");
             int consume = ((JSONObject) bookInCart).getInteger("quantity");
 
-            if (consume > bookRepository.findById(bookId).get().getStorage())
+            if (consume > bookDao.findById(bookId).getStorage())
                 return false;
         }
         return true;

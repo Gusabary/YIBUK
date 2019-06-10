@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.service.BookService;
 import com.example.demo.service.UserService;
-import com.example.demo.serviceImpl.UserServiceImpl;
 import com.example.demo.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
 
 @Controller

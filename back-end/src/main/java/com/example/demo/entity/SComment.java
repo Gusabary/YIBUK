@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 import java.util.List;
 
 @Document(collection = "comments")

@@ -6,8 +6,6 @@ import com.example.demo.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class BookDaoImpl implements BookDao {
 
