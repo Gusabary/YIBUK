@@ -47,10 +47,15 @@
 
 ### v4.0
 
-**2019.5.31**
+**2019.5.31** deploy
 
 + deployed the whole project to cloud server
 + applied some strategies to defend flooding attack
 
-##### Last-modified date: 2019.5.31, 4 p.m.
+**v4.1** 2019.6.11
+
++ added api about book review, stored using MongoDB
++ added dao layer at back-end 
+
+##### Last-modified date: 2019.6.11, 6 p.m.
 
