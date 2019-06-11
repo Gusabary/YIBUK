@@ -10,7 +10,7 @@ steps:
   commands:
   - cd back-end
   - mvn clean
-  - mvn test
+  - mvn test -q
 
 volumes:
 - name: dependency
