@@ -10,6 +10,7 @@ steps:
   - pwd
   - cd ..
   - cd ..
+  - cd ..
   - ls
   #- mvn clean
   #- mvn test
