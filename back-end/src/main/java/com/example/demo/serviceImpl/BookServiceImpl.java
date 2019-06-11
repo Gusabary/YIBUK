@@ -27,8 +27,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public JSONObject show() {
         JSONArray books = new JSONArray();
-        bookDao.findAll().forEach(book -> books.add(
-                BookUtil.attachCommentsTo(sCommentDao.findByBookId(book.getBookId()).getComments(), book)));
+        bookDao.findAll().forEach(book -> {
+            SComment sComment = sCommentDao.findByBookId(book.getBookId());
+            List<Comment> comments = (sComment == null) ? null : sComment.getComments();
+            books.add(BookUtil.attachCommentsTo(comments, book));
+        });
         return BookUtil.constructJsonOfShow(books);
     }
 

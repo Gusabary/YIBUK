@@ -17,8 +17,6 @@ public class SCommentDaoImpl implements SCommentDao {
 
     @Override
     public SComment findByBookId(int bookId) {
-        if (!sCommentRepository.existsByBookId(bookId))
-            return null;
         return sCommentRepository.findByBookId(bookId);
     }
 

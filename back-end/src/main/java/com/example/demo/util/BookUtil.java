@@ -84,7 +84,7 @@ public class BookUtil {
 
     public static JSONObject constructJsonOfAddComment() {
         JSONObject json = new JSONObject();
-        json.put("message", "Add comment successfully!");
+        json.put("message", "Post comment successfully!");
         return json;
     }
 
