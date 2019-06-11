@@ -4,13 +4,15 @@ name: demo
 steps:
 - name: step1
   image: maven
+  volumes:
+  - name: dependency
+    path: /root/.m2
   commands:
   - cd back-end
-  - ls
-  - pwd
-  - cd ..
-  - cd ..
-  - cd ..
-  - ls
-  #- mvn clean
-  #- mvn test
+  - mvn clean
+  - mvn test
+
+volumes:
+- name: dependency
+  host:
+    path: /root/.m2
