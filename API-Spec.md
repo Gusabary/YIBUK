@@ -125,7 +125,6 @@ example response body (no authentication required):
     		"price": 15.5,
     		"introduction": "It's really a fantastic book!",
             "comment": {
-                "bookId": 1,
                 "userId": 1,
                 "time": "2000-12-31T16:00:00.000+0000",
                 "content": "I like this!",
@@ -201,6 +200,30 @@ example response body:
 ```json
 {
     "message": "Delete book successfully!"
+}
+```
+
+## Post a comment
+
+`POST /api/books/comments/add`
+
+example request body (authentication required):
+
+```json
+{
+	"bookId": 1,
+	"indexes": [0,0],  //the followup of the first followup of the first comment
+	"userId": 1,
+	"time": "1999-12-31T16:00:00.000+00:00",
+	"content": "test"
+}
+```
+
+example response body:
+
+``` json
+{
+    "message": "Post comment successfully!"
 }
 ```
 
