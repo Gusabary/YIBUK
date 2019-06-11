@@ -1,0 +1,21 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        # this strategy makes my column name mapping correct
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        # print Hibernate sql statements on console if true
+        show_sql: false
+        # wrap table and column name with `` to differentiate with reserved word
+        globally_quoted_identifiers: true
+  datasource:
+    username: root
+    password: sone0805
+    url: jdbc:mysql://47.100.126.180:3306/YIBUK?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/helloDB

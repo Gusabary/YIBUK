@@ -66,7 +66,7 @@ public class UserControllerTest {
         assertThat(response.getBody().getInteger("validity"), is(1));
     }
 
-    @Test
+    /*@Test
     public void signin_forbidden() {
         userRepository.save(new User(username, password, email, 0, 0));
         ResponseEntity<JSONObject> response =
