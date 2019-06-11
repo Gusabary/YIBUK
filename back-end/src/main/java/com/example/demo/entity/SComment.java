@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -7,11 +8,15 @@ import java.util.List;
 @Document(collection = "comments")
 public class SComment {
 
+    @Id
+    private String sCommentId;
+
     private int bookId;
 
     private List<Comment> comments;
 
-    public SComment(int bookId, List<Comment> comments) {
+    public SComment(String sCommentId, int bookId, List<Comment> comments) {
+        this.sCommentId = sCommentId;
         this.bookId = bookId;
         this.comments = comments;
     }

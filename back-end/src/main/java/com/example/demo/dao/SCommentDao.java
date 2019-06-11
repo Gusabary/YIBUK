@@ -1,11 +1,14 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.Comment;
+import com.example.demo.entity.SComment;
 
 import java.util.List;
 
 public interface SCommentDao {
 
-    List<Comment> findByBookId(int bookId);
+    SComment findByBookId(int bookId);
+
+    void save(SComment sComment);
 
 }

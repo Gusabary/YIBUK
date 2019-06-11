@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookUtil {
@@ -79,6 +80,27 @@ public class BookUtil {
         json.put("introduction", book.getIntroduction());
         json.put("comments", comments);
         return json;
+    }
+
+    public static JSONObject constructJsonOfAddComment() {
+        JSONObject json = new JSONObject();
+        json.put("message", "Add comment successfully!");
+        return json;
+    }
+
+    public static List<Comment> addComment(List<Comment> old, List<Integer> indexes, Comment toAdd) {
+        System.out.println("old: " + old);
+        System.out.println("indexes: " + indexes);
+        if (indexes.isEmpty()) {
+            if (old == null)  // the first comment or followup
+                old = new ArrayList<Comment>();
+            old.add(toAdd);
+            return old;
+        }
+        int index = indexes.get(0);
+        indexes.remove(0);
+        old.get(index).setFollowup(addComment(old.get(index).getFollowup(), indexes, toAdd));
+        return old;
     }
 
 }

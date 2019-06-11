@@ -4,11 +4,16 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.dao.BookDao;
 import com.example.demo.dao.SCommentDao;
+import com.example.demo.entity.Comment;
+import com.example.demo.entity.SComment;
 import com.example.demo.service.BookService;
 import com.example.demo.util.BookUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.entity.Book;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -23,7 +28,7 @@ public class BookServiceImpl implements BookService {
     public JSONObject show() {
         JSONArray books = new JSONArray();
         bookDao.findAll().forEach(book -> books.add(
-                BookUtil.attachCommentsTo(sCommentDao.findByBookId(book.getBookId()), book)));
+                BookUtil.attachCommentsTo(sCommentDao.findByBookId(book.getBookId()).getComments(), book)));
         return BookUtil.constructJsonOfShow(books);
     }
 
@@ -63,6 +68,15 @@ public class BookServiceImpl implements BookService {
                 return false;
         }
         return true;
+    }
+
+    @Override
+    public void addComment(int bookId, List<Integer> indexes, Comment comment) {
+
+        SComment sComment = sCommentDao.findByBookId(bookId);
+        List<Comment> newComments = BookUtil.addComment(sComment.getComments(), indexes, comment);
+        sComment.setComments(newComments);
+        sCommentDao.save(sComment);
     }
 
 }
