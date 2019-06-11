@@ -8,5 +8,8 @@ steps:
   - cd back-end
   - ls
   - pwd
+  - cd ..
+  - cd ..
+  - ls
   #- mvn clean
   #- mvn test
