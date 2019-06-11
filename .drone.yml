@@ -7,5 +7,6 @@ steps:
   commands:
   - cd back-end
   - ls
-  - mvn clean
-  - mvn test
+  - pwd
+  #- mvn clean
+  #- mvn test
