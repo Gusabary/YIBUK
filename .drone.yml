@@ -28,7 +28,7 @@ steps:
     target: /Gusabary/CD
     source:
     # - target/docker_spring_boot.jar
-    - a.md
+    - back-end/a.md
 
 volumes:
 - name: dependency
