@@ -7,6 +7,8 @@ steps:
   volumes:
   - name: dependency
     path: /root/.m2
+  - name: configuration
+    path: /drone/src/back-end/src/main/resources/application.yml
   commands:
   - cd back-end
   - mvn clean
@@ -16,3 +18,6 @@ volumes:
 - name: dependency
   host:
     path: /root/.m2
+- name: configuration
+  host:
+    path: /Gusabary/back-end/src/main/resources/application.yml
