@@ -2,20 +2,20 @@ kind: pipline
 name: demo
 
 steps:
-- name: test
-  image: maven
-  volumes:
-  - name: dependency
-    path: /root/.m2
-  - name: configuration
-    path: /drone/src/back-end/src/main/resources/application.yml
-  - name: secret
-    path: /drone/src/back-end/src/main/java/com/example/demo/secret
-  commands:
-  - cd back-end
-  - mvn clean
-  - mvn test
-  - mvn package
+#- name: test
+#  image: maven
+#  volumes:
+#  - name: dependency
+#    path: /root/.m2
+#  - name: configuration
+#    path: /drone/src/back-end/src/main/resources/application.yml
+#  - name: secret
+#    path: /drone/src/back-end/src/main/java/com/example/demo/secret
+#  commands:
+#  - cd back-end
+#  - mvn clean
+#  - mvn test
+#  - mvn package
 
 - name: upload
   image: appleboy/drone-scp
@@ -27,7 +27,8 @@ steps:
     rm: true
     target: /Gusabary/CD
     source:
-    - target/docker_spring_boot.jar
+    # - target/docker_spring_boot.jar
+    - a.md
 
 volumes:
 - name: dependency
