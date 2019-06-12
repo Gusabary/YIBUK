@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.entity.Comment;
 import com.example.demo.service.BookService;
 import com.example.demo.entity.Book;
 import com.example.demo.util.BookUtil;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/books")
@@ -51,4 +54,18 @@ public class BookController {
         JSONArray bookIds = request.getJSONArray("books");
         return new ResponseEntity<JSONObject>(bookService.delete(bookIds), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/comments/add", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<JSONObject> addComment(@RequestBody JSONObject request) {
+        Comment comment = new Comment(
+                request.getInteger("userId"), request.getDate("time"),
+                request.getString("content"), null);
+        // convert JSONArray to List
+        List<Integer> indexes = JSONObject.parseArray(
+                JSONObject.toJSONString(request.getJSONArray("indexes")), Integer.class);
+        bookService.addComment(request.getInteger("bookId"), indexes, comment);
+        return new ResponseEntity<JSONObject>(BookUtil.constructJsonOfAddComment(), HttpStatus.OK);
+    }
+
 }

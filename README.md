@@ -10,7 +10,7 @@ And it is my first full-stack and deployed project.
 
 ### Current version
 
-v4.0
+v4.1
 
 ### Technology stack
 
@@ -33,6 +33,7 @@ v4.0
 #### Datebase
 
 + MySQL @8.0.16
++ MongoDB @4.0.9
 
 ### Features to be realized
 
@@ -68,4 +69,4 @@ Well, welcome to raise an issue ~
 
 MIT
 
-##### Last-modified date: 2019.5.31, 4 p.m.
+##### Last-modified date: 2019.6.11, 6 p.m.
