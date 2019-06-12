@@ -18,7 +18,7 @@ steps:
   - mvn package
 
 - name: upload
-  iamge: appleboy/drone-scp
+  image: appleboy/drone-scp
   settings:
     host: 47.100.126.180
     username: root
