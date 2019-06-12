@@ -25,9 +25,25 @@ steps:
     password:
       from_secret: ssh_password
     rm: true
-    target: /Gusabary/CD
+    target: /Gusabary/YIBUK-back-end
     source:
-     - back-end/target/docker_spring_boot.jar
+    - back-end/target/docker_spring_boot.jar
+    - back-end/Dockerfile
+
+- name: deploy
+  iamge: appleboy/drone-ssh
+  settings:
+    host: 47.100.126.180
+    username: root
+    password:
+      from_secret: ssh_password
+    script:
+    - cd /Gusabary/YIBUK-back-end/back-end/target
+    - cp ../Dockerfile .
+    - docker build -t yibuk-backend .
+    - docker rm -f yibuk-backend-c
+    - docker run -d --name yibuk-backend-c -p 8080:8080 yibuk-backend
+      
 
 volumes:
 - name: dependency
