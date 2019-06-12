@@ -14,7 +14,7 @@ steps:
   commands:
   - cd back-end
   - mvn clean
-  - mvn test
+#  - mvn test
   - mvn package
 
 - name: upload
@@ -31,7 +31,7 @@ steps:
     - back-end/Dockerfile
 
 - name: deploy
-  iamge: appleboy/drone-ssh
+  image: appleboy/drone-ssh
   settings:
     host: 47.100.126.180
     username: root
@@ -43,7 +43,6 @@ steps:
     - docker build -t yibuk-backend .
     - docker rm -f yibuk-backend-c
     - docker run -d --name yibuk-backend-c -p 8080:8080 yibuk-backend
-      
 
 volumes:
 - name: dependency
