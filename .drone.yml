@@ -2,7 +2,7 @@ kind: pipline
 name: demo
 
 steps:
-- name: step1
+- name: test
   image: maven
   volumes:
   - name: dependency
@@ -14,7 +14,35 @@ steps:
   commands:
   - cd back-end
   - mvn clean
-  - mvn test
+#  - mvn test
+  - mvn package
+
+- name: upload
+  image: appleboy/drone-scp
+  settings:
+    host: 47.100.126.180
+    username: root
+    password:
+      from_secret: ssh_password
+    rm: true
+    target: /Gusabary/YIBUK-back-end
+    source:
+    - back-end/target/docker_spring_boot.jar
+    - back-end/Dockerfile
+
+- name: deploy
+  image: appleboy/drone-ssh
+  settings:
+    host: 47.100.126.180
+    username: root
+    password:
+      from_secret: ssh_password
+    script:
+    - cd /Gusabary/YIBUK-back-end/back-end/target
+    - cp ../Dockerfile .
+    - docker build -t yibuk-backend .
+    - docker rm -f yibuk-backend-c
+    - docker run -d --name yibuk-backend-c -p 8080:8080 yibuk-backend
 
 volumes:
 - name: dependency
