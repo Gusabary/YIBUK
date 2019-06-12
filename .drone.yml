@@ -5,19 +5,24 @@ steps:
 - name: step1
   image: maven
   volumes:
-  #- name: dependency
-  - path: /root/.m2:/root/.m2
-  #- name: configuration
-  - path: /drone/src/back-end/src/main/resources/application.yml:/Gusabary/back-end/src/main/resources/application.yml
+  - name: dependency
+    path: /root/.m2
+  - name: configuration
+    path: /drone/src/back-end/src/main/resources/application.yml
+  - name: secret
+    path: /drone/src/back-end/src/main/java/com/example/demo/secret
   commands:
   - cd back-end
   - mvn clean
   - mvn test
 
-#volumes:
-#- name: dependency
-#  host:
-#    path: /root/.m2
-#- name: configuration
-#  host:
-#    path: /Gusabary/back-end/src/main/resources/application.yml
+volumes:
+- name: dependency
+  host:
+    path: /root/.m2
+- name: configuration
+  host:
+    path: /Gusabary/back-end/src/main/resources/application.yml
+- name: secret
+  host:
+    path: /Gusabary/back-end/src/main/java/com/example/demo/secret

@@ -28,4 +28,4 @@ yarn-debug.log*
 /back-end/.idea
 /back-end/target
 /back-end/src/main/resources/application.yml
-# /back-end/src/main/java/com/example/demo/secret/
+/back-end/src/main/java/com/example/demo/secret/
