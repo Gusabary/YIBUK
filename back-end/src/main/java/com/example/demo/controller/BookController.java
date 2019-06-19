@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
@@ -27,8 +24,14 @@ public class BookController {
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<JSONObject> show(){
-        return new ResponseEntity<JSONObject>(bookService.show(), HttpStatus.OK);
+    public ResponseEntity<JSONObject> show(@RequestParam(name = "bookId") int bookId) {
+        return new ResponseEntity<JSONObject>(bookService.show(bookId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/show/all", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<JSONObject> showAll(){
+        return new ResponseEntity<JSONObject>(bookService.showAll(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/manage", method = RequestMethod.POST)

@@ -103,4 +103,12 @@ public class BookUtil {
         return old;
     }
 
+    public static JSONObject constructJsonOfTitleInfo(int bookId, String title, String author) {
+        JSONObject json = new JSONObject();
+        json.put("bookId", bookId);
+        json.put("bookName", title);
+        json.put("author", author);
+        return json;
+    }
+
 }

@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface BookService {
 
-    JSONObject show();
+    JSONObject show(int bookId);
+
+    JSONObject showAll();
 
     JSONObject create(Book book);
 

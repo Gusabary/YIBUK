@@ -106,9 +106,36 @@ example response body:
 }
 ```
 
-## Show books
+## Show one book
 
-`GET /api/books/show`
+`GET /api/books/show?bookId=1`
+
+example response body (no authentication required):
+
+``` json
+{
+    "bookId": 1,
+    "bookName": "The Wandering Earth",
+    "author": "Liu Cixin",
+    "coverPath": "The-Wandering-Earth.jpg",
+    "ISBN": "1234-5678-9-0",
+    "storage": 20,
+    "price": 15.5,
+    "introduction": "It's really a fantastic book!",
+    "comments": [ 
+        {
+            "userId": 1,
+            "time": "2000-12-31T16:00:00.000+0000",
+            "content": "I like this!",
+            "followup": null //or can be another comment
+        }
+    ]
+}
+```
+
+## Show all books
+
+`GET /api/books/show/all`
 
 example response body (no authentication required):
 
@@ -118,29 +145,12 @@ example response body (no authentication required):
         {
             "bookId": 1,
         	"bookName": "The Wandering Earth",
-    		"author": "Liu Cixin",
-    		"coverPath": "The-Wandering-Earth.jpg",
-			"ISBN": "1234-5678-9-0",
-			"storage": 20,
-    		"price": 15.5,
-    		"introduction": "It's really a fantastic book!",
-            "comment": {
-                "userId": 1,
-                "time": "2000-12-31T16:00:00.000+0000",
-                "content": "I like this!",
-                "followup": null //or can be another comment
-            }
+    		"author": "Liu Cixin"
         },
         {
             "bookId": 2,
         	"bookName": "The Wandering Earth II",
-    		"author": "Liu Cixin",
-    		"coverPath": "The-Wandering-Earth.jpg",
-			"ISBN": "1234-5678-9-1",
-			"storage": 20,
-    		"price": 17.5,
-    		"introduction": "It's also really a fantastic book!",
-            "comment": null
+    		"author": "Liu Cixin"
         }
     ]
 }
@@ -469,5 +479,5 @@ example response body (authentication required):
 }
 ```
 
-##### Last-modified date: 2019.6.9, 2 p.m.
+##### Last-modified date: 2019.6.19, 8 p.m.
 
