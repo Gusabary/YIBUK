@@ -13,15 +13,16 @@ public class OrderUtil {
         return now + padding + userId_s;
     }
 
-    public static JSONObject constructJsonOfAdd() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Purchase successfully!");
-        return json;
-    }
-
     public static JSONObject constructJsonOfShow(JSONArray orders) {
         JSONObject json = new JSONObject();
         json.put("orders", orders);
         return json;
     }
+
+    public static JSONObject constructJsonOfMessage(String message) {
+        JSONObject json = new JSONObject();
+        json.put("message", message);
+        return json;
+    }
+
 }

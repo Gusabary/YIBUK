@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 public class CartUtil {
-    
+
     public static JSONObject constructJsonOfCartItem(int bookId, int quantity) {
         JSONObject json = new JSONObject();
         json.put("bookId", bookId);

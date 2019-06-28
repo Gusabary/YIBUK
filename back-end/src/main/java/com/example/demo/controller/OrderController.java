@@ -33,12 +33,16 @@ public class OrderController {
         JSONArray books = BookUtil.constructJsonOfBuy(bookId, quantity);
 
         if (!bookService.isStorageEnough(books))
-            return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfStorageNotEnough(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<JSONObject>(
+                    CartUtil.constructJsonOfMessage("Empty cart successfully!"), HttpStatus.EXPECTATION_FAILED
+            );
 
         bookService.purchase(bookId, quantity);
         orderService.add(userId, books);
 
-        return new ResponseEntity<JSONObject>(OrderUtil.constructJsonOfAdd(), HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(
+                OrderUtil.constructJsonOfMessage("Purchase successfully!"), HttpStatus.OK
+        );
     }
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
@@ -52,4 +56,5 @@ public class OrderController {
     public ResponseEntity<JSONObject> showAll() {
         return new ResponseEntity<JSONObject>(orderService.showAll(), HttpStatus.OK);
     }
+
 }
