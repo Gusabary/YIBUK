@@ -49,7 +49,9 @@ public class CartController {
 
         //judge whether storage is enough
         if (!bookService.isStorageEnough(books))
-            return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfStorageNotEnough(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<JSONObject>(
+                    CartUtil.constructJsonOfMessage("Storage is not enough!"), HttpStatus.EXPECTATION_FAILED
+            );
 
         //update cart and booklist
         for (Object bookInCart : books) {
@@ -63,7 +65,9 @@ public class CartController {
         //generate order
         orderService.add(userId, books);
 
-        return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfPurchase(), HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(
+                CartUtil.constructJsonOfMessage("Purchase successfully!"), HttpStatus.OK
+        );
     }
 
     @RequestMapping(value = "/manage/empty", method = RequestMethod.PUT)
@@ -74,7 +78,9 @@ public class CartController {
 
         //judge whether storage is enough
         if (!bookService.isStorageEnough(books))
-            return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfStorageNotEnough(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<JSONObject>(
+                    CartUtil.constructJsonOfMessage("Storage is not enough!"), HttpStatus.EXPECTATION_FAILED
+            );
 
         //update cart and booklist
         for (Object bookInCart : books) {
@@ -88,7 +94,9 @@ public class CartController {
         //generate order
         orderService.add(userId, books);
 
-        return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfEmpty(), HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(
+                CartUtil.constructJsonOfMessage("Empty cart successfully!"), HttpStatus.OK
+        );
     }
 
     @RequestMapping(value = "/manage", method = RequestMethod.DELETE)
@@ -101,6 +109,8 @@ public class CartController {
             cartService.delete(userId, Integer.parseInt(bookInCart.toString()));
         });
 
-        return new ResponseEntity<JSONObject>(CartUtil.constructJsonOfDelete(), HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(
+                CartUtil.constructJsonOfMessage("Delete successfully!"), HttpStatus.OK
+        );
     }
 }

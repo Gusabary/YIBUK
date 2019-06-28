@@ -31,7 +31,7 @@ public class CartServiceImpl implements CartService {
             targetQuantity += cartDao.findByUserIdAndBookId(userId, bookId).getQuantity();
 
         cartDao.save(new Cart(userId, bookId, targetQuantity));
-        return CartUtil.constructJsonOfAdd();
+        return CartUtil.constructJsonOfMessage("Add to cart successfully!");
     }
 
     @Override

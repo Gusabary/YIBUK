@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 public class CartUtil {
+    
     public static JSONObject constructJsonOfCartItem(int bookId, int quantity) {
         JSONObject json = new JSONObject();
         json.put("bookId", bookId);
@@ -17,33 +18,10 @@ public class CartUtil {
         return json;
     }
 
-    public static JSONObject constructJsonOfAdd() {
+    public static JSONObject constructJsonOfMessage(String message) {
         JSONObject json = new JSONObject();
-        json.put("message", "Add to cart successfully!");
+        json.put("message", message);
         return json;
     }
 
-    public static JSONObject constructJsonOfPurchase() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Purchase successfully!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfEmpty() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Empty cart successfully!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfDelete() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Delete successfully!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfStorageNotEnough() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Storage is not enough!");
-        return json;
-    }
 }
