@@ -50,21 +50,9 @@ public class BookUtil {
         return books;
     }
 
-    public static JSONObject constructJsonOfCreate() {
+    public static JSONObject constructJsonOfMessage(String message) {
         JSONObject json = new JSONObject();
-        json.put("message", "Add book successfully!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfUpdate() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Update book successfully!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfDelete() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Delete book successfully!");
+        json.put("message", message);
         return json;
     }
 
@@ -79,12 +67,6 @@ public class BookUtil {
         json.put("price", book.getPrice());
         json.put("introduction", book.getIntroduction());
         json.put("comments", comments);
-        return json;
-    }
-
-    public static JSONObject constructJsonOfAddComment() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Post comment successfully!");
         return json;
     }
 

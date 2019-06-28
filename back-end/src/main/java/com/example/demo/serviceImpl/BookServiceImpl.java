@@ -43,19 +43,19 @@ public class BookServiceImpl implements BookService {
     @Override
     public JSONObject create(Book book) {
         bookDao.save(book);
-        return BookUtil.constructJsonOfCreate();
+        return BookUtil.constructJsonOfMessage("Add book successfully!");
     }
 
     @Override
     public JSONObject update(Book book) {
         bookDao.save(book);
-        return BookUtil.constructJsonOfUpdate();
+        return BookUtil.constructJsonOfMessage("Update book successfully!");
     }
 
     @Override
     public JSONObject delete(JSONArray bookIds) {
         bookIds.forEach(bookId -> bookDao.deleteById(Integer.parseInt(bookId.toString())));
-        return BookUtil.constructJsonOfDelete();
+        return BookUtil.constructJsonOfMessage("Delete book successfully!");
     }
 
     @Override
@@ -80,7 +80,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void addComment(int bookId, List<Integer> indexes, Comment comment) {
-
         SComment sComment = sCommentDao.findByBookId(bookId);
         List<Comment> newComments = BookUtil.addComment(sComment.getComments(), indexes, comment);
         sComment.setComments(newComments);

@@ -68,7 +68,9 @@ public class BookController {
         List<Integer> indexes = JSONObject.parseArray(
                 JSONObject.toJSONString(request.getJSONArray("indexes")), Integer.class);
         bookService.addComment(request.getInteger("bookId"), indexes, comment);
-        return new ResponseEntity<JSONObject>(BookUtil.constructJsonOfAddComment(), HttpStatus.OK);
+        return new ResponseEntity<JSONObject>(
+                BookUtil.constructJsonOfMessage("Post comment successfully!"), HttpStatus.OK
+        );
     }
 
 }
