@@ -25,9 +25,13 @@ public class UserController {
         String username = request.getString("username");
         String password = request.getString("password");
         if (!userService.isLoginInfoCorrect(username, password))
-            return new ResponseEntity<JSONObject>(UserUtil.constructJsonOfWrongLoginInfo(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<JSONObject>(
+                    UserUtil.constructJsonOfError("Wrong username or password!"), HttpStatus.EXPECTATION_FAILED
+            );
         if (userService.isBanned(username))
-            return new ResponseEntity<JSONObject>(UserUtil.constructJsonOfBanned(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<JSONObject>(
+                    UserUtil.constructJsonOfError("You are forbidden!"), HttpStatus.FORBIDDEN
+            );
 
         return new ResponseEntity<JSONObject>(userService.signin(username), HttpStatus.OK);
     }
@@ -39,7 +43,9 @@ public class UserController {
 
         String username = request.getString("username");
         if (userService.doesUsernameExist(username))
-            return new ResponseEntity<JSONObject>(UserUtil.constructJsonOfUsernameExists(), HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<JSONObject>(
+                    UserUtil.constructJsonOfError("Username has existed!"), HttpStatus.EXPECTATION_FAILED
+            );
 
         String password = request.getString("password");
         String email = request.getString("email");

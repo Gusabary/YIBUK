@@ -38,7 +38,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public JSONObject signin(String username) {
         User user = userDao.findByUsername(username);
-        return UserUtil.constructJsonOfSignIn(user.getUserId(), user.getUsername(), user.getIdentity(), user.getValidity());
+        return UserUtil.constructJsonOfSignIn(
+                user.getUserId(), user.getUsername(), user.getIdentity(), user.getValidity()
+        );
     }
 
     @Override
@@ -51,10 +53,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public JSONObject signup(String username, String password, String email, String ipAddr) {
         if (!defensePolicy.doAllowSignUp(ipAddr))
-            return UserUtil.constructJsonOfDisallow();
+            return UserUtil.constructJsonOfError("Flooding attack detected, signup fail!");
         defensePolicy.checkDatebase();
         userDao.save(new User(username, password, email, 0, 1));
-        return UserUtil.constructJsonOfSignUp();
+        return UserUtil.constructJsonOfMessage("Sign up successfully!");
     }
 
     @Override
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
         user.setValidity(targetValidity);
         userDao.save(user);
 
-        return UserUtil.constructJsonOfToggle();
+        return UserUtil.constructJsonOfMessage("Update validity successfully!");
     }
 
 }

@@ -36,33 +36,15 @@ public class UserUtil {
         return JSONObject.parseObject(wholeStr);
     }
 
-    public static JSONObject constructJsonOfDisallow() {
+    public static JSONObject constructJsonOfMessage(String message) {
         JSONObject json = new JSONObject();
-        json.put("error", "Flooding attack detected, signup fail!");
+        json.put("message", message);
         return json;
     }
 
-    public static JSONObject constructJsonOfBanned() {
+    public static JSONObject constructJsonOfError(String error) {
         JSONObject json = new JSONObject();
-        json.put("error", "You are forbidden!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfWrongLoginInfo() {
-        JSONObject json = new JSONObject();
-        json.put("error", "Wrong username or password!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfUsernameExists() {
-        JSONObject json = new JSONObject();
-        json.put("error", "Username has existed!");
-        return json;
-    }
-
-    public static JSONObject constructJsonOfSignUp() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Sign up successfully!");
+        json.put("error", error);
         return json;
     }
 
@@ -72,9 +54,4 @@ public class UserUtil {
         return json;
     }
 
-    public static JSONObject constructJsonOfToggle() {
-        JSONObject json = new JSONObject();
-        json.put("message", "Update validity successfully!");
-        return json;
-    }
 }
