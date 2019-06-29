@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
     public JSONObject showAll() {
         JSONArray books = new JSONArray();
         bookDao.findAll().forEach(book ->
-            books.add(BookUtil.constructJsonOfTitleInfo(book.getBookId(), book.getBookName(), book.getAuthor()))
+                books.add(BookUtil.constructJsonOfTitleInfo(book.getBookId(), book.getBookName(), book.getAuthor()))
         );
         return BookUtil.constructJsonOfShow(books);
     }
@@ -81,8 +81,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public void addComment(int bookId, List<Integer> indexes, Comment comment) {
         SComment sComment = sCommentDao.findByBookId(bookId);
-        List<Comment> newComments = BookUtil.addComment(sComment.getComments(), indexes, comment);
-        sComment.setComments(newComments);
+        if (sComment == null) {
+            List<Comment> newComments = BookUtil.addComment(null, indexes, comment);
+            sComment = new SComment(bookId, newComments);
+        }
+        else {
+            List<Comment> newComments = BookUtil.addComment(sComment.getComments(), indexes, comment);
+            sComment.setComments(newComments);
+        }
         sCommentDao.save(sComment);
     }
 

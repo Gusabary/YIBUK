@@ -15,8 +15,7 @@ public class SComment {
 
     private List<Comment> comments;
 
-    public SComment(String sCommentId, int bookId, List<Comment> comments) {
-        this.sCommentId = sCommentId;
+    public SComment(int bookId, List<Comment> comments) {
         this.bookId = bookId;
         this.comments = comments;
     }
