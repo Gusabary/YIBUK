@@ -28,6 +28,12 @@ const Books = {
             .field('introduction', introduction)
             .then(res => res.body),
 
+    postComment: (bookId, indexes, userId, content, token) =>
+        requests.post(API_ROOT + '/api/books/comments/add')
+            .set('Authorization', 'Bearer ' + token)
+            .send({ bookId, indexes, userId, content })
+            .then(res => res.body),
+
     showById: (bookId) =>
         requests.get(API_ROOT + '/api/books/show')
             .query({ bookId })

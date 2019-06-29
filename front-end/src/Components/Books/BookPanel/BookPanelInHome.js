@@ -30,10 +30,15 @@ class BookPanelInHome extends React.Component {
             book: this.props.book
         }
         this.handleExpanded = this.handleExpanded.bind(this);
+        this.updateBook = this.updateBook.bind(this)
     }
 
-    async handleExpanded() {
+    handleExpanded() {
         this.props.handleExpanded();
+        this.updateBook();
+    }
+
+    async updateBook() {
         this.setState({
             book: await agent.Books.showById(this.state.book.bookId)
         })
@@ -56,7 +61,7 @@ class BookPanelInHome extends React.Component {
                         
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.content}>
-                        <BookContent book={this.state.book} index={index} />
+                        <BookContent book={this.state.book} index={index} updateBook={this.updateBook} />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </React.Fragment>

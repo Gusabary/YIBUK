@@ -1,9 +1,13 @@
 import React from 'react'
-import { withStyles, Typography, Divider, Paper } from '@material-ui/core'
+import { withStyles, Typography, Divider, Paper, IconButton } from '@material-ui/core'
 import BookInfoList from './BookInfoList'
 import ModeButtons from './ModeButtons/index'
+import Add from '@material-ui/icons/Add'
+import agent from '../../agent';
+import { connect } from 'react-redux';
+import AddComment from './AddComment';
 
-const parseIntroduction = content => {
+const parseText = content => {
     const splitedContent = content.split('\n');
     return splitedContent.map(para =>
         <p>{para}</p>
@@ -18,23 +22,6 @@ const CommentStyle = {
     padding: 6,
     paddingLeft: 6,
     paddingRight: 6,
-}
-
-const parseComments = comments => {
-    if (comments == null)
-        return null
-    return comments.map(comment =>
-        <Paper style={CommentStyle}>
-            <Typography variant="h6">
-                #{comment.userId} &nbsp;
-                {parseTime(comment.time)}
-            </Typography>
-            <Typography variant="body1">
-                {comment.content}
-            </Typography>
-            {parseComments(comment.followup)}
-        </Paper>
-    )
 }
 
 const parseTime = time => {
@@ -59,7 +46,67 @@ const styles = theme => ({
     },
 });
 
+const mapStateToProps = state => ({
+    userId: state.user.userId,
+    token: state.user.token
+})
+
 class BookContent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            commentOpen: false,
+            commentIndexes: [],
+        }
+        this.parseComments = this.parseComments.bind(this)
+        this.handleClickComment = this.handleClickComment.bind(this)
+        this.handleCommentOk = this.handleCommentOk.bind(this)
+        this.handleCommentClose = this.handleCommentClose.bind(this)
+    }
+
+    handleClickComment(indexes) {
+        console.log(indexes)
+        this.setState({
+            commentOpen: true,
+            commentIndexes: indexes
+        })
+    }
+
+    async handleCommentOk(comment) {
+        await agent.Books.postComment(this.props.book.bookId, this.state.commentIndexes, this.props.userId, comment, this.props.token)
+        this.handleCommentClose();
+        this.props.updateBook();
+        console.log(this.props.book)
+    }
+
+    handleCommentClose() {
+        this.setState({
+            commentOpen: false
+        })
+    }
+
+    parseComments(comments, indexes) {
+        if (comments == null)
+            return null;
+        const cntIndexes = indexes;
+        return comments.map((comment, index) =>
+            <Paper style={CommentStyle}>
+                <Typography variant="h6" style={{ float: 'left' }}>
+                    #{comment.userId} &nbsp;
+                    {parseTime(comment.time)}
+                </Typography>
+                <IconButton style={{ position: 'relative', bottom: 6 }} onClick={() => this.handleClickComment(cntIndexes.concat(index))}>
+                    <Add fontSize="small" />
+                </IconButton>
+                <Divider />
+                <Typography variant="body1" style={{ clear: 'both' }}>
+                    {parseText(comment.content)}
+                </Typography>
+                {this.parseComments(comment.followup, cntIndexes.concat(index))}
+            </Paper>
+        )
+    }
+
     render() {
         const { classes, book, index } = this.props;
         if (!book.hasOwnProperty("isbn"))
@@ -85,22 +132,30 @@ class BookContent extends React.Component {
                         </Typography>
                         <Divider />
                         <br />
-                        {parseIntroduction(book.introduction)}
+                        {parseText(book.introduction)}
                     </div>
 
                     <div style={{ flex: 1, marginTop: 30, width: 1000 }}>
-                        <Typography variant='h4'>
+                        <Typography variant='h4' style={{ flexBasis: '80%', float: 'left' }}>
                             Comments
                         </Typography>
+                        <IconButton onClick={() => this.handleClickComment([])}>
+                            <Add />
+                        </IconButton>
                         <Divider />
                         <br />
-                        {parseComments(book.comments)||"No comments yet."}
+                        {this.parseComments(book.comments, []) || "No comments yet."}
                     </div>
                 </div>
                 <br />
+                <AddComment
+                    open={this.state.commentOpen}
+                    handleCommentOk={this.handleCommentOk}
+                    handleClose={this.handleCommentClose}
+                />
             </React.Fragment>
         );
     }
 }
 
-export default withStyles(styles)(BookContent);
+export default connect(mapStateToProps)(withStyles(styles)(BookContent));

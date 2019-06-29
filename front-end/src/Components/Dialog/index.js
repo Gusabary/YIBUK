@@ -51,12 +51,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class DialogT extends React.Component {
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
-    }
     render() {
         const { classes } = this.props;
-        console.log(this.props.type)
         return (
             <React.Fragment>
                 <Dialog open={this.props.open} fullWidth={this.props.type === 'order'} maxWidth="md">
