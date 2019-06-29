@@ -224,7 +224,6 @@ example request body (authentication required):
 	"bookId": 1,
 	"indexes": [0,0],  //the followup of the first followup of the first comment
 	"userId": 1,
-	"time": "1999-12-31T16:00:00.000+00:00",
 	"content": "test"
 }
 ```
@@ -479,5 +478,5 @@ example response body (authentication required):
 }
 ```
 
-##### Last-modified date: 2019.6.19, 8 p.m.
+##### Last-modified date: 2019.6.29, 6 p.m.
 

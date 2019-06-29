@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -62,7 +63,7 @@ public class BookController {
     @ResponseBody
     public ResponseEntity<JSONObject> addComment(@RequestBody JSONObject request) {
         Comment comment = new Comment(
-                request.getInteger("userId"), request.getDate("time"),
+                request.getInteger("userId"), new Date(),
                 request.getString("content"), null);
         // convert JSONArray to List
         List<Integer> indexes = JSONObject.parseArray(
