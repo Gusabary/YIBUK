@@ -64,11 +64,15 @@ class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         resp.setContentType("application/json");
         if (failed.getMessage().equals("Wrong username or password!")) {
             resp.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
-            resp.getOutputStream().println(UserUtil.constructJsonOfWrongLoginInfo().toJSONString());
+            resp.getOutputStream().println(
+                    UserUtil.constructJsonOfError("Wrong username or password!").toJSONString()
+            );
         }
         if (failed.getMessage().equals("You are forbidden!")) {
             resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            resp.getOutputStream().println(UserUtil.constructJsonOfBanned().toJSONString());
+            resp.getOutputStream().println(
+                    UserUtil.constructJsonOfError("You are forbidden!").toJSONString()
+            );
         }
     }
 }
