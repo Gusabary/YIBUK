@@ -4,6 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { connect } from 'react-redux';
 import BookTitleInHome from '../BookTitle/BookTitleInHome';
 import BookContent from '../BookContent';
+import agent from '../../../agent';
 
 const styles = theme => ({
     post: {
@@ -31,8 +32,23 @@ const styles = theme => ({
 });
 
 class BookPanelInManage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            book: this.props.book
+        }
+        this.handleExpanded = this.handleExpanded.bind(this);
+    }
+
+    async handleExpanded() {
+        this.props.handleExpanded();
+        this.setState({
+            book: await agent.Books.showById(this.state.book.bookId)
+        })
+    }
+
     render() {
-        const {  classes, book, index, isExpanded, isToDelete  } = this.props;
+        const {  classes, index, isExpanded, isToDelete  } = this.props;
         return (
             <React.Fragment>
                 <ExpansionPanel
@@ -41,15 +57,15 @@ class BookPanelInManage extends React.Component {
                     expanded={isExpanded}
                 >
                     <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon onClick={this.props.handleExpanded} />}
+                        expandIcon={<ExpandMoreIcon onClick={this.handleExpanded} />}
                         className={isExpanded ?
                             (isToDelete ? classes.EDtitle : classes.ENDtitle) :
                             (isToDelete && classes.NEDtitle)}
                     >
-                        <BookTitleInHome book={book} isExpanded={isExpanded} />
+                        <BookTitleInHome book={this.state.book} isExpanded={isExpanded} />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={isToDelete? classes.Dcontent: classes.NDcontent}>
-                        <BookContent book={book} index={index} />
+                        <BookContent book={this.state.book} index={index} />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </React.Fragment>

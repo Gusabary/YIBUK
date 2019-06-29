@@ -1,5 +1,5 @@
 import React from 'react'
-import {  withStyles, Typography, Divider } from '@material-ui/core'
+import { withStyles, Typography, Divider } from '@material-ui/core'
 import BookInfoList from './BookInfoList'
 import ModeButtons from './ModeButtons/index'
 
@@ -28,6 +28,8 @@ const styles = theme => ({
 class BookContent extends React.Component {
     render() {
         const { classes, book, index } = this.props;
+        if (!book.hasOwnProperty("isbn"))
+            return <div>loading</div>
         return (
             <React.Fragment>
                 <div style={{ display: "flex", flexDirection: "column" }}>

@@ -3,6 +3,7 @@ import { ExpansionPanel, withStyles, ExpansionPanelSummary, ExpansionPanelDetail
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import BookTitleInCart from '../BookTitle/BookTitleInCart';
 import BookContent from '../BookContent';
+import agent from '../../../agent';
 
 const styles = theme => ({
     post: {
@@ -30,8 +31,23 @@ const styles = theme => ({
 });
 
 class BookPanelInCart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            book: this.props.book
+        }
+        this.handleExpanded = this.handleExpanded.bind(this);
+    }
+
+    async handleExpanded() {
+        this.props.handleExpanded();
+        this.setState({
+            book: await agent.Books.showById(this.state.book.bookId)
+        })
+    }
+
     render() {
-        const { classes, book, index, isExpanded, isToBuy } = this.props;
+        const { classes, index, isExpanded, isToBuy } = this.props;
         return (
             <React.Fragment>
                 <ExpansionPanel
@@ -40,13 +56,13 @@ class BookPanelInCart extends React.Component {
                     expanded={isExpanded}
                 >
                     <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon onClick={this.props.handleExpanded} />}
+                        expandIcon={<ExpandMoreIcon onClick={this.handleExpanded} />}
                         className={isExpanded ?
                             (isToBuy ? classes.EBtitle : classes.ENBtitle) :
                             (isToBuy && classes.NEBtitle)}
                     >
                         <BookTitleInCart
-                            book={book}
+                            book={this.state.book}
                             isExpanded={isExpanded}
                             handleBuyToggle={this.props.handleBuyToggle}
                             isToBuy={isToBuy}
@@ -54,7 +70,7 @@ class BookPanelInCart extends React.Component {
                         />
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={isToBuy? classes.Bcontent: classes.NBcontent}>
-                        <BookContent book={book} index={index} />
+                        <BookContent book={this.state.book} index={index} />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </React.Fragment>

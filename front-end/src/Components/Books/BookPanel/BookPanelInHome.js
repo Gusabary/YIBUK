@@ -4,6 +4,7 @@ import Add from '@material-ui/icons/Add'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore' 
 import BookTitleInHome from '../BookTitle/BookTitleInHome';
 import BookContent from '../BookContent';
+import agent from '../../../agent';
 
 const styles = theme => ({
     post: {
@@ -23,24 +24,39 @@ const styles = theme => ({
 });
 
 class BookPanelInHome extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            book: this.props.book
+        }
+        this.handleExpanded = this.handleExpanded.bind(this);
+    }
+
+    async handleExpanded() {
+        this.props.handleExpanded();
+        this.setState({
+            book: await agent.Books.showById(this.state.book.bookId)
+        })
+    }
+
     render() {
-        const { classes, book, index, isExpanded } = this.props;
+        const { classes, index, isExpanded } = this.props;
         return (
             <React.Fragment>
                 <ExpansionPanel
                     className={classes.post}
-                    onChange={this.props.handleExpanded}
+                    onChange={this.handleExpanded}
                     expanded={isExpanded}
                 >
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         className={isExpanded && classes.expandedTitle}
                     >
-                        <BookTitleInHome book={book} isExpanded={isExpanded} />
+                        <BookTitleInHome book={this.state.book} isExpanded={isExpanded} />
                         
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.content}>
-                        <BookContent book={book} index={index} />
+                        <BookContent book={this.state.book} index={index} />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </React.Fragment>

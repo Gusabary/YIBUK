@@ -1,6 +1,6 @@
 const requests = require('superagent');
 
-const API_ROOT = 'http://47.100.126.180:8080';
+const API_ROOT = 'http://localhost:8080';
 
 const User = {
     signUp: (username, password, email) =>
@@ -28,7 +28,12 @@ const Books = {
             .field('introduction', introduction)
             .then(res => res.body),
 
-    show: () => requests.get(API_ROOT + '/api/books/show')
+    showById: (bookId) =>
+        requests.get(API_ROOT + '/api/books/show')
+            .query({ bookId })
+            .then(res => res.body),
+
+    show: () => requests.get(API_ROOT + '/api/books/show/all')
         .then(res => res.body),
 
     update: (bookId, bookName, author, image, isbn, storage, price, introduction, token) =>
