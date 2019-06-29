@@ -31,6 +31,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/carts/manage/*").hasAuthority("customer")
                     .antMatchers("/api/orders/add").hasAuthority("customer")
                     .antMatchers("/api/orders/show").hasAuthority("customer")
+                    .antMatchers("/api/comments/add").hasAuthority("customer")
                     .antMatchers("/api/users/show").hasAuthority("admin")
                     .antMatchers("/api/users/manage").hasAuthority("admin")
                     .antMatchers("/api/books/manage").hasAuthority("admin")
