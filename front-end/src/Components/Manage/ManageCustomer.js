@@ -2,6 +2,7 @@ import React from 'react'
 import { withStyles, Switch, Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core'
 import { connect } from 'react-redux';
 import agent from '../../agent';
+import Loading from '../Loading';
 
 const styles = theme => ({
 
@@ -57,7 +58,7 @@ class Validity extends React.Component {
         const { classes } = this.props;
         if (this.props.isLoading)
             return (
-                <h1>Loading...</h1>
+                <Loading />
             )
         else
         return (

@@ -6,6 +6,7 @@ import BooklistInHome from '../Books/Booklist/BooklistInHome'
 import BooklistInCart from '../Books/Booklist/BooklistInCart'
 import ControlButtons from './ControlButtons'
 import { generateArray, sort, getCopy, filter } from '../../auxiliary'
+import Loading from '../Loading'
 
 const styles = theme => ({
 
@@ -98,7 +99,7 @@ class Cart extends React.Component {
         const { classes } = this.props;
         if (this.props.isLoading)
             return (
-                <h1>Loading...</h1>
+                <Loading />
             )
         else
             return (

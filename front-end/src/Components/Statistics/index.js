@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import agent from '../../agent';
 import Book from './Book'
 import Customer from './Customer'
+import Loading from '../Loading';
 
 const styles = theme => ({
 
@@ -50,7 +51,7 @@ class Statistics extends React.Component {
         const { classes } = this.props;
         if (this.props.isLoading)
             return (
-                <h1>Loading...</h1>
+                <Loading />
             )
         else
         return (

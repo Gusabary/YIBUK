@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import agent from '../../agent';
 import { generateArray, sort, getCopy, filter } from '../../auxiliary'
 import Filter from './Filter'
+import Loading from '../Loading';
 /*
 const formatTime = time => {
     let formated = time.replace(/T/, ' ').slice(0, -9);
@@ -96,7 +97,7 @@ class Orders extends React.Component {
         const { classes } = this.props;
         if (this.props.isLoading)
             return (
-                <h1>Loading...</h1>
+                <Loading />
             )
         else
             return (

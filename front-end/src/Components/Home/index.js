@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux';
 import BooklistInHome from '../Books/Booklist/BooklistInHome'
 import agent from '../../agent'
+import Loading from '../Loading';
 
 const styles = theme => ({
 });
@@ -30,7 +31,7 @@ class Books extends React.Component {
         //Booklist may have three kinds: visit, manage, cart.
         if (this.props.isLoading)
             return (
-                <h1>Loading...</h1>
+                <Loading />
             )
         else
             return (
