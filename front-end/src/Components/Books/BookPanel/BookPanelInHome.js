@@ -44,6 +44,12 @@ class BookPanelInHome extends React.Component {
         })
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            book: nextProps.book
+        })
+    }
+
     render() {
         const { classes, index, isExpanded } = this.props;
         return (

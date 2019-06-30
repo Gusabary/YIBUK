@@ -50,13 +50,16 @@ class BooklistInHome extends React.Component {
     }
 
     async handleSort(sortBy) {
+        console.log("********")
         let sortedBooks = getCopy(this.state.sortedBooks)
         const bookAttr = ['bookId', 'bookName', 'author', 'isbn', 'storage', 'price']
         sort(sortedBooks, bookAttr[sortBy]);
+        console.log("-----------")
         await this.setState({
             sortBy,
             sortedBooks
         })
+        console.log(this.state.sortedBooks)
         this.handleFilter()
     }
 
@@ -98,6 +101,7 @@ class BooklistInHome extends React.Component {
                     No books.
                 </h1>
             )
+            //console.log(this.state.filteredBooks)
         return (
             <React.Fragment>
                 <Toolbar>
@@ -125,14 +129,17 @@ class BooklistInHome extends React.Component {
                 </Toolbar>
                 <div className={classes.padding}></div>
 
-                {this.state.filteredBooks.map((book, index) =>
-                    <BookPanelInHome
-                        book={book}
-                        handleExpanded={() => this.handleExpanded(index)}
-                        isExpanded={this.state.isExpanded[index]}
-                        index={index}
-                        history={this.props.history}
-                    />
+                {this.state.filteredBooks.map((book, index) => {
+                    console.log(book)
+                    return (
+                        <BookPanelInHome
+                            book={book}
+                            handleExpanded={() => this.handleExpanded(index)}
+                            isExpanded={this.state.isExpanded[index]}
+                            index={index}
+                            history={this.props.history}
+                        />)
+                }
                 )}
             </React.Fragment>
         );

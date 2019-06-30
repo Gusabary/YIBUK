@@ -2,7 +2,7 @@ import React from 'react'
 import { withStyles, Typography, Menu, MenuItem, Button, TextField } from '@material-ui/core'
 import { connect } from 'react-redux';
 
-const bookAttr = ['BookId', 'Book title', 'Author', 'isbn', 'Storage', 'Price']
+const bookAttr = ['BookId', 'Book title', 'Author']
 
 const styles = theme => ({
     padding: {
@@ -73,9 +73,6 @@ class Sort extends React.Component {
                     <MenuItem onClick={() => this.handleClose(0)}>{bookAttr[0]}</MenuItem>
                     <MenuItem onClick={() => this.handleClose(1)}>{bookAttr[1]}</MenuItem>
                     <MenuItem onClick={() => this.handleClose(2)}>{bookAttr[2]}</MenuItem>
-                    <MenuItem onClick={() => this.handleClose(3)}>{bookAttr[3]}</MenuItem>
-                    <MenuItem onClick={() => this.handleClose(4)}>{bookAttr[4]}</MenuItem>
-                    <MenuItem onClick={() => this.handleClose(5)}>{bookAttr[5]}</MenuItem>
                 </Menu>
             </React.Fragment>
         );
