@@ -10,7 +10,7 @@ And it is my first full-stack and deployed project.
 
 ### Current version
 
-v4.1
+v5.0
 
 ### Technology stack
 
@@ -34,6 +34,10 @@ v4.1
 
 + MySQL @8.0.16
 + MongoDB @4.0.9
+
+#### DevOps
+
++ Drone @1.0.0
 
 ### Features to be realized
 
@@ -63,10 +67,14 @@ Now about two more months passed and I just deployed the project onto cloud serv
 
 Wish my little YIBUK good luck.
 
+Again, one more month has passed and tomorrow night will come final presentation. Looking backward this semester, I really learned much with developing *YIBUK*, my first full stack project, with which I believe mosaikerors can bring out more fantastic *Winsper*. 
+
+And wish myself good luck.
+
 Well, welcome to raise an issue ~
 
 ## License
 
 MIT
 
-##### Last-modified date: 2019.6.11, 6 p.m.
+##### Last-modified date: 2019.6.30, 6 p.m.
