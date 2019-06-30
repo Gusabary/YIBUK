@@ -12,18 +12,18 @@ const styles = theme => ({
         marginLeft: '15%',
     },
     EDtitle: {
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.error.main,
     },
     ENDtitle: {
         backgroundColor: theme.palette.primary.main,
     },
     NEDtitle: {
         border: 'solid',
-        borderColor: theme.palette.secondary.main,
+        borderColor: theme.palette.error.main,
     },
     Dcontent: {
         border: 'solid',
-        borderColor: theme.palette.secondary.main,
+        borderColor: theme.palette.error.main,
     },
     NDcontent: {
         border: 'solid',
