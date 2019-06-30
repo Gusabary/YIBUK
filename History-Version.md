@@ -57,5 +57,13 @@
 + added api about book review, stored using MongoDB
 + added dao layer at back-end 
 
-##### Last-modified date: 2019.6.11, 6 p.m.
+### v5.0
+
+**2019.6.30** 
+
++ applied Drone, can CI/CD now
++ added comment function
++ beautified front-end UI
+
+##### Last-modified date: 2019.6.30, 6 p.m.
 
