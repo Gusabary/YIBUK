@@ -7,6 +7,7 @@ const bookAttr = ['BookId', 'Book title', 'Author', 'isbn', 'Storage', 'Price']
 const styles = theme => ({
     padding: {
         marginTop: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit * 16,
     },
     OK: {
         backgroundColor: theme.palette.primary.light,

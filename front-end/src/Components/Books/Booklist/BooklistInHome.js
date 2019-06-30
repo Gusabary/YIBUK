@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core'
+import { withStyles, Toolbar, Button, Paper } from '@material-ui/core'
 import { connect } from 'react-redux';
 import BookPanelInHome from '../BookPanel/BookPanelInHome'
 import Sort from '../Sort'
@@ -10,6 +10,11 @@ const styles = theme => ({
     padding: {
         marginTop: theme.spacing.unit * 5,
     },
+    button: {
+        marginTop: theme.spacing.unit,
+        marginLeft: -theme.spacing.unit * 3,
+        backgroundColor: theme.palette.primary.light,
+    }
 });
 
 const mapStateToProps = state => ({
@@ -29,6 +34,7 @@ class BooklistInHome extends React.Component {
             sortBy: 0,
             filterBy: 0,
             filterKey: '',
+            fsOpen: false,
         }
         this.handleExpanded = this.handleExpanded.bind(this);
         this.handleSort = this.handleSort.bind(this);
@@ -94,17 +100,29 @@ class BooklistInHome extends React.Component {
             )
         return (
             <React.Fragment>
-                <Sort
-                    attr={this.state.sortBy}
-                    handleChange={(value) => this.handleSort(value)}
-                />
-                <Filter
-                    attr={this.state.filterBy}
-                    handleFilterFieldChange={(filterBy) => this.handleFilterFieldChange(filterBy)}
-                    filterKey={this.state.filterKey}
-                    handleFilterKeyChange={(event) => this.handleFilterKeyChange(event)}
-                />
-
+                <Toolbar>
+                    <Button
+                        variant='contained'
+                        onClick={() => this.setState({ fsOpen: !this.state.fsOpen })}
+                        className={classes.button}
+                    >
+                        Sort/Filter
+                    </Button>
+                    {this.state.fsOpen && (
+                        <React.Fragment>
+                            <Sort
+                                attr={this.state.sortBy}
+                                handleChange={(value) => this.handleSort(value)}
+                            />
+                            <Filter
+                                attr={this.state.filterBy}
+                                handleFilterFieldChange={(filterBy) => this.handleFilterFieldChange(filterBy)}
+                                filterKey={this.state.filterKey}
+                                handleFilterKeyChange={(event) => this.handleFilterKeyChange(event)}
+                            />
+                        </React.Fragment>
+                    )}
+                </Toolbar>
                 <div className={classes.padding}></div>
 
                 {this.state.filteredBooks.map((book, index) =>

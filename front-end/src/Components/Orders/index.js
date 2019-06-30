@@ -101,48 +101,46 @@ class Orders extends React.Component {
         else
             return (
                 <React.Fragment>
-                    <div>
-                        <Button
-                            variant='contained'
-                            onClick={() => this.setState({ filterOpen: !this.state.filterOpen })}
-                            className={classes.button}
-                        >
-                            Filter
+                    <Button
+                        variant='contained'
+                        onClick={() => this.setState({ filterOpen: !this.state.filterOpen })}
+                        className={classes.button}
+                    >
+                        Filter
                     </Button>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell className={classes.column1}>OrderId</TableCell>
-                                    <TableCell className={classes.column2}>UserId</TableCell>
-                                    <TableCell className={classes.column2}>BookId</TableCell>
-                                    <TableCell className={classes.column2}>Quantity</TableCell>
-                                    <TableCell className={classes.column3}>Time</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.filterOpen &&
-                                    <Filter
-                                        filterKey={this.state.filterKey}
-                                        onChange={(field, e) => this.handleChange(field, e)}
-                                    />
-                                }
-                                {this.state.filteredOrders.map((order, index) => {
-                                    let isInOneOrder = false;
-                                    if (index > 0 && order.orderId === this.state.filteredOrders[index - 1].orderId)
-                                        isInOneOrder = true;
-                                    return (
-                                        <TableRow>
-                                            <TableCell>{isInOneOrder ? '-' : order.orderId}</TableCell>
-                                            <TableCell>{order.userId}</TableCell>
-                                            <TableCell>{order.bookId}</TableCell>
-                                            <TableCell>{order.quantity}</TableCell>
-                                            <TableCell>{order.time}</TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
-                    </div>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className={classes.column1}>OrderId</TableCell>
+                                <TableCell className={classes.column2}>UserId</TableCell>
+                                <TableCell className={classes.column2}>BookId</TableCell>
+                                <TableCell className={classes.column2}>Quantity</TableCell>
+                                <TableCell className={classes.column3}>Time</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.filterOpen &&
+                                <Filter
+                                    filterKey={this.state.filterKey}
+                                    onChange={(field, e) => this.handleChange(field, e)}
+                                />
+                            }
+                            {this.state.filteredOrders.map((order, index) => {
+                                let isInOneOrder = false;
+                                if (index > 0 && order.orderId === this.state.filteredOrders[index - 1].orderId)
+                                    isInOneOrder = true;
+                                return (
+                                    <TableRow>
+                                        <TableCell>{isInOneOrder ? '-' : order.orderId}</TableCell>
+                                        <TableCell>{order.userId}</TableCell>
+                                        <TableCell>{order.bookId}</TableCell>
+                                        <TableCell>{order.quantity}</TableCell>
+                                        <TableCell>{order.time}</TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
                 </React.Fragment>
             )
     }
