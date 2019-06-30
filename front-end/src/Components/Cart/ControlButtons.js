@@ -5,7 +5,7 @@ import ButtonsOfDelete from './ButtonsOfDelete'
 import ButtonsOfEmpty from './ButtonsOfEmpty'
 
 const styles = theme => ({
-
+    
 });
 
 class ControlButtons extends React.Component {

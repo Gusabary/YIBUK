@@ -5,7 +5,11 @@ import agent from '../../agent'
 import { connect } from 'react-redux';
 
 const styles = theme => ({
-
+    button: {
+        marginTop: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit,
+        backgroundColor: theme.palette.primary.light,
+    },
 });
 
 const mapStateToProps = state => ({
@@ -54,6 +58,7 @@ class ButtonsOfEmpty extends React.Component {
                         variant="contained"
                         color="primary"
                         onClick={() => this.setState({ open: true })}
+                        className={classes.button}
                     >
                         Empty
                     </Button>

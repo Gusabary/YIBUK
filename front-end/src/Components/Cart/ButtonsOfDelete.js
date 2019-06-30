@@ -5,7 +5,11 @@ import agent from '../../agent'
 import { connect } from 'react-redux';
 
 const styles = theme => ({
-
+    button: {
+        marginTop: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit,
+        backgroundColor: theme.palette.primary.light,
+    },
 });
 
 const mapStateToProps = state => ({
@@ -48,6 +52,7 @@ class ButtonsOfDelete extends React.Component {
                         variant="contained"
                         color="primary"
                         onClick={() => this.props.handleStatusChange(2)}
+                        className={classes.button}
                     >
                         Delete
                     </Button>
@@ -58,6 +63,7 @@ class ButtonsOfDelete extends React.Component {
                             variant="contained"
                             color="primary"
                             onClick={() => this.setState({ open: true })}
+                            className={classes.button}
                         >
                             OK
                         </Button>
@@ -65,6 +71,7 @@ class ButtonsOfDelete extends React.Component {
                             variant="contained"
                             color="primary"
                             onClick={() => this.props.handleStatusChange(0)}
+                            className={classes.button}
                         >
                             Cancel
                         </Button>

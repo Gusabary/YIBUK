@@ -12,7 +12,7 @@ const styles = theme => ({
     },
     button: {
         marginTop: theme.spacing.unit,
-        marginLeft: -theme.spacing.unit * 3,
+        marginLeft: -theme.spacing.unit * 2,
         backgroundColor: theme.palette.primary.light,
     }
 });
