@@ -35,7 +35,9 @@ public class BookServiceImpl implements BookService {
     public JSONObject showAll() {
         JSONArray books = new JSONArray();
         bookDao.findAll().forEach(book ->
-                books.add(BookUtil.constructJsonOfTitleInfo(book.getBookId(), book.getBookName(), book.getAuthor()))
+                books.add(BookUtil.constructJsonOfTitleInfo(
+                        book.getBookId(), book.getBookName(), book.getAuthor(), book.getPrice()
+                ))
         );
         return BookUtil.constructJsonOfShow(books);
     }

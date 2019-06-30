@@ -145,12 +145,14 @@ example response body (no authentication required):
         {
             "bookId": 1,
         	"bookName": "The Wandering Earth",
-    		"author": "Liu Cixin"
+    		"author": "Liu Cixin",
+            "price": 12
         },
         {
             "bookId": 2,
         	"bookName": "The Wandering Earth II",
-    		"author": "Liu Cixin"
+    		"author": "Liu Cixin",
+            "price": 14
         }
     ]
 }
@@ -478,5 +480,5 @@ example response body (authentication required):
 }
 ```
 
-##### Last-modified date: 2019.6.29, 6 p.m.
+##### Last-modified date: 2019.6.30, 12 p.m.
 
