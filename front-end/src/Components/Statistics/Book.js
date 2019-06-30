@@ -3,7 +3,12 @@ import { Paper, withStyles, TextField, Button, Typography, Table, TableHead, Tab
 import { connect } from 'react-redux';
 
 const styles = theme => ({
-
+    text: {
+        marginLeft: theme.spacing.unit * 0.5,
+        marginRight: theme.spacing.unit * 0.5,
+        position: 'relative',
+        top: 8,
+    }
 });
 
 const mapStateToProps = state => ({
@@ -61,7 +66,7 @@ class Book extends React.Component {
             startTime: null,
             endTime: null,
         }
-        this.handleTimeChange=this.handleTimeChange.bind(this)
+        this.handleTimeChange = this.handleTimeChange.bind(this)
     }
     handleTimeChange = (field) => async event => {
         await this.setState({
@@ -77,15 +82,16 @@ class Book extends React.Component {
         })
     }
     render() {
+        const { classes } = this.props;
         return (
             <React.Fragment>
-                from
+                <span className={classes.text}>from</span>
                 <TextField
                     type='datetime-local'
                     value={this.state.startTime}
                     onChange={this.handleTimeChange('startTime')}
                 />
-                to
+                <span className={classes.text}>to</span>
                 <TextField
                     type='datetime-local'
                     value={this.state.endTime}
