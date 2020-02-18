@@ -1,7 +1,5 @@
 # YIBUK
 
-Have a try at http://47.100.126.180:3000.
-
 ## Repo introduction
 
 In this repo is the course project of Web development, 2019 Spring semester. Its requirement is to develop an application which can behave just like an online bookstore.
